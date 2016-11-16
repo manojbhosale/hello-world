@@ -1,0 +1,99 @@
+#create database employeeInformation
+#use employeeinformation
+
+
+
+#alter table employee add foreign key (deptId) REFERENCES Department(deptId);
+
+#ALTER TABLE employee CHANGE `departmentId` `deptId` INT;
+
+
+create table Employee(
+empId INT(10) not null auto_increment,
+firstName varchar(100) not null,
+lastName varchar(100) ,
+email varchar(50) not null,
+phoneNumber varchar(15) not null,
+hireDate date,
+jobId varchar(15),
+salary int(8),
+commitionPct float(3),
+managerId int(3),
+departmentId (3)
+constraint pk_empId PRIMARY KEY(empId),
+constraint fk_deptId foreign key (deptId) REFERENCES Department(deptId)
+)
+
+#insert into employee (firstName,lastName,email,phoneNumber,hireDate,jobId,salary,commitionPct,managerId,deptId) values('John','Demn','johnD@yahoo.com',9898780979,'2001-10-1','IT_PROF',70000,0.5,null,10);
+#insert into employee (firstName,lastName,email,phoneNumber,hireDate,jobId,salary,commitionPct,managerId,deptId) values('John','Demn','johnD@yahoo.com',9898780979,'2001-10-1','IT_PROF',70000,0.5,null,10);
+#insert into employee (firstName,lastName,email,phoneNumber,hireDate,jobId,salary,commitionPct,managerId,deptId) values('Ken','Dale','kendale@gmail.com',7877787655,'2001-1-4','SALES_HEAD',50000,null,null,10);
+#insert into employee (firstName,lastName,email,phoneNumber,hireDate,jobId,salary,commitionPct,managerId,deptId) values('James','Walton','jw@yahoo.com',578788788,'2001-1-1','IT_REP',30000,0.2,1,20);
+#insert into employee (firstName,lastName,email,phoneNumber,hireDate,jobId,salary,commitionPct,managerId,deptId) values('Robin','Sangal','robin@gmail.com',4990988898,'2001-1-5','SALES_REP',40000,0.3,2,20);
+#insert into employee (firstName,lastName,email,phoneNumber,hireDate,jobId,salary,commitionPct,managerId,deptId) values('Ajay','Ghosla','ghosla@hotmail.com',9809888898,'2002-10-6','SALES_REP',30000,0.4,2,20);
+#insert into employee (firstName,lastName,email,phoneNumber,hireDate,jobId,salary,commitionPct,managerId,deptId) values('John','Reddis','john@gmail.com',6878900989,'2003-10-6','M_per',50000,null,null,null);
+
+create table Employee(
+empId INT(3) NOT NULL AUTO_INCREMENT,
+firstName VARCHAR(100) NOT NULL,
+lastName VARCHAR(100) ,
+email VARCHAR(50) NOT NULL,
+phoneNumber VARCHAR(15) NOT NULL,
+hireDate DATE,
+jobId VARCHAR(15),
+salary INT(3),
+commitionPct float(3,2),
+managerId INT(3),
+departmentId INT(3),
+PRIMARY KEY(empId)
+);
+
+create table Department(
+deptId int(3),
+deptName varchar(10),
+managerId int(3),
+locationId int(3),
+constraint pk_deptId PRIMARY KEY(deptId)
+);
+
+insert into department (deptId,deptName,managerId,locationId) values(10,'sales',1,1);
+insert into department (deptId,deptName,managerId,locationId) values(20,'IT',2,2);
+insert into department (deptId,deptName,managerId,locationId) values(30,'marketing',null,1);
+
+create table Location(
+locationId int(3) not null auto_increment,
+city varchar(10),
+constraint pk_locationId Primary key(locationId)
+);
+
+insert into location (locationId,city) values(1,'pune'), (2,'mumbai')
+
+ create table Job_History(
+	empId int(2),
+	startDate date,
+	jobId int(2),
+	deptId int(2),
+	constraint fk_empId foreign key (empId) REFERENCES Employee(empId),
+	constraint fk_deptId foreign key (deptId) REFERENCES Department(deptId)
+);
+
+
+
+
+#alter table job_history add endDate Date;
+
+#alter table job_history modify column jobId varchar(15);
+
+insert into job_history (empId,startDate,endDate,jobId,deptId) values(2,'2001-1-10','2001-12-31','IT_PROF',10);
+insert into job_history (empId,startDate,endDate,jobId,deptId) values(2,'2002-1-1','2005-8-31','IT_REP',10);
+insert into job_history (empId,startDate,endDate,jobId,deptId) values(3,'2001-4-1','2002-1-31','SALES_REP',20);
+insert into job_history (empId,startDate,endDate,jobId,deptId) values(3,'2002-2-1','2005-1-31','SALES PERS',10);
+
+
+insert into job_history (endDate)values('2001-12-3');
+insert into job_history (endDate)values('2005-8-31');
+insert into job_history (endDate)values('2002-1-31');
+insert into job_history (endDate)values('2005-1-31');
+
+
+
+insert into employee values(1,'John','Demn','johnD@yahoo.com',9898780979,'1/10/2001','IT_PROF',70000,0.5,,10);
