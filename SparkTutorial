@@ -1,0 +1,392 @@
+Data Replication Factor: Is a number showing how many copies of data blocks are kept in a Hadoop cluster.
+
+Files are split into blocks default is 64 mb
+For each input split there will be one unique mapper. Mappers run independently and in parallel.
+Framework reads the input one record at a time. The data is passed as key value pairs. Data is processed in mapper function and individual output is stored in local disk.
+
+Combiners
+Partitioning- Shuffling according to the keys.
+Combiners -> Partitioners(Shuffle sort).
+Mapper class will assign “1” to every occurrence of word. This is as it is written.
+Shuffle: group according to keys and sorting happens. This runs on different machine than mapper machine.
+Combiners run on same machine as mapper. So it reduces number of records. Increase performance. Combiner will be one per node. There can be multiple mappers per node. Combiners are local reducers i.e. will do same work as mapper so code will be same.
+Map
+Input: key is reference to the input value
+Value: dataset on which to operate.
+Evaluation:
+Function defined by user
+Applies to every value in input
+	Might need to parse input
+Produces new list of key value pairs:  Can be different than the input pairs.
+Reduce:
+	Starts with intermediate key and corresponding  value list pairs.
+Ends with finalized key/value pairs
+Starting keys are sorted by key.
+ 
+Iterator supplies the values for a given key to reduce function
+Map: gets a key and value and produces list of keys and values
+Reduce: gets key and list of values and reduces to list of key and values
+Shuffle and sort is most time consuming step of Map reduce. In this step same keys are grouped together and sending it to particular reducer.
+Number of reducers can be set from code with setNumberOfReducers and also with config file. Defult #reducers is 1.
+
+Input splits in MapReduce:
+	Physical division- HDFS blocks, deals with byte size.
+	Logical division- input splits, actual records
+Mapper tasks run in terms of actual input split/records. The delta of the block and input split will get read over network.
+Partitioner:
+Partitioner is always there even if it’s not explicitly defined. But combiners need to be specified explicitly.
+When we specify the partitioners we need to specify the number of reducers too otherwise error will be thrown.
+Hadoop fs –put -> to copy from local to HDFS
+Hadoop fs –ls dir/path/
+Jps -> will show  the running tasks
+getPartition() method will determine the reducer 
+
+How to run a Hadoop jar:	
+$ Hadoop –jar /jar/path/one.jar  main.class.Name   /input/location  / output/location
+Check progress of run in jobtracker.jsp 
+Output file is going to be one per reducer.
+Partitioners always come after mapper and combiners and before the reducer.
+Partitioner is always going to be one per node. The P’s will run same function i.e. getPartitioner which returns an integer. If this function says reducer number X is required to reduce the data and that reducer is on some different machine  then the data will be copied to node where the reducer is running which is called as shuffling process
+Default partition function is in hash(key) mod R . This results in fairly balanced partitions
+
+Mapper side jons:
+Small tables are replicated
+Large tables are split.
+Any type pf join can be applied in case of reducer side join as all the related data is present in reducer.
+In case of mapper join only left outer join is possible.
+To copy the small table across the blocks cache is used.
+When mapper is going to be instantiated the setup() method is run. This method is going to read the cache and add record to the hash map.
+While running Hadoop command we need to specify the larger dataset no need to specify the small dataset
+Uses distributed cache: The concept of making available the smaller dataset across the mapper tasks.
+Reference files, look up files can be chched. Need to be careful to not to use many cache files.
+
+Joins and counters:
+With SQL its easy to fire a query and get the results as the tables are stored on same machine.
+But in case of distributed data its not the case.
+In case of reducer join, reducer needs to know which record came from which mapper(eg. customerMapper, txnMapper)
+Hadoop fs –rmr -> to remove the data.
+Need to decide what should be mapper output key. Also need to tally the data source at the reducer end.
+
+Counters
+Counters are way to report basic statistics of a job in Hadoop.
+Like  how many records were processed, how many records were processed in particular month.
+MapRed provide some default counters. Also we can write custom counters.
+2 places where we can see the counters. Job tracker.jsp or the stdout after the Hadoop command is complete.
+These counters are needed for own analysis.
+Can write custom counters. Do not use counters as mappers or reducers.
+
+With Hadoop 2.0 there are architectural differences but from programmers point of view there are hardly any diffrences.
+
+New Hadoop 
+
+Meta data is stored in RAM of name Node. High config machine.
+Sec. name node takes back up of meta data on name node (hourly or so).
+
+No horizontal scalability
+	Name node scalability problem
+	Only one name node
+	Meta data stored in namenode memory
+	Bottleneck after 4000 node/ 50-100 files
+	Results in cascading failure
+Name node is SPOF(Single point of failure)
+	Secondary name node is not hot backup
+	Meta data needs to be manually restored
+No high availability in NameNode
+Job tracker overburdened
+	Managing the failed jobs
+	Receive heartbits from task trackers, job scheduling, manage resource requirements, receive the block reports.
+MRv1 performs only MapReduce jobs
+	Data locking to MR
+	We can not run any other job than MR job
+
+Hadoop 2.0
+Has multiple name nodes compared to only one in Hadoop 1.x
+All name node will have own name spaces
+In 2.x the name node will be interacting with block pools.
+As one data node has different types of data blocks it will interacting with multiple types of name nodes.
+We can add multiple name nodes depending the data requirements.
+
+Problem of availability or SPOF
+Active Name node
+Standby name node(hot backup)
+Secondary name node
+
+Stand by Name node and active name node share the edit logs. Active name node writes the edits to shared edit logs and standby node reads those logs and update itself. In this sense it’s a hot backup. If active name node goes down then standby name node takes its place.
+
+Handling for job tracker overburdening
+YARN – yet another resource negotiator
+Job tracker had responsibilities like monitoring, scheduling, tracking and resource management. Resource management is entirely given to YARN.
+Multitenancy was not with 1.0 as only map reduce job was possible. YARn is not specific to MapReduce framework so we can run different applications like streaming alog with MapReduce.
+
+YARN flow
+Resource manager, Node manager, Application master
+
+Copy resources will copy jar and other necessary stuff. Here management node is name node and RM is job tracker.
+Container is the JVM in which the task is running.  Data node has one Node manager and app/task master. 
+Resource manager = job tracker
+Node manager = task tracker
+App master will be monitoring and scheduling per job. App master will be one per application not one per task
+Yarn child is going to monitor the actual task. Yarn child is comparable to task tracker in 1.x
+Overall Workflow in Hadoop 1.0
+Step 1~4: job submission
+Step 5,6: job initialization
+Step7: Task assignment
+Step 8-10: task execution
+
+In 1.x start-all.sh while in Hadoop 2.x its start-dfs.sh and start-yarn.sh
+
+Programming wise there is no change in 1.x and 2.x
+Change is in jars used. Select mapreduce/lib and common
+
+Job tracker in 1.0 performs:
+Resource Managament, managing the life cycle of the job, job scheduling
+Challenges in 1.x
+No horizontal scalabilitym No high availability of name node, Job tracker over burdened, it can only execute MR jobs
+
+Yarn application master:
+Coordinate the tasks running the mapreduce  job. The application master and the mapreduce tasks run in containers that are scheduled by the resource manager and managed by the node manager
+In order to execute the yarn job following services need to run:
+Name node and data node, secondary name node, resource manager, node manager
+Application master is one per application.
+Node manager launches and monitors the compute containers on machines in the cluster
+Resource manager coordinates the allocation of compute resources on the cluster
+
+Files need to be set:
+Mapred-site.xml:
+Property: mapred.framework.name Value: yarn
+Yarn node manager is one per node.
+
+
+Capacity scheduler: Supports hierarchial queues and capacity can be defined for each queue
+
+How do you benchmark your Hadoop cluster  with tools that come with Hadoop?
+TestDFSIO
+NNBench: load testing
+MRBench
+
+1) Core-site.xml
+<configuration>
+<property>
+<name>fs.default.name</name>
+<value> hdfs://localhost:9000</value>
+</property>
+</configuration>
+
+2) mapred-site.xml
+<configuration>
+<property>
+<name> mapred.framework.name</name>
+<value>yarn</value>
+</property>
+</configuration>
+
+3) hdfs-site.xml
+<configuration>
+<property>
+<name>dfs.replication</name>
+<value>1</value>
+</property>
+</configuration>
+
+<configuration>
+<property>
+<name>dfs.name.dir</name>
+<value>file:///home/hadoop/hadoopdata/hdfs/namenode</value>
+</property>
+</configuration>
+
+<configuration>
+<property>
+<name> dfs.data.dir </name>
+<value> file:///home/hadoo/hadoopdata/hdfs/datanode</value>
+</property>
+</configuration>
+
+
+4) yarn-site.xml
+<configuration>
+<property>
+<name> yarn.nodemanager.aux-services </name>
+<value> mapreduce_shuffle</value>
+</property>
+</configuration>
+
+
+Hadoop 1.0
+Job submission
+Job initialization
+Task assignment
+Task execution
+
+
+
+Limitations of Map-Reduce:
+Spark is not completely real time but close to real time. No system is complete real time but are near consistent.
+ML involves lot of iterative processing and Hadoop not good at it.
+Joins are not suitable for map reduce.
+Chaining is also performance issue.
+
+Only two IO operations Read/Write in case of spark because of distributed memory/RAM.
+If Ram is insufficient then it will use HDFS/disk storage.
+The hardware requirements are use case specific. Real time analysis (faster response) -> High end configuration/ hardware. Batch processing -> commodity hardware can be used. Its scenario based trade off.
+Use case has to fit in map reduce framework for Hadoop.
+10:52
+11:16
+Sqoop <- structured and not structured data
+Flume <- structured and not structured data
+Hive <- Query language
+Mahout <- For machine learning 
+Storm
+
+CoreConcepts:
+Lazy evaluation
+ 	Keeps logical map of operation but executes only on action
+Immutability
+	Data does not change because of RDD. Because of this the lazy evaluation work.
+	Pig also has lazy evaluation.
+Shell is river and provide the spark context.
+
+Tokenize:
+Split in words
+Map:
+Word => 1
+
+Abstractions of spark:
+	RDD: Resilient distributed database
+	DAG: directed acyclic graph
+Read -> flatMap -> Map -> ReduceByKey
+Data/RDD -> Token -> Token1 -> sum_Each
+
+scala> var Data = sc.textFile("C:\\SparkRDDTest.txt")
+Data: org.apache.spark.rdd.RDD[String] = C:\SparkRDDTest.txt MapPartitionsRDD[1]
+ at textFile at <console>:27
+
+scala> var tokens = Data.flatMap(s => s.split(" "))
+tokens: org.apache.spark.rdd.RDD[String] = MapPartitionsRDD[2] at flatMap at <co
+nsole>:29
+
+scala> var tokens_1 = tokens.map(s => (s,1))
+tokens_1: org.apache.spark.rdd.RDD[(String, Int)] = MapPartitionsRDD[3] at map a
+t <console>:31
+
+scala> var sum_each = tokens_1.reduceByKey((a,b) => a + b)
+sum_each: org.apache.spark.rdd.RDD[(String, Int)] = ShuffledRDD[4] at reduceByKe
+y at <console>:33
+
+scala> sum_each.collect()
+res1: Array[(String, Int)] = Array((scac,2), (as,2), (qwfq,2), (asasf,2), (asc,2
+), (qd,2))
+Spark Architecture:
+In shell context is already present but with java application we need to initialize the context.
+Spark context gives us the spark architecture.
+Driver -> cluster manager/Master(apache mesos/Yarn, is pluggable) -> slaves/workers(1,2,3)(one worker one node)
+Every worker will have at least one executor process. Task is run as thread in executor.
+1.	Submit a job to driver
+2.	If(sc) -> go to step 4
+3.	If(sc) -> initialize sc and register with cluster manager
+4.	Create DAG
+5.	Figure stages/tasks
+6.	Copy the jar file to the worker with help of cluster manager
+7.	Execute/submit job on worker
+
+Workers do communicate to driver as in job tracker of Hadoop. Also the executers communicate with Driver.
+If first time file is read then second time it will be read from memory.
+File blocks are converted to RDD and kept in memory.
+Cache and persist RDD
+Data.cache()
+Date.persist()
+
+Lifetime of spark context is spark application. Can submit multiple jobs to application.
+Sc.textFile() <- is an action. On action the data is read.
+Light blue in cluster and dark blue is node from reading and creating RDD.
+
+Create RDD
+	1: Parelllize
+Transformation/Action
+Transformation on single RDD
+Action in single RDD
+Transformation on paired RDD
+Action on paired RDD
+
+Stage:
+Until the data need not be moved and the operations are carried out one after the other on same node, it is called as stage.
+reduceByKey() needs data to be moved across the nodes i.e. shuffling.
+After reduceByKeys() stage 2 starts.
+Number of RDDs is dynamic
+
+Job(entire code)  -> Submitted to driver -> driver will check for spark context -> registers with cluster manager -> create DAG -> figure out stages -> driver will submit jobs to independent workers. Once the job is set to independent workers the stages start executing. Until this point nothing happens. And this happens at workers end. Driver/master/monitor is not involved hence forth (its like tracker, if job fails it will resubmit the job)
+
+Task:
+The DAG which executes is task. Its logical. A stage contains all the tasks for the stage. Task is local to machine/node.
+After shuffling all the data is not guaranteed to be distributed equally across the nodes. Some nodes might not get the data.
+
+RDD(Resilient distributed datasets):
+	RDD is nothing but the data which is split in to partitions and distributed/stored across the worker nodes in the form of eother scal, java or python objects.
+	RDD refers to data stored either in persisted store (HDFS, Cassandra, HBase etc.) or in cache(memory, memory + disk , only memory)  or in other RDD.
+	Partitions are recomputed on failure or cache eviction.
+	RDD is created only if the action is performed and is kept in RAM otherwise its in the form of HDFS on disk. Only with actions the RDD will be generated.
+	Rearranging the computations and Optimizing the data processing.
+They are falut tolerant because RDD knows how to recompute and recreate dataset.
+RDD is Immutable
+RDD supports 2 types of operations
+Transformation
+Action
+
+
+
+Refer spark programming guide online.
+
+Map is most used 
+
+Reduce by Key is transformation(because its expensive on cluster) and reduce is action
+
+Scala.tuple2
+
+Cogroup() method to combine from multiple RDDs
+
+
+Number of orders per day
+Orders per status
+Get total revenue daily basis
+Get total customers from WA state.
+
+Spark-submit windows
+
+>Spark-submit –master local –class <mainmethod class> <jarfile path>
+Spark-submit  ---HDFS
+Start-dfs.sh <- start Hadoop deamon( 2processes)
+Start-yarn.sh <- start manager (total 5 processes)
+jps
+
+
+Start Hadoop deamon –> start-dfs.sh(data node, name mode, sec name node, jps) , start-yarn.sh(resource manager)
+Copy data to Hadoop ->
+Hadoop fs –put <current path to the file> <path to new folder> <- to copy the wholde data base folder to the
+Modify jar to so that it fetches data from HDFS instead of local
+
+
+HDFS
+Hadoop fs –mkdir <folder path> <- to create directory if not present
+Hadoop fs –ls <folder path> <- to see the files
+
+Modify jar file so that it fetches from HDFS
+	Export jar file
+
+Core-site.xml = Hadoop_ver/etc/Hadoop/core-site.xml will give location of the files of HDFS
+Input and output need to be chaned to HDFS
+
+Accumulators and broadcasters
+Counters decaled in a function have local scope so need of globcal accumulators.. Functionsare on slaves and not on driver. Accumulators are type which are global in scaope by default.
+	
+Instead of local variable use accumulator/global variable. 
+E.g bad record counter 
+Context.accumulator()
+
+Add() of accumulator will be executed on node and declaration will happen on driver.
+
+Closure <- it is set/block of code which is meant to be run on worker. Driver will create this code.
+Shared variable
+Broadcast variables <- read only tables shared in distributed cache
+
+Broadcast variable and closure are not part of closure. 
+
