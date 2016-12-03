@@ -1,0 +1,107 @@
+If the custom exception class extends the RuntimeException then no need to add throws clause by exception throwing method.
+If exception class is extended then need to add throws clause.
+When multiple resources are opened in try-with-resources, it closes them in the reverse order to avoid any dependency issue. You can extend my resource program to prove that.
+Java 7 has introduced a new interface java.lang.AutoCloseable that extends java.io.Closeable interface. To use any resource in try-with-resources, it must implement AutoCloseable interface else java compiler will throw compilation error.
+If an exception is thrown in both try block and finally block, the method returns the exception thrown in finally block.
+
+For try-with-resources, if exception is thrown in try block and in try-with-resources statement, then method returns the exception thrown in try block.
+
+Unchecked exceptions are mostly caused by poor programming, for example NullPointerException when invoking a method on an object reference without making sure that it’s not null.
+
+Only checked exceptions enforce the throws clause. Nad not the unchecked exceptions.
+
+OutOfMemoryError in Java is a subclass of java.lang.VirtualMachineError and it’s thrown by JVM when it ran out of heap memory. We can fix this error by providing more memory to run the java application through java options.
+$>java MyProgram -Xms1024m -Xmx1024m -XX:PermSize=64M -XX:MaxPermSize=256m
+
+Exception in thread main java.lang.UnsupportedClassVersionError:
+Exception in thread main java.lang.NoClassDefFoundError:
+Exception in thread main java.lang.NoSuchMethodError: main:
+Exception in thread “main” java.lang.ArithmeticException: 
+
+
+The sequence of classses does not matter in throws clause but it matters in multi catch block. In multi catch block superclass exception and subclass exception can not be caught together. Need to catch sepearately.
+
+The program won’t compile because JAXBException is a checked exception and foo() method should throw this exception to catch in the calling method. You will get error message as “Unreachable catch block for JAXBException. This exception is never thrown from the try statement body”.
+
+The above program won’t compile because start() method signature is not same in subclass. To fix this issue, we can either change the method singnature in subclass to be exact same as superclass or we can remove throws clause from subclass method as shown below.
+
+The above program won’t compile because exception object in multi-catch block is final and we can’t change it’s value. You will get compile time error as “The parameter e of a multi-catch block cannot be assigned”.
+If a method in parent class throws checked exception, child class can not change the signature. The child can ignore it or add more unchecked exceptions.
+If parent class method does not throw checked exception, the child class method cannot throw it either.
+Java 7 Automatic Resource Management(ARM)
+
+se javadoc @throws to clearly specify the exceptions thrown by the method, it’s very helpful when you are providing an interface to other applications to use.
+
+5) Why do you think Checked Exception exists in Java, since we can also convey error using RuntimeException ?
+One of the reason I see is that its a design decision, which is influenced by experience in programming language prior to Java e.g. C++. Most of checked exceptions are in java.io package, which make sense because if you request any system resource and its not available, than a robust program must be able to handle that situation gracefully. By declaring IOException as checked Exception, Java ensures that your provide that gracefully exception handling.
+Another possible reason could be to ensuring that system resources like file descriptors, which are limited in numbers, should be released as soon as you are done with that using catch or finally block. Effective Java book from Joshua Bloch has couple of items in this topic, which is again worth reading.
+
+It’s worth knowing that, finally block in Java executes even when return keyword is used in try block.
+
+method need not throw an exception in order to be part of the throws list.
+
+
+System.ou.print() function fist converts the whole parameters into string and then prints, before “Hello” goes to output stream 1 / 0 error is encountered which is cached by catch block printing just “World” .
+Another worth noting rule of method overriding in Java is that overriding  method can not throw checked Exception which is higher in hierarchy than overridden method. Which means if overridden method throws IOException than overriding method can not throw java.lang.Exception in its throws clause because java.lang.Exception comes higher than IOException in Exception hierarchy. This rule doesn't apply to RuntimeException in Java, which is not even need to be declared in throws clause in Java.
+
+
+
+ince IOException is a checked Exception and start() method doesn't throw IOException, so compiler will flag error as "exception java.io.IOException is never thrown in body of corresponding try statement", but if you change IOException to Exception compiler error will disappear because Exception can be used to catch all RuntimeException which doesn't require declaration in throws clause.
+
+Errors can be thrown
+
+Default handler handles when no handling is performed.
+
+Javas exception handling mechanism handles only the runtime errors.
+
+
+Java7 features
+
+Switch with String:
+Switch does case-sensitive comparison with case statements. Switch gives a more efficient and cleaner code than if-else if-else code.
+Why switch is more efficient than if else?
+It seems that the compiler is better in optimizing a switch-statement than an if-statement. The compiler doesn't know if the order of evaluating the if-statements is important to you, and can't perform any optimizations there. You could be calling methods in the if-statements, influencing variables. With the switch-statement it knows that all clauses can be evaluated at the same time and can put them in whatever order is most efficient.
+
+2. Underscores Between Digits in Numeric Literals
+
+Underscores are permitted in numeric literals. You can place underscores where you feel required to increase readability; like between hundreds and thousands, thousands and lakhs etc.
+This is used to group numbers in a bigger literal value (especially of long data type).
+Note: Do not place underscore at the beginning or ending of the literal value.
+But the parsing does not work with underscrores.
+
+3. Integral Types as Binary Literals
+With JDK 1.7, the integer whole numbers like byte, short, int and long can be expressed in binary format also with a prefix of 0b or 0B. Earlier, we have 0 prefix for octal and 0x prefix for hexa and no prefix for binary. JDK 1.7, introduced 0b to represent binary literals.
+
+4. Handling multiple exceptions in a single catch block
+
+5. Try-with-resources Statement
+Any resource (class) that implements interface "java.lang.AutoCloseable" is eligible as a resource statement to write in try block. From JDK 1.7, many classes implement AutoCloseable interface, like BufferedReader, PrintStream, Scanner, Socket etc.
+
+Closeable and Flushable interfaces were introduced with JDK 1.5 version and part of java.io package.
+The close() and flush() methods throw a checked exception IOException and must be handled when these methods are used.
+JDBC 4.1 can make use of this try-catch-resource management. Following is the snippet of code.
+
+6. Automatic Type Inference in Generic object instantiation
+
+(Diamond operator, <> , in collection classes)
+In JDK 1.7, empty angle brackets (known as diamond operator), <>, can be used in specifying generic type instead of writing the exact one. But remember, the compiler should be able to judge the type from the generics statement you write.
+
+7. Static blocks
+
+Earlier to JDK 1.7, to print static blocks no main() method is required. But from JDK 1.7, if no main() exists, static blocks will not be executed.
+
+Java 1.8 features:
+
+1. Method References:
+
+You can call the methods with their names (references) with :: operator.
+ Arrays.sort(names, Test::matchStringLength);
+ 
+2. 
+toArray() creates new array and hence free to modify it.This method acts as bridge between array-based and collection-based APIs.
+
+
+http://way2java.com/java-versions-2/jdk-1-8-features/ 
+
+
+
