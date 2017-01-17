@@ -1,0 +1,300 @@
+System.arraycopy(arg, arg, arg, arg,)
+Arrays.copyOf(int[] original, int newLength)
+
+this and super cannot be used in static context.
+compile time and run time polymorphisms/dynamic method dispatch
+If there is any private, final or static method in a class, there is static binding.
+
+Q1. What are various types of Class loaders used by JVM ?
+Bootstrap - Loads JDK internal classes, java.* packages.
+Extensions - Loads jar files from JDK extensions directory - usually lib/ext directory of the JRE
+System - Loads classes from system classpath.
+
+Assert statements should not cause side effects. Line 22 changes the value of z if the assert statement is false.
+
+Legally, however, AssertionError is a subclass of Throwable, so it can be caught. But just don't do it! If you're going to try to recover from something, it should be an exception. To discourage you from trying to substitute an assertion for an exception, the AssertionError doesn't provide access to the object that generated it. All you get is the String message.
+
+Basically the prefix and postfix unary operators have a higher order of evaluation than the relational operators. So on line 4 the variable i is incremented and the variable j is decremented before the greater than comparison is made. 
+
+what is the size of the object after assigning the null value
+
+
+Overriding - Dynamic binding
+Overloading - Static binding
+
+Distributed - Ionvolves RMI, Socket programming
+
+Java sandbox - provides very restrictive environment in which untrusted(downloaded/remote) code runs. These types of code(mostly applets) are not allowes to access vital resources like system files.(Ref: http://docs.oracle.com/javase/7/docs/technotes/guides/security/spec/security-spec.doc1.html)
+
+Not all statements in try block are guranteed to be executed. If I want guranteed execution then I need to include those in finally block.
+
+
+
+Exceptions can be handled but errors can not be handled.
+Exceptions always occur at run time.
+Checked exception - Called as compile time exception but occur at run time actually. Compiler checked exception and forced to handle. e.g. File not found exception.
+Unchecked exception - Run time exception. Here, compiler can not predict the exception so need to handle explicitly by developer.
+Throw - Generate the exception explicitly.
+Throws - Describe or declare.
+Custom exception:
+	Custom exceptions should normally be checked exceptions and force to handle the exception.
+	The calling code should normally handle the exception is best practice as developer can handle group multiple exceptions in single try block.
+Chained exceptions: These were added in java 1.4
+Assertions: Introduced in java 1.5; Invariant -> In computer science, an invariant is a condition that can be relied upon to be true during execution of a program, or during some portion of it. It is a logical assertion that is held to always be true during a certain phase of execution. For example, a loop invariant is a condition that is true at the beginning and end of every execution of a loop.; More about use of assertion in precondition, postcondition and class invariants.
+Multiple exceptions can be handled by one catch block;since JDK 1.7
+
+
+Assertion throws AssertionError
+
+Does the methods have to be static to achieve static binding/compiletime polymorphism ?
+
+Architecture neutral and protable difference?
+Basically they're saying that in addition to running on multiple environments (because of being interpreted within the JVM), it also runs the same regardless of environment. The former is what makes it portable, the latter is what makes it architecture-neutral. For example, the size of an int does not vary based on platform; it's established by the JVM.
+
+
+Distributed application:
+Software that executes on two or more computers in a network. In a client-server environment, distributed applications have two parts: (1) the 'front end' that requires minimal computer resources and runs on the client computer(s), and (2) the 'back end' that requires large amounts of data crunching power and/or specialized hardware, and runs on a suitably equipped server computer.
+
+IO:
+Byte Streams:
+	File
+	Primitives
+	References
+
+InputStream(AC), OutputStream(AC) <- just know how to read and write and not specific to any input. Were part of java 1.1. Operate on 8 bit(1 byte data)
+FileInputStream(C), FileOutputStream(C) <- specific to read and write file.
+DataInputStream(C), DataOutputStream(C) <- For reading and writing the primitive types. Here conversion of primitives to bytes and bytes to primitives is taken care of by this class. If we use FileInputStream then it will be developers responsibility to write business logic for converison. File writing will be taken care of by FileOutputStream.
+ObjectInputStream(c), ObjectOutputStream(c) <- takes care of converting objects to bytes and bytes and objects
+
+we can not interconnect byte and character streams, because the byte and character streams differ in the functionalities provided.
+
+Some prior knowledge is required to reader about the sequence in which the data was written eg. int, float, int
+
+char streams: (Introduced in java 1.2, operate on 16 bit(2 byte) unicode character)
+Reader(AC), Writer(AC)
+FileReader(C), FileWriter(C) 
+Here, there are no primitive and reference streams in char streams as bytes to primitives and vice a versa is possible but not character to primitive/reference and vice a versa.
+Inside JV all text is held as unicode.
+With readers and writers ist not possible to create directory;Error occurs of directory does not exist and we try to create file.
+BufferedStreams
+	Wrap other streams
+	Apply decorator pattern
+	Primarily used for high volume read and write operations
+	Allow stream markers
+
+
+FileInputStream implements Closeable <- till 1.6 .Required to have explicit closing.
+From JDK 1.7 Autocloseable interface was added as super interface to Closeable().
+Closeable had IOException while AutoCloseable() has Exception only.
+
+If some exception occurs between where try block ends and the finally block starts
+try -> catch -> finally -> application termination
+resource is closed -> then out of the try block. So no need of finally block.
+
+We can create multiple resources in try with block, seperated by semicolon. Here close() method will be called in reverse order to that of the opening.
+
+Autocloseable is Superinterface of Closeable(). This does not require change in the API.
+
+Char streams:
+write() method of FileWriter will write the string character by character.
+
+
+Why java has 2 types of streams?
+
+
+
+Serialization :
+To persist state of an object e.g. svae it in file, share over the network.
+
+ Scenario 1:
+ Serialized object contains non serialized object reference
+ 
+ Scenario 2:
+ Non serialized object contains serialized object reference
+ 
+ In inheritance:
+ 
+	 A class CAN NOT BE deserialized if it implements serializable but the super class does not implements serializable; Otherwise super class must have a no-argument constructor accessible to the sub class; this constructor will be used to initialize sub classes sub object;
+	 
+	 A class CAN BE serialized if it does not implement serializable but its super class does implements serializable;
+ 
+ In Composition:	 
+	Class which is included in another class must implement the serializable to make including class serializable otherwise NotSerializableException is thrown.
+	
+Contents of serialization:
+	Class of object
+	Signature of class
+	values of all non transient and non static fields
+	other referenced objects
+	*A serial version unique identifier
+	
+
+Console Class: 
+	Added in JDK 1.6
+	Providdes methods to access character based consome decvices in curent JVM.
+	Reefres to console associcated with curent operating system.
+	Console con = System.console();
+Collections:
+ Only limitation of collection is that it supports only Objects and not primitives.
+								Collection(I)(Added in JDK 1.2)
+									\
+				   -------------------------------					
+				 List(I)						Set(I)
+Indexed   			Yes							No		 
+Allow Duplicate		Yes							No
+Null values			Multiple					only one
+
+E.g.
+					LinkedList				HashSet
+					ArrayList				LinkedHashSet
+					Vector(Legacy class from JDK 1.0)					TreeSet
+					
+Major drawback of the simple array list is that it can store Object of any type.
+	Causing-> ClassCastException, CmpileTime issues and need to check the datatype and implement the logic.
+	
+To overcome this generics were introduced in java 5 to collections making us use only one datatype in collections. This adds compiletime check. No chances of class cast exception.
+
+In jdk 7 "Type infererence" is introduced which maps internally the data type on left side of equla side to the right side. Till 1.6 we need to write type on both side in diamond operator. Here Type includes the type and its sub classes.
+					
+Till jdk 1.4 explicit boxing was required. From 1.5 this is dome implicitly termed as autoboxing.
+ 
+ 
+Ways to iterate over a Collection:
+	Indexed for loop
+	For each loop or enhanced for loop:
+		For indexed and non indexed represention both.
+	Iterator
+
+Vector and Enumeration were present in 1.0 but after Collection framework was added in 1.2 those were included in Collections framework.
+Vector is thread safe 
+
+Comparable is from java.lang package <- any object of type comparable can be compared.
+Comparator is from java.util package <- it compares 2 different entities.
+
+Its better to always go for comparator as comparable will provide with only one logic for sorting the objects.
+ 
+NvigableSet extends SortedSet
+ introduced in 1.6
+ TreeSet implements NavigableSet in 1.6 before it was implementing SortedSet.
+ 
+ higher() - strictly greater than , gives null in two cases
+ ceiling() - greater than ro equal, fives null in only one
+ 
+ Map(I) doe not belong to Colletion hierarchy.
+ 
+ 
+ HashSet <- adds keys randomly
+ LinkedHashSet <- preserves the insertion orcer
+ TreeSet <- Adds values in sorted order
+ 
+Multithreading:
+
+	Multitasking
+		process based - multi processing
+		thread based  - multi threading
+
+Exercise: 		
+	Resource -> int num
+				getNum();
+				setNum();
+				
+				Producer -> setNum
+				Consumer -> getNum
+
+	java.lang.Runnable(I) <- public void run()
+	java.lang.Thread(C) <- lifecycle methods are defined in Thread class.
+	
+	Thread class implements Runnable interface.
+	start() <- method will inform processor about the execution of run() method and makes eligible to run. Will add thread to thread pool.
+	run() <- method will be called by processor.
+	New born -> Ready to run -> running -> Dead
+				
+	asynchronous <- unpredictable output.			
+				
+	Inter thread communication: 
+		to resove the above problem
+		wait() -> current thread tp wait state
+		notify() -> will notify the thread waiting on current resource
+		notifyall() -> notify multiple waiting thread for current resource
+		
+		When producer is running then the consumer should be in wait statea and vice a versa. 
+		
+		static sleep() - current thread goes in sleep mode. Next thread in thread pool will start execution. The next thread can not be detemined
+		static yield() - Current thread goes in wait state. Here priority is criteria for next thread.
+		instance method join() - Current thread goes in sleep mode wait/pause state. Thread on which the join is called
+
+JDBC <- java database connectivity
+			
+	JDBC API in java.sql package.
+	JDBC API needs jdbc driver to communicate with database application.
+	
+	4 types of drivers <- 
+	
+	Type-1 -> JDBC ODBC bridge -> Open database connectivity is provided by microsoft to connect to databases. Every database will have one driver. Provided .dll files which made java dependent on windows platform hampered java platform independence. Also speed of execution is slow as communication has multiple steps java -> ODBC -> database.
+	
+	Type-2 -> Native API- Partly java driver -> here platform dependency limitation is overcome. These are provided by databases themselves. Java <-> database. Increased speed and made platform independent. Were written in c/c++(Native). Compilation of the native needs to be done reducing speed. To overcome this Type 3 was introduced.
+	
+	Type-3 -> Driver in complete java so increased speed. But multitier and need to be implemented at client side. So execution speed is reduced but conversion overhead is still there.
+	
+	Type-4 -> To overcome the extra tier in 3rd type. Speed is faster. No heavy installtion at client side as not multi tier. Fastest and widely used in application.
+	
+	
+	* Java  JDBC API has more interfaces and its implementation is provided by drievrs like, Oracle, MySQL.
+	
+	Standard steps of JDBC use:
+	
+	Load the driver 
+	Establish connection withd database
+	Execute the queries
+	Handle exception
+	
+	Interfaces to execute the query :
+		Statement(I) <- execute SQL queries
+		PreparedStatement(I) <- execute SQL queries.
+		CallableStatement(I) <- SQL and PL/SQL queries.
+	
+	Connection <- interface which is implemented in mysql driver jar. getConnection() method creates object of driver class and returns. So we write code w.r.t java SQL API..
+	The basic idea behind using Class.forName() is to load a JDBC driver implementation, a (normal) JDBC driver must contain a static initializer that registers an instance of the driver implementation with java.sql.DriverManager:
+	JDBC drivers must implement the Driver interface, and the implementation must contain a static initializer that will be called when the driver is loaded. This initializer registers a new instance of itself with the DriverManager
+	Since JDBC 4.0 however there is a new way to register drivers: the jar of a JDBC drivers needs to include a file /META-INF/services/java.sql.Driver which contains the name(s) of the java.sql.Driver implementations in that jar. When you create a connection using the DriverManager, it will use java.util.ServiceLoader to enumerate all /META-INF/services/java.sql.Driver files in the classpath and load all drivers so they get registered.
+	The reasons drivers are loaded this way(with ForName()), is that it allows you to decouple an application from the driver (and database) it uses. This means that you can write, compile and even distribute an application without any drivers, you only need to use the interfaces provided in the java.sql (and javax.sql) packages which is part of Java without needing to access the implementation directly.(Source: http://stackoverflow.com/questions/20078586/why-we-use-class-forname-oracle-jdbc-driver-oracledriver-while-connecting-to)
+	
+	What is the need of foName method?
+	
+	ResultSet(I) 
+		cursor points to the beginning of the result.
+		varchar repersents in string in java.
+		next() <- to get the next record.
+		ResultSetMetaData(I) <- gives information about the rsultset , column name, column type, column count.
+	
+	CallableStatement(I)
+		PL sql has funciton , stored procedures.
+		prepareCall() <- Creates callable statement object for calling database procedures.
+		why to create procedures? <- to execute multiple times.
+		
+Inner classes:
+	For type encapsulation
+	When a class/interface is required by this class only
+	Local class = class declared inside a block/ method
+	Anonymous class = clas without name
+	
+	Inner Classes:
+		inner class can be private, default, protected and public . Also can be static. If class is declared static them method must be declared static to use it outside.
+		inner classes can be abstract but of no use in such case 
+		only inner class can be static
+		Inner class needs to be static in order to be extended by other class.
+		Outer class can be public, abstract or final
+		Local iner classes:
+			class inside the method or local to a method.
+			only default, abstract and final is permitted for local inner class.
+			
+
+		Anoymous inner classes:
+			abstract can be used with static in case of inner class 
+			ai.mymethod1();  can not be called as Superclass reference can not call subclass' non overridden method
+			with this approach only already created method can be used. No new method can be added.
+			here in case of anonymous classes tighter encapsulation is achieved compared to inner classes as anonymous inner classes can not be used(at all) out side this class while other types of inner classes can be reused to some extent. 
+		
+
+	
+	
