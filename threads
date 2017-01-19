@@ -1,0 +1,22 @@
+Write a Java program to demonstrate that as a high-priority thread executes, it will delay the execution of all lower-priority threads.
+
+2.	Write a Java program that demonstrates a high-priority thread using sleep to give lower¬priority threads a chance to run.
+3.	Implement three classes: Storage, Counter and Printer.
+The Storage class should store an integer. 
+The Counter class should create a thread and starts counting from 0 (0,1,2,3…) and stores each value in the Storage class. 
+The Printer  Class should create a thread that keeps reading the value in the Storage class and printing it.
+Write a program that creates an instance of the Storage class and set up a Counter and Printer object to operate on it.
+Identify that, whether synchronization is required or not in this assignment. If yes, implement it.
+4.	Modify the above program in assignment no. 3 to ensure that each number is printed 
+exactly once, by adding suitable synchronization.   
+5. 	Write a multithreaded program that will accept 4 strings from the command line
+and search in a particular file for a given string and display the status of each search on the screen.
+Note that, all threads are operating on the same file.
+
+Write a Java application that will accept two filenames (text files) as command line 
+arguments and use two threads to read contents from the two text files. Each of the threads should sleep for a random time after displaying filename with each line. 
+
+Write a java application that will create and start two threads. 
+One thread will read a text file (Number.txt) containing five positive integers one on each line. 
+The second thread should calculate factorial of the number read by the first thread and print the message on the screen as “Factorial of x is y” ,here x is number & y is factorial of the number
+The two threads should work in synchronization. Handle all necessary exceptions.       
