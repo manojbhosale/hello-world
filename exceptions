@@ -1,0 +1,17 @@
+Exception Handling
+1.	Create a class named Contact with the following attributes : First name, Middle name, Last name, Date of birth, Gender, Anniversary, Address, Area, City, Pincode, State, Country, Telephone number, Mobile number, Email, Website. (Contact.java)
+2.	Write a method named validate ( ) in the Contact class created earlier. This method must generate an exception if any of the following validation rules fail:
+i.	First name, last name, date of birth and email are compulsory.
+ii.	E-mail must be in the correct format , display correct format.
+iii.	Atleast one of either telephone or mobile number must be specified 
+
+3.	Write a stack for Contact objects. Use exception handling to apply the following rules:
+i.	A pop must fail on an uninitialized stack and empty stack
+ii.	A push must fail on an uninitialized stack and stack which is already full
+iii.	A push must fail on a stack if the Contact object’s validation fails.
+4.	Reading data from movies.txt must handle invalid input.
+-	Check for number of values provided
+-	Check for valid values of Language enum
+-	Check for valid movie Ids. Must be Integers
+
+
