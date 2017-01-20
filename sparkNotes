@@ -1,0 +1,141 @@
+val someRDD = sc.parallelize(1 to 10)
+someRDD.count() 	
+
+partitiions are on eoer node in cluster mode.
+In stand alone mode its one per processor core.
+
+ val secRDD = sc.parallelize(1 to 100,5)
+ 
+Transformation
+	return type is always RDD
+	RDDs are not supposed to start execution. Only meta data is stored in form of DAG.
+	Supports lazy evaluation.
+	Parallelize() is used in dev and testing work and not in production work.
+	
+Actions:
+	Will always return some data or store o/p in store.
+	execution immedialtely start
+ 
+	
+ 
+ Transformations and actions are the operations on RDD
+ combined have 80 different operators
+ 
+ // we can not mutate the RDD so created a new RDD with filtered content. 
+// write  anonemous function or member function or lambda expression
+
+11:29
+
+ val conf = new SparkConf().setAppName("Word Count").setMaster(appConf.getConfig("dev").getString("developmentMaster"))
+    val sc = new SparkContext(conf)
+	
+	
+general Code snippet::
+
+
+public static void main(String[] args){
+
+SparkConf conf = new SparkConf().setMaster("local").setAppName("Test")
+JavaSparkContext sc = new JavaSparkContext(conf)
+
+JavaRDD<String> strRDD = sc.parallelize(Arrays.aslist("i am spark","he is not spark","dont know"))//or sc.textFile("file path
+")
+
+
+#														<InputRDD type, returnType of a fucntion>
+JavaRDD<String> filterRDD = strRDD.filter(new Function<String, Boolean>(){
+
+	public Boolean call(String str) throws Exception{
+	
+		return str.contains("spark");
+	
+	}
+
+}
+
+System.out.println(filterRDD.collect())
+)
+
+
+}
+
+
+operators are same in java, python and scala
+
+#lambda expression:
+JavaRDD<String> filterRDD = strRDD.filter(x -> x.contains("spark"))
+
+
+#transformations onsingle RDD
+
+map()
+distinct()
+filter()
+flatMap() <- flatten and gather every thing in one list
+
+
+union() <- oneRDD.union(otherRDD)
+intersecrtion()
+substract()
+cartesian()
+
+#actions on single RDD
+*output of an transformation isRDD. Output of action will be normal data or a collection.
+
+collect() will need data on one machine
+top() <- will return last record
+take() <- will return first record
+reduce() <- uses Function2<Int,Int,Int>
+
+
+
+## Paired RDD
+Tuples are refered from a Jar file in case of JAVA as its not suppurted in JAVA API
+
+Transformation on pairedRDD
+
+mapToPair() <- for mapping values in pairs
+
+
+reduceByKey(func) <- in case of single RDD reduce() is action. while in pairedRDD its transformation. Because its processing intensive so transformation
+groupByKey()
+mapValues(func)
+keys()
+values()
+sortByKey(true or false or comparator anunymous class) <- default is ascending(with true), if  FALSE then its descending.
+
+on closing the spark context the RDDs get closed.
+
+#transformations on 2 paired RDDs
+subbstractByKey() <- only key is matched
+join() <- inner join. With common keys.
+rightOuterJoin()
+leftOuterJoin()
+cogroup() <- group data from both RDDs sharing same key.
+
+
+rdd.saveAsTextFile(path) <- can be  used on actual cluster. It creates folder with given name and part_0001 is the actula file inside it.
+
+All the actions on single RDD will work on paired RDD liek collect()
+
+Below actions only for paired RDD.
+countByKey()
+collectByKey()
+lookup()
+
+
+Real time use cases:
+Number of orders per day
+
+the code can be run from master or any of the slaves. Same as in hadoop.
+driver manager will work on spark master.
+
+In stand laone mode yarn is not required.
+But in hadoop we need yarn as the cluster manager.
+
+
+speculative execution
+partitioning
+Steps at which the accumulators and the brodcast variables are sent to the executor
+
+
