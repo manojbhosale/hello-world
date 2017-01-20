@@ -132,3 +132,177 @@ JOINS: are based on primary keya nd foreign key relation
 	
 Oracle SQL and SQL server/MS SQL Server
 	Perhaps the most obvious difference between the two RDBMS is the language they use. Although both systems use a version of Structured Query Language, or SQL, MS SQL Server uses Transact SQL, or T-SQL, which is an extension of SQL originally developed by Sybase and used by Microsoft. Oracle, meanwhile, uses PL/SQL, or Procedural Language/SQL. Both are different “flavors” or dialects of SQL and both languages have different syntax and capabilities. The main difference between the two languages is how they handle variables, stored procedures, and built-in functions. PL/SQL in Oracle can also group procedures together into packages, which can’t be done in MS SQL Server. In my humble opinion, PL/SQL is complex and potentially more powerful, while T-SQL is much more simple and easier to use.
+
+
+Intermediate SQL queries:
+
+DCL: Data control language
+	To secure the database
+	Used to create roles, permissions, referntial integrity and used to control access to the database by securing it. 
+	Grant-> grant previlages to user
+			GRANT pervilage_name
+				ON object_name
+				TO {user_name|public|role_name}
+				[WITH GRANT OPTION]
+			Example:
+			GRANT UPDATE ON employees TO user2 WITH GRANT OPTION;
+	
+	Revoke -> revoke previlages from User
+			REVOKE previlage_name ON object_name FROM {user_name|public|role_name}
+			Example:
+				REVOKE SELECT ON employee FROM user2
+			Note: 
+				REVOKE statement can revoke only the rights which were granted by GRANT statement.
+				Cascading REVOKE:
+					Any privilage given to any user by another grantor user(u2) having this privilage "WITH GRANT OPTION" will automatically be revoked when this privilege revoked by object owner(u1) from his grantor user(u2)
+					
+	Previleges:
+		It is a right to execute a particular type of SQL statement or to access another users objects.
+		DBA is high level user with ability to grant users the access to the database and its objects.
+		2 types of privileges:
+			System privilege
+				"System" :  creating session, table etc are all types of system privilege.
+				only 2 types of users can grant or revoke the pervileges:
+					Users with system privileges <- GRANT ANY PRIVILEGE
+					Users who were granted a specific system privilege with the ADMIN OPTION
+				Examples:
+					CREATE ANY INDEX
+					CREATE SEQUENCE
+					DROP PROCEDURE
+					ALTER USER
+				Example:
+					GRANT ALTER TABLE, DROP TABLE TO USER2;
+				Specify WITH ADMIN OPTION to
+					 grant the privilege or role to another user or role, unless the role is global role.
+					 revoke the privelege or role from another user or role.
+					 Example:
+					 GRANT create trigger TO user1 WITH ADMIN OPTION.
+					 Note:
+					 Unlike WITH GRANT OPTION cascading revoke is not possible in case of system privileges granted using WITH ADMIN OPTION
+					 
+			Object privilege
+				"Object" : any command or query to work on tables comes under object privilege.
+				It is a priivilege or right to perform a particular action on a speific schema object like table, view, sequence, procedure etc.
+				Each oject has specific privilege associated with it. example: ALTER, DELETE, EXECUTE, INDEX, INSERT, REFERENCES, SELECT.
+				Exmaple:
+					GRANT SELECT ON user1.employee TO user2 with WITH GRANT OPTION
+				Who can Grant Object Privileges?
+					Owner of object 
+					Or the user who got the object privileges from the owner of the object with the grant option.
+					Or user with GRANT ANY OBJECT PRIVILEGE
+					Otherwise the grantee can use the privilege but can not grant it t other users.
+					
+			Role:
+				Instead of assigning MULTIPLE PRIVILEGES to a user, grant a SINGLE ROLE.
+				A role can be assigned multiple roles
+				If a privilege is removed or added to a role, then it reflects automatically in all roles and users which are assigned with this role.
+				Password can be assigned to a role.
+				Creating a role:
+					CREATE ROLE <roleName> IDENTIFIED BY password123 / USING package/ EXTERNALLY /GLOBALLY
+				Example:
+						GRANT SELECT, CREATE TABLE ON user1.employee TO role1
+						REVOKE SELECT ON user1.emplouee FROM role1
+						* select * from DBA_ROLE_PRIVS where grantee = 'U1'
+				Enable/Disable role:
+					To enlabe or disable a role for a current session you can use SET ROLE statament.
+					SET ROLE NONE <- disables all roles in current session
+					SET ROLE role1 IDENTIFIED BY test123 <- enable role with passowrd
+					DROP ROLE rol1 <- removes role  from database dictionary
+				
+					
+		Can we allow role as well and privilege to be assigned in sigle statement?
+		Does create trigger require WITH ADMIN OPTION always?
+		
+		
+			
+Functions:
+
+Implicit data type conversion:
+	Date <=> Varchar/Char <=> Number
+Conversion fucntions
+	Explicit Comnverison:
+		To_Char
+		To_Number
+		To_Date
+			Example:
+				to_char(Date,'format_model')
+Nesting functions:
+				Single row functions can be nested to any level. Evaluation is inside out.
+Conditional expressions
+	Case Expressions:
+		CASE expr WHEN expr1 THEN return_expr1[WHEN e2 THEN re2 .... ELSE else_expr1]
+		Here, return can not be null. "expr" and "exprN" type must match. Must not return NULL literal. Returns on first match
+		Example:
+			Case jobid When 'SALES_REP' then '1.05*salary' when 'SALES_HEAD' then '1.12*salary' else salary END "calculation for revised salary'
+	Decode Syntax:
+		DECODE col/expr, seach1, result1[ , search2, result2, searchn, resultn, default]
+		Here, expr is matched with the search term, if it matches corrsponding result term is returned other wise NULL is returned if default value is not present.
+		Exmple:
+			DECODE (joid, 'SALES_REP' ,'1.05 * salary', 'SALES_HEAD','1.12*salary',salary ) "calculation for revised salary"
+Multi row functions:	
+		Operation on set of rows to return one result per group.
+		These sets ca be whole tables or tables split n groups by criteria.
+		Group fucntinos:
+		Group functions are NOT allowed in WHERE clause
+			Avg, Sum, stddev, variance <- oly numeric
+			Max, Min <- Numeric and others
+			count <- all
+		DISTINCT <- makes consider only unique values.
+		ALL <- every vlaue oncluding duplicates
+		All griup functions ignore null values by default
+		Example:
+			SELECT count(*) from Employee
+			SELECT count(commitionPct) from Employee
+		Group By clause:
+			Used to divide the rows in table in groups.
+			When group function is present in select list user can not select individual rows as well; unless individual column alias in not allowed in group by clause.
+			Using WHERE clause rows can be excluded before dividing them in groups
+			Column names must be included in group by clause. Column alias is not allowed
+			All columns in SELECT List that are  not in group function must be in a group by clause.
+			HAVING <- Where is used to exclude the selected rows in same way HAVING is used to restrict the groups.
+				Rows are grouped
+				Group function is applied
+				Groups matching the criateria in HAVIONG clause are displayed.
+					SElECT jobid, sum(salary)
+					FROM employee
+					Where jobid NOT LIKE '%PROF%'
+					Group by jobid
+					Having sum(salary) >= 50000
+					ORDER BY Sum(salary)
+			
+Combining Data
+	Inner Join/EquiJoin
+	Natural Join
+	Cartesian Product
+	Self Join
+	Outer join
+		
+	Table Alias:
+		Can be up to 30 characters.
+		It is valid for current select statement.
+	
+	Self join:
+		Join table to itself
+		Select e.empId , e.empFname ||' '||e.empLname empFullName, m.mangId , m.empFname ||' '||e.empLname mangFullName from employee e, employee m where e.managerid = m.employeeid
+		
+	Outer Join:
+		If a particular row does not satisfy the join condition , its not included in the results. To include such rows user can use outer join condition.
+		Operator : (+)
+		This operator creates one or more null rows to which one or more null rows from other non deficient table can be joined
+		Condition involving Outer join can not have IN operator or be linked to another condition using OR operator
+		Example:
+			select e.employeeid, e.lastname, d.departmentid, d.departmentname from Employee e, department d
+			where e.departmentid = d.departmentid(+)
+		ANSI syntax:
+			select table1.column, table2.column from table1 LEFT/FULL/RIGHT OUTER JOIN table2 ON (table1.column = table2.column)
+			
+			e.departmentid = d.departmentid(+) <- left outer join
+			e.departmentid(+) = d.departmentid <- right outer join
+			e.departmentid = d.departmentid(+) UNION e.departmentid(+) = d.departmentid <- full outer join
+			
+		## can the group by and joins used together?
+		## simple case and search case
+
+	
+
+
