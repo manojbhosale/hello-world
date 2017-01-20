@@ -1,0 +1,241 @@
+1.There are only two types of scopes global and local. No block level scope.
+2. Anonymous functions are not available before its definition.
+3. Java script hosts two objects inside functions "arguments" and "this". Arguments contains all the arguments and property called "callee" thorough which we can refer to host fuction itself.
+4. "This" refers to current object.
+5. String, Array , Boolean and Math are JS built in objects.
+6. Prototypes are used to add a property to all objects.
+7) java 2d arrays in java have constant time look up.
+8. Most applications fall in type of sparse graphs.
+9. Adjacency lists are useful for their space efficiency.
+10. For out degree calculation the AL are efficient.
+11. For in degree calculations it depends on class of he graphs.
+Sparse graphs |E| = O(|V|) -> AL & AM are equally efficient
+for OTHERS |E| = O(|V|^2) -> AM is efficient
+
+
+
+Ajax:
+
+Request <-> response
+With every response new page is generated.
+
+Synchronous or click-wait-refresh model
+page-driven: workflow is based on pages
+page navigation logic is determined by server.
+
+Rich internet applications
+Ajax is one of the technology providing the RIA.
+	Amount and quality of interaction between the user and interface.
+	Reduce delay in response
+	Wide variety of controls like tabs, spinners
+	Feedback to user actions instantly
+	e.g zip code validator, autocomplete
+	
+RIA technology stack:
+HTML -> JavaScript -> DOM -> CSS -> Ajax
+
+Ajax => Asynchronous + Javascript + XML <- coined by jeese gems garret 2005
+
+Asynchronous model:
+	Does not have click wait cycle.
+	On every event Ajax engine sends a request and receives response from server. The response is in data form only and no page is involved.
+	The user is not obstructed from the use of application in mean time.
+	The client UI is updated partially based on the response.
+	The request to server and page update based on response is to be handled with help of java script.
+	
+Ajax allows to request small bits of information
+intutive and natural user interaction.
+Data-drive as opposed to page-driven.
+Asynchronous communication.
+
+
+Technologies for Ajax:
+Java script <- make ajax call and handle response.
+DOM <- standard to access elements.
+CSS <- add anmation and effects.
+XML HttpReq <- JavaScript object to make ajax call.
+
+
+XMLHttpReq object:
+Is a JS object.
+Is part of ajax engine.
+It sends standard HTTP GET and POST requests.
+Server does not know if request is sync or async.
+Major change is to return data and not the HTML markup.
+
+Cons:
+browsing history and back button can not be used.
+Can not be used witohut java script.
+
+Create XmlHttpReq 
+build URL
+Make connection
+Set call back handlerSend request
+Handle response
+
+
+In get request data will go in a URL
+
+
+4 states of the cycle and need to handle at state 4.
+HTTP 200 = success.
+
+Caching problem:
+If the request is same then browser may cache it. To solve it introduce a dummy URL(at clinet side) with a time stmap to make it unique every time.
+dummy=new Date().getTime()
+
+At server side
+response.setHeader("Cache-Control", "no-cache");
+response.setHeader("pragma", "no-cache");
+
+GET:
+Data appended in URL.
+Size of the data can be sent is limited.
+Can not send binary data.
+Mainly used to fetch data.
+
+POST:
+Data sent in body.
+No size limitation on data.
+Can send binary data.
+Mainly used to post the data. E.g. post a form.
+
+
+Steps of POST request:
+
+1-4 as in GET
+request.setRequestHeader("Content-Type","application/x-www-formurlencoded")  // standard encoding for plain text data
+request.send(city="Pune")
+
+
+What if we want more than one info?
+-use XML
+-format is well known than proprietary formats
+-server side changes:
+	send data in Xml
+	set content type of response text/xml
+-client side
+	get responseXML
+	parse the XML data
+	
+-if want to send XML from client
+	set req.contentType(text/xml)
+-if in plain text then seperate it by ampercent
+
+JSON =  javasript object notation
+
+data types supported: Sring, numerical, boolean, Arrays, Objects of JSON type, null
+JSON within JSON
+
+Why JSON over XML?
+JSON data are typed.
+XML are string.
+JSON can be easily used in javasscript
+
+
+Sending from Server to client:
+var jsonstr = {"a":"b","c":"d","ab":10,"k":false,f:{}};
+
+parsing at client side:
+var myObject = eval('('+jsonstr+')')
+var myObject = JSON.parse(jsonstr);
+
+stringify converts the JSON object to string
+
+function expression and function statemet differ with  only the function name which is optional in statement.
+
+Arrays use numbers while objects use names to access the elements. Arrays are special types of objects.
+
+ If the "src" attribute is present, the <script> element must be empty.
+
+here are several ways an external script can be executed:
+
+<script> tag
+If async="async": The script is executed asynchronously with the rest of the page (the script will be executed while the page continues the parsing)
+If async is not present and defer="defer": The script is executed when the page has finished parsing
+If neither async or defer is present: The script is fetched and executed immediately, before the browser continues parsing the page
+ 
+ The "async" attribute is new in HTML5.
+
+#Scopes in JS
+The lifetime of a JavaScript variable starts when it is declared.
+
+Local variables are deleted when the function is completed.
+
+Global variables are deleted when you close the page.
+
+#Object prototype:
+All JavaScript objects inherit the properties and methods from their prototype.
+
+Objects created using an object literal, or with new Object(), inherit from a prototype called Object.prototype.
+
+Objects created with new Date() inherit the Date.prototype.
+
+The Object.prototype is on the top of the prototype chain.
+
+All JavaScript objects (Date, Array, RegExp, Function, ....) inherit from the Object.prototype
+
+myFather.nationality = "English";
+-The property will be added to myFather. Not to myMother. Not to any other person objects.
+
+To add a new property to a constructor, you must add it to the constructor function:
+The JavaScript prototype property allows you to add new properties to an existing prototype:
+Person.prototype.name = function() {
+    return this.firstName + " " + this.lastName;
+};
+
+
+If not property is found in prototype chaining "undefined" is returned.
+
+delete myobj.a;
+
+
+When comparing a number and a string, the string is converted to a number value. JavaScript attempts to convert the string numeric literal to a Number type value. First, a mathematical value is derived from the string numeric literal. Next, this value is rounded to nearest Number type value.
+If one of the operands is Boolean, the Boolean operand is converted to 1 if it is true and +0 if it is false.
+If an object is compared with a number or string, JavaScript attempts to return the default value for the object. Operators attempt to convert the object to a primitive value, a String or Number value, using the valueOf and toString methods of the objects. If this attempt to convert the object fails, a runtime error is generated.
+Note that an object is converted into a primitive if, and only if, its comparand is a primitive. If both operands are objects, they're compared as objects, and the equality test is true only if both refer the same object.
+
+Identity / strict equality (===)
+The identity operator returns true if the operands are strictly equal (see above) with no type conversion.
+
+Equality (==)
+
+The equality operator converts the operands if they are not of the same type, then applies strict comparison. If both operands are objects, then JavaScript compares internal references which are equal when operands refer to the same object in memory.
+
+ NaN is not equal to anything, including NaN
+ null  == undefined // true
+ 
+ How to call a parent class method?
+ Here's how its done: ParentClass.prototype.myMethod();
+ 
+Prototype chaining:
+Inheriting properties
+JavaScript objects are dynamic "bags" of properties (referred to as own properties). JavaScript objects have a link to a prototype object. When trying to access a property of an object, the property will not only be sought on the object but on the prototype of the object, the prototype of the prototype, and so on until either a property with a matching name is found or the end of the prototype chain is reached.
+Setting a property to an object creates an own property. The only exception to the getting and setting behavior rules is when there is an inherited property with a getter or a setter.
+ Arrays inherit from Array.prototype 
+ Functions inherit from Function.prototype 
+ The newly created object o has Object.prototype as its [[Prototype]]
+ 
+ 
+ var a = {a: 1}; 
+// a ---> Object.prototype ---> null
+
+var b = Object.create(a);
+// b ---> a ---> Object.prototype ---> null
+console.log(b.a); // 1 (inherited)
+
+#Variables created without the keyword var, are always global, even if they are created inside a function.
+
+In fact, in JavaScript, all functions have access to the scope "above" them.
+
+JavaScript supports nested functions. Nested functions have access to the scope "above" them.
+
+Constructor staling:
+The apply() and call() methods can be used to execute a constructor on the newly created object.
+One advantage that constructor stealing offers over prototype chaining is the ability to pass arguments into the Shape constructor from within the Rectangle constructor.
+
+If a property is present both inside object constructor and its prototype then how JavaScript engine will look up for that property ?
+It will first check object constructor and if property is not found then prototype.
+
+A constructor creates objects. Each constructor has an associated prototype object, which is simply another object.
+A constructor creates objects. Each constructor has an associated prototype object, which is simply another object.
