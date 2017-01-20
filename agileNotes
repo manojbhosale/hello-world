@@ -1,0 +1,287 @@
+Agile manefesto; 
+	individual and interaction over proces and tools
+		teams as cohesive units
+	working product over comprehensive documentation
+		does not ignore the required documentation but the implementation is priority over documentation. Documenttation is left for later stage
+	customer collaboration over contract negotiation
+		here dynamic market requirements are accomodated on priority without neglecting the contract
+	responding to change over following a plan
+		here changes can be challenged and accomodated as there are cost and benefit associated with it. Not jus follow predefined regid plan giving flexibility.
+
+		
+Agiles principles(12)
+	customer satisfaction
+	adapting to changes
+	deliver frequently
+	Making people work together
+	Motivate individuals
+	Face to face communication
+	Measure the progress with working software
+	maintain sustainable development pace
+	pay attention to technical excellence
+	Simplicity in product
+	Self organizing team
+	Effective team
+	
+Principles of agile:
+	Are guidelines for implementing agile project
+
+process <- how
+values <- why
+
+
+Agile Methodologies:
+ Number of methods are included under "Agile Umbrella"
+ Agile umbrella is afamily of iterative and incremental tools.
+	FDD(Feature driven development)
+		Emphasizes development in short iterations. Adds a number of features in each iteration.
+	Dynamic system development method(DSDM):
+		Pre Project -> feasibility -> Plan -> design and prototype -> Implement and train -> post project
+		Customer is involved throught the process
+		Need of empowering team to take rapid decisions
+		Frequent releases
+		Iterative development requires accepting the fact that the software system is subject to change making small increments easier to resspond the changed requirements
+		Changes should be reversible i.e. all products should be fully known in all states
+		Highlevel requirements are defined at begining of the project.
+		Business neddd should be met
+		testing is involved at early development phase- Integgared testing
+		Collaboration and cooperation are important for successfull business execution
+		DSDN assumes that not all of the requirements for the final solution are known to begin with so it is alikely that final 20% of non essential features are likely to be flawed any way.
+		Functional model requirements are gathered at functional model iteration stage
+	Crystal clear:
+		For small, colocated team focused on safty in delivering satisfactoy outcomes
+		Light on processes and big on principles
+		Reflective improvement - communication within team
+		Easy access to experts - for feedback
+		Focus - wht to work on
+		personal safty - speak up
+		Osmotic communication - letting know the infor about project by keeping every body in loop.
+		frequent delivery - for feedback and direction from customers
+	Kanban: Comes from toyotas just in time(JIT) production system
+		Tech to manaage efficiently
+		Give insights to tasks
+		It is tool to manage flow of tasks and reduce lead times
+		Flow is visible to all
+		Allowing more predictable throughput
+		Pull sytem with visual way to organize the work
+		Define states with issues/ requests and move them left to right as we work on them
+		oSet limited amount of issues at each state allowing reduced ampout of tasks be in that stage at certain time
+		Flow visible on on wall with every state in column
+		task starts from first to right based on comletion
+		Kanban principles
+			Visualize the workflow <- with post it tickets on a board
+			Limit WIP <- Work in progress(WIP) Is an example of pull system. New work is pulled in next state whne there is available capacity in next states WIP limit
+			Manage flow <- flow can be managed and changes can be evaluated for positive or negative effects on system
+			Make process policies explicit <- Discussions of problems without any explicit knowledge may turn in to subjective, circumstancial and emotional . With explicit understanding more rational and objective  discussion is possible facilitating the consensus around the improvement suggestions
+			Improve collaborativly <- as teams have shared the understanding of theories about work, process risk they are more likely to understand problem and provide suggestion/ improvements which can be agreed by all.
+		Kanban board <- limit is specified at column name
+		Cumulative flow diagram(CFD)
+		
+	Extreme programming (XP)
+		Rules
+			Planning 
+				user stories are written
+				Release is planned 
+				Frequent small iterations are planned
+				Iteration planning is done at start of the iteration
+			Managing
+				Setting space
+				standup on each day
+				project velocity is measured
+				Fix XP when breaks
+			Designing
+				Simplicity
+				Choose system metaphor
+				Use CRC cards for design sessions
+				create spike solutions to reduce risk
+				No functionality is added early
+				Refactor whenever and wherever possible
+			Coding
+				Code is unit test first or TDD
+				Pair programming is done
+				frequent integration by one pair at a time
+				code written to agreed standards
+			Testing
+				All code must have unit tests
+				Code must pass all tests before its released
+				Test cases are created if abug is found
+				Aceptance tests are run often and score is established
+		Assume simplicity:
+			Traditional system development say to plan for future and to code for reusability. Extreme programming rejects these ideas. Suggests to take small chagnes at a time instead of big changes which migh make system complex .
+	Lean
+		More value by mnimum resources. Less work
+		Right things, right place, right time, right quantity. perfect workflow
+		Lean value stream
+			speed
+			quality
+			low cost
+		lean principles
+			Eliminate waste - anything that delays the delivery
+			Amplify learning
+			Deliver as fast as possible <- limit work to teams capacity which reflects the velocity
+			Empower team <- Lean leads to finding good people and letting them do their job and no micro managing
+			build integrity in <- Perceived integrity( get from customer experience), conceptual integrity(when system  works together smoothly)
+			See the whole <- achieved by making people accountable for what they change and control.
+	
+	
+#Agile engineering practices
+	Very success of agile depends upon the practices as listed below
+		pair programming 
+			driver and navigator
+		Test driven developlent
+		Continuous integeration
+		Refactoring
+		devOps
+		
+	TDD best practices:
+		TEST strycture <- improve readability
+		Individual best practices 
+		Avoid anti patterns <- "interdependent tests" should be avoid. These leacs to cascading false negatives.
+		Continuous integration 
+			Smaller units of work/small batch. Should reduce size of user stories.
+			Comprehensive version control <- 
+			Simple branch strategies <- development teams oftem employ complicated version control branching strategies that increase both coplexity and risk.If developer commits user stories in a day then there is no need of long running branches.
+			Automation <- Ci relies on Automation. 
+			Continuous feedback
+			Emphasis on working builds
+			Developer tester colloboration <- dev and testing should work together
+			Cosistent environment <-  helps to reduce the waste.Single set of configuration script can be used to provision development, testing and production environment.
+			Refactoring <- change structure wihtout changing the behavior. Helps to avoid unhealthy dependencies.
+		DevOps <- Combination of developmenta and operations	
+			dev(plan, code, build, test) <-> ops(release, deploy, operate, monitor)
+			
+Scrum methodology<- extensively used in software building
+	SCRUM term originates from the extremely tight FORMATION formed in the game of rugby to get hold of the ball.
+	In softwares scrum is used to deliver complicated softwares
+	Scrum is light weight, easy to understand and extremely difficult to master.
+	Scrum goal <- Manage complexity, unpredictability and change through visibility , inspection and adaptation.
+	SCRUM values <- Focus , Courage, openness, commitment and respect.
+	3 pillars of SCRUM <- these three pillars uphold every implementation of emperical process control
+		
+		Transparancy
+			customer praise/lend support.
+		Inspection
+			 Frequent review. adapt to new ideas. visibility of current challenges and creaity of team
+		Adaptation
+			Adapt to new ideas
+	Scrum details
+		Artifacts
+			Sprint backlog
+			Product backlog
+			Secondary artifacts
+			Burn down charts:
+			A burn down chart is a graphical representation of work left to do versus time. The outstanding work (or backlog) is often on the vertical axis, with time along the horizontal. That is, it is a run chart of outstanding work. It is useful for predicting when all of the work will be completed.
+		Meetings
+			Sprint planning meeting <- scope of current sprint
+			Daily standups <- to get the status of individual work
+		Values
+			Openness, Courage, Respect, Focus, Commitment
+		Roles:
+			Scrum master <- kind of team leader, Enforces rules for team improvement.
+			Scrum team
+			Product owner
+				
+		Others
+			Sprint, impediment, velocity and sprint termination
+			
+	Scrum artifacts
+		Product backlog by PO
+			Functional requirements
+			Non functional requirements
+			bugs and issues
+		Sprint backlog
+			Subset of Product backlog created for particular sprint
+			Team keeps backlog updated
+			A task board is used to change/update the state of the task'
+			
+	Scrum Events:
+		Scrum planning meeting:
+			Sprint prioritization
+			Sprint planning
+		Daily SCRUM meeting
+			15 mins
+		Sprint review meeting
+			Demo with feature list to stake holders.
+			Acceptance criteria
+			Sprint goals achieved and the backlogs to product backlogs for next sprint
+		Sprint retrospective
+			30 - 60 mins
+			Start-stop-continue meeting
+			Focus on inspection and adaptation
+			Wht went well and wht can be improved
+	SDLC is different than Agile
+			
+			
+Agile SDLC:
+
+Req:Design:Coding:Testing:deployment
+
+
+Req Step:
+	HPQC <- req management and test case management;paid
+	RDNG <- intially RRC;web based;suppots iterative,agile,waterfall;Rational Dose Next Generation
+	RTC <- rational team concert
+	RQM <- for test cases; add on to import excel;
+	TFS <- microsoft product;reportin,req management; agile and waterfall	
+	
+Design:
+	Star UML: Open
+	Visual UML: Open
+
+Implementation:
+	Databases:
+		DB2, MySQL, Postgres,SQLite
+
+	Review:
+	CS review: Code strike by persistent.
+	Project:Topic:Create User: Reviewer:ChangeState of Topic Open to reviewed: Come to Author of Topic: Author change state of comment Conveyed to completed: Author change state from verified:Reviewer verifies
+
+	Static and dynamic analysis:
+		Sonar <- static code analysis
+		PurfyPlus <- Dydnamic code analysis
+		App scan <- dynamic analysis
+	UnitTesting:
+		RTC <- IBM rational product, jenkins support
+		JUnit
+		OneJAR
+		Nunit
+	BuildHUB <- SonarCube(for static code analysis) + Jenkins(for building)
+	SonarQube <- Open: For code quality management: Supports most of the technologies
+	Jenkins <- allows Continuous integration:is on central server:no need to maintain manaully: Can generate build with all the code quality checks: Code analysis, Unit testing: Build on every commit or periodically
+	
+Testing:
+	Test and Defect management:
+	HPQC,RQM,bugZilla,JIRA(less learning curve, comes with plugins)
+	Test Automation:
+		RFT(rational functional tester),JMeter, RPT,Selenium, QTP, Silk test, Load runner
+	
+Project Planning:
+	JIRA+Greenhopper, AgileFant, RTC
+Configuration aManagement:
+	GIT, SVN, ClearCae, PerForce
+	
+IP Verification:
+	Palmida <- intellectual property; check patented(icons) or for open source codes or license code
+	
+
+	
+Java stack:
+	RTC <- manage builds, configuration
+
+	*ALM <- application lifecycle management tool
+	
+RFT:
+WS -> project
+Open application <- start record <- Create script <- Perform stesp <- play back 
+read CSV file for data. associate data pool with script and run.
+			
+			
+			
+			
+		
+		
+		
+	
+			
+	
+	
