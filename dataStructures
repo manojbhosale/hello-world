@@ -1,0 +1,7 @@
+Linked list:
+Single linked list -> can travel from one to another.
+Doubly linked list -> can travel back and forth.
+circular list -> can travel end to first node. It acan be linked or doubly linked list.
+
+
+ Bedplus is our colloquial term for any BED-like format that starts with chrom, start, and end, yet is followed by any number of additional columns that do not necessarily conform to the types and values expected by BED6, BED12, etc. No such format, but such files are used all the time.
