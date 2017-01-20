@@ -298,3 +298,51 @@ Inner classes:
 
 	
 	
+
+In java6 Console class is introduced. Older System.in class can also be used in place of it. But System.in support ANSCI characters while Console supports Unicode characters
+
+ArrayDeque:
+Null values can’t be added
+Also it is not thread safe
+
+
+Lambdas Ref https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html#approach6
+
+JDK defines several standard functional interfaces in java.util.function
+Remember, to use a lambda expression, you need to implement a functional interface
+The operation filter, map and forEach are aggregate operations. Aggregate operations process elements from stream not directly from collection.A streqam is a sequence of elements. Unlike collections it is not a data structures that stores the elements. Instead, a stream carries values from a source, such as collection, through a pipeline. A pipeline is a sequence of stream operations, which in this example is filter- map-forEach. In addition, aggregate operations typically accept lambda expressions as parameters, enabling you to customize how they behave.
+
+Note that a lambda expression looks a lot like a method declaration; you can consider lambda expressions as anonymous methods—methods without a name
+
+It follows that you can only use lambda expressions in situations in which the Java compiler can determine a target type:
+For method arguments, the Java compiler determines the target type with two other language features: overload resolution and type argument inference.
+You can serialize a lambda expression if its target type and its captured arguments are serializable. However, like inner classes, the serialization of lambda expressions is strongly discouraged.
+
+Main use of lambda expressions “Notice that the interface Comparator is a functional interface. Therefore, you could use a lambda expression instead of defining and then creating a new instance of a class that implements Comparator:”
+Method References:
+You use lambda expressions to create anonymous methods. Sometimes, however, a lambda expression does nothing but call an existing method. In those cases, it's often clearer to refer to the existing method by name. Method references enable you to do this; they are compact, easy-to-read lambda expressions for methods that already have a name.
+
+Default Methods:
+Solves the problem of backward compatibility.
+Default methods can be used directly by the implementing class.
+These methods can be overridden by extending interface. 
+Default methods enable you to add new functionality to existing interfaces and ensure binary compatibility with code written for older versions of those interfaces.
+
+When you extend an interface that contains a default method, you can do the following:
+•	Not mention the default method at all, which lets your extended interface inherit the default method.
+•	Redeclare the default method, which makes it abstract.
+•	Redefine the default method, which overrides it.
+
+ 
+Like local and anonymous classes, lambda expressions can capture variables; they have the same access to local variables of the enclosing scope. However, unlike local and anonymous classes, lambda expressions do not have any shadowing issues (seeShadowing for more information). Lambda expressions are lexically scoped. This means that they do not inherit any names from a supertype or introduce a new level of scoping. Declarations in a lambda expression are interpreted just as they are in the enclosing environment. 
+lambda expression does not introduce a new level of scoping.
+However, like local and anonymous classes, a lambda expression can only access local variables and parameters of the enclosing block that are final or effectively final.
+
+
+1) To check if java supports 32 or 64 bit.
+>java -d32
+>java -d64
+2) One must specify the JVM path in "eclipse.ini" file as below
+-vm
+C:\Program Files (x86)\Java\Java8_45\bin\javaw.exe
+3) 
