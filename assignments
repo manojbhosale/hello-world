@@ -1,0 +1,34 @@
+Assignments
+1.	Write a program to display the complete contents (until the last node) of any given folder.
+public void displayFolderContents(String path)
+
+2.	Store list of file names for each folder in a Map in the same above method.
+
+3.	Create a file search utility which searches for a given file in a given path. 
+Public Boolean searchFile(String path, String filename)
+
+4.	Write a program to Finds the number of words in a text file.
+Public int countWords(String filePath)
+
+
+
+Assignments
+Create a table as emp. Script is as below
+create table emp
+( EMPNO     NOT NULL NUMBER(4),
+  ENAME     VARCHAR2(10) ,
+  JOB       VARCHAR2(9), 
+  MGR       NUMBER(4),
+  HIREDATE  DATE,
+  SAL       NUMBER(7,2),
+  COMM      NUMBER(7,2),
+  DEPTNO    NUMBER(2)
+); 
+
+Perform following operations on the table created.
+1.	Write Java application that inserts 10 records in above table.
+2.	Write a java program to display the first 5 records from the table Emp.
+3.	Write a java program to find number of records in the table Emp.
+4.	Accept the empno from the user.
+5.	Write a method display( ) which takes the empno as parameter and displays the   detail information of the employee. If employee with the empno does not exits display appropriate message to user.
+6.	Accept the empno from the user. Write a method update which takes the empno as a parameter. Displays the current salary and updates the salary entered by user. If employee with the empno does not exits display appropriate message to user.
