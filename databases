@@ -1,0 +1,134 @@
+Databases:
+	Organized storage of related data
+DBMS:
+	set of processes which manages the database
+RDBMS: ( Relational database management system)
+	Here,term "relationla" referes to 2 dimentional tables.
+	Collsection of tables
+	Set of operators to act on tables and maintain intigrity of data
+ERD:(Entity relationship diagram) 
+	Entity <- objects about which information needs to be saved. Eg. Employee, Department.
+	One entity will have one table in database.
+	Attribute <- Property describing the entity. Eg. employee name, join date
+	Relationship <- named associated between entities
+		1 : 1 <- Employee , Passport details
+		1 : M <- Department, Employee( From one side one to many)
+		M : M <- Employee, Project (From both sides many to many)
+	*In case of 1 to 1 relation all the data can be included in one table but if the #attribues are larege then those entities can be splited.
+	* for 1 to M relation ship one entities primary key can be used foreign key in M table.
+	*In case of M to M relationship as the primary keys can not be repeated, a third table of associating the primary keys of both entities need to be mapped to each other as foreign keys
+	
+Constrainsts:
+
+Column level constraints amd table level constraints
+
+Primary key
+	Unique + Not null, only one attribute/column can be primary key in a table.
+Not null
+	Null value are not allowed.
+Unique
+	Null values are allowed but if value other than null is present then it should be unique. Unique constrains can be applied on any number of columns in table.
+Foreign key
+	It is primary key from other table referred in this table. Unlike primary key it can be redundant but always not null. Size and data type should be same as in table of origin.
+Default
+	This constraint is used to assign default value in column if no value is specified at the time if insertion
+Check
+	This constraint is used to check the values allowed in a column Eg. one can add a check as, the column should have only values as Pass , Fail and no other value is allowed.
+Composite key
+	When a constraint is applied on combined values of >1 columns. Eg. two columns can be used to make aprimary key
+Alternate key
+	When table contains multiple columns which can be used as primary keys, these columns are called as candidate keys. Excluding theonw which isused as primarykey all other are called as alternate keys.
+	
+	* Its a good practice to give constraint name for primary key and foreign key.
+Types of SQL statements:
+	DDL: Data  definition language 
+		Create 
+		Alter <- Alter the schema
+			Add new column
+				column can be added to the end only
+			modify column
+			drop column
+				If only one column is present then dropping not possible.
+			add constraint
+		rename 
+			can only be used to rename a column. Only for ranming the table.
+		Drop <- Deletes whole table
+		Truncate <- just delets the contents of table retaining the schema
+		Comment
+	DML: Data manipulation language
+		Insert
+		Update
+		Delete
+	DCL: Data control language
+		Save point
+		Roll back
+	Data retrieval statement
+		Select
+			Selecting specific columns from the table is called as the PROJECTION CAPABILITY.
+
+Single row function
+
+Character
+	Case
+		lower 
+		initcap <- every initial letter is capitalized 
+		upper
+	Character
+		substr <- substr(<STRING>,<starting position>,<how long/optional>) , here index is 1
+		replace <- select replace('it was raining','was','is') from dual;
+		concat <- takes only 2 parameters. To include multiple strings function calls can be nested.
+		length <- gives length of the string
+		instr <- select instr('it was raining','i',1<optional>,1<OCCURANCE optional>) fom dual <- will return 12
+		lpad <- select lpad("hello",10<final sstring length>,'*') from Dual; <- will give *****hello
+		rpad <- select rpad("hello",10,'*') from Dual; <- will give hello*****
+
+	# "dual" <- dummy table
+	# In Oracle "from" is mandatory with select
+	# fucntions can be nested cancat(initcap(),upper())
+	##to extract the user_name
+				select substr(email, 1, instr(email,'@',1,1) -1) from Employee
+	
+Numeric
+	MOD <- select MOD(29,3) from dual <- will give 2
+	TRUNC <- select trunc(46.97568,2) from dual  <- will give 46.97
+	ROUND <- select round(46.97568,2) from dual  <- will give 46.98 , If value is negative then it will go to the tenth place. with -1 it will give 50.
+
+Date
+	Add_months <- add_month(sysdate,<2 or -2>) <-  add or substract the days from the given date
+	Moths_between <- select month_between(sysdate, hire_date) from Emplooyee;
+	Next_day <- next_day(sysdate,'Friday') <- will give the next friday after today
+	Last_day <- last_day(sysdate) <- last date of the month
+	Trunc <- if in first half then first date. When in second half then the first date
+	Round <- round(sysdate,'MONTH') OR round(sysdate,'YEAR') <- if in first half then first date if in second half then last date
+	
+	
+	Sysdate <- will give the DD-MON-YY 
+
+Generic:
+	NVL <- NVL(commision_pct,0) <- replace null value with given value.the data type should match.
+	NVL2 <- if else logic NVL2(commision_pct, <calculation if not null>, 0<if null>)
+	
+Combining two QUERIES with SET operators
+	UNION <- number of columns and data types of columns should match.
+	UNION ALL <- duplicates will not be removed, output will not be sorted which is not the case with UNION.
+	INTERSECT <- only common data between two tables
+	MINUS <- Only present in first table
+	
+JOINS: are based on primary keya nd foreign key relation
+	INNER join or Equi join: we can join any number of tables; here n-1 join conditions are mandatory;
+		select Employee_Id, first_name, last_name, salary, department_name
+			from Employee emp, Department dept
+			Where emp.department_id = dept.department_id 
+			AND dept.department_id in (10,20); if alias is given then its mandatory to use the alias.
+		# ANSI syntax common for all databases for join
+		select Employee_Id, first_name, last_name, salary, department_name
+			from Employee emp JOIN Department dept
+			ON emp.department_id = dept.department_id ; 
+			Where dept.department_id in (10,20);if alias is given then its mandatory to use the alias.
+			
+	Cartesian <- happens when join condition is not written; one should avoid cartesian results 
+	
+	NATURAL JOIN <- it implicitly finds the common column and non need of ON clause; if no common column is found then the cartesian will take place.
+	
+Oracle SQL and SQL server/MS SQL Server
+	Perhaps the most obvious difference between the two RDBMS is the language they use. Although both systems use a version of Structured Query Language, or SQL, MS SQL Server uses Transact SQL, or T-SQL, which is an extension of SQL originally developed by Sybase and used by Microsoft. Oracle, meanwhile, uses PL/SQL, or Procedural Language/SQL. Both are different “flavors” or dialects of SQL and both languages have different syntax and capabilities. The main difference between the two languages is how they handle variables, stored procedures, and built-in functions. PL/SQL in Oracle can also group procedures together into packages, which can’t be done in MS SQL Server. In my humble opinion, PL/SQL is complex and potentially more powerful, while T-SQL is much more simple and easier to use.
