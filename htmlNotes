@@ -1,0 +1,164 @@
+The DOCTYPE declaration defines the document type to be HTML. The doctype declaration is not case sensitive. All cases are acceptable:
+UTF-8 is the preferred encoding for HTML files. 
+All HTML documents must start with a type declaration: <!DOCTYPE html>.ANSI encoding covers US and Western European characters only.
+For some tags the closing tag is considred optional
+
+Empty elements:
+HTML elements with no content are called empty elements.
+<br> is an empty element without a closing tag (the <br> tag defines a line break).
+Empty elements can be "closed" in the opening tag like this: <br />.
+HTML5 does not require empty elements to be closed. But if you want stricter validation, or you need to make your document readable by XML parsers, you should close all HTML elements.
+
+Case sensitivity:
+HTML tags are not case sensitive: <P> means the same as <p>.
+The HTML5 standard does not require lowercase tags, but W3C recommends lowercase in HTML4, and demands lowercase for stricter document types like XHTML.
+The HTML5 standard does not require lower case attribute names.
+The title attribute can be written with upper or lower case like Title and/or TITLE.
+W3C recommends lowercase in HTML4, and demands lowercase for stricter document types like XHTML.
+
+The image size is specified in pixels: width="104" means 104 screen pixels wide.
+
+The alt attribute specifies an alternative text to be used, when an HTML element cannot be displayed.
+
+
+Quaotes:
+The HTML5 standard does not require quotes around attribute values.
+Using quotes are the most common. Omitting quotes can produce errors. 
+At W3Schools we always use quotes around attribute values.
+Double style quotes are the most common in HTML, but single style can also be used.
+In some situations, when the attribute value itself contains double quotes, it is necessary to use single quotes:
+
+<Meta> tag
+The HTML <meta> element is also meta data. It can be used to define the character set, and other information about the HTML document.
+
+The HTML <style> element is used to define internal CSS style sheets.
+The HTML <link> element is used to define external CSS style sheets.
+
+How to Convert from HTML to XHTML(EXtensible HyperText Markup Language):
+Add an XHTML <!DOCTYPE> to the first line of every page
+Add an xmlns attribute to the html element of every page
+Change all element names to lowercase
+Close all empty elements
+Change all attribute names to lowercase
+Quote all attribute values
+
+
+HTML Stype attribute:
+style="property:value;"
+The property is a CSS property. The value is a CSS value.
+Use the style attribute for styling HTML elements
+Use background-color for background color
+Use color for text colors
+Use font-family for text fonts
+Use font-size for text sizes
+Use text-align for text alignment
+
+"Bold" is a style - when you say "bold a word". without any extra importance.
+<strong> however is an indication of how something should be understood.With extra importance.
+
+Comments:
+You might stumble upon conditional comments in HTML:
+<!--[if IE 8]>
+    .... some HTML here ....
+<![endif]-->
+
+<!-- Write your comments here -->
+
+Colors:
+<h2 style="background-color:rgb(0,0,255)">
+<h2 style="background-color:#000000;color:white">
+With HTML, RGB values can also be specified using hexadecimal color values in the form: #RRGGBB, where RR (red), GG (green) and BB (blue) are hexadecimal values between 00 and FF (same as decimal 0-255).
+For example, #FF0000 is displayed as red, because red is set to its highest value (FF) and the others are set to the lowest value (00). 00 -> FF
+
+
+html5shiv -> for supportign html5 in browsers < IE 9 which do not support the HTML 5 elements.
+Text formatting tags should be used to add meaning to the text it surrounds. For styling CSS shoulb be used.
+<strong> : strong importance
+<em>: emphatic stress
+<b>: stylistically offset text.
+<i>: for text in alternate voice
+<cite>: to represent title of the work
+<dfn>: definition of the term
+<small> : Does not lower importance of the text but puts in the lower case.
+<mark>: highlighted for reference purposes
+<abbr>: abbrevation or accronym with optional expansion.
+<ins> and <del> : for insertion and deletion of the text respectively.
+<s> : text no longer accurate but should not be deleted.
+
+
+CSS(Cascading style sheet):
+	Inline
+	Internal
+	External <- are stored in external file with extension .css
+	
+CSS syntax:
+selector{property:value}
+
+Tag Selector <- is a DOm element on which we want to apply the style. It can be and ID, tag or class eg.
+	p{
+		font-family:"sans-serif";
+		text-align: center;
+		color: black;
+	}
+
+Id selector example:
+	#para1{
+		color.green
+	}
+
+	here, <p id="para1">
+
+Grouping <- preferred to minimize the repitition of style writng for different selectors.
+	h1,h2,h3,h4,h5,h6{
+		color:green;
+		font-style:calibri;
+	}
+	
+	div,p{
+		width:100px
+		height:100px
+	}
+
+Class selector: Allows multiple elements to be assigned style by categorizing them to single class.
+	.right{
+		text-align: right;
+	}
+	
+	<p class="right">
+	<div class="right">
+
+How to insert the style in page? 
+	inside <head> tag link css to page
+	<link rel="stylesheet" href= "mystyle.css")
+	
+	inside <style> tag
+	
+	mentioning all styles inside HTML markup
+	<p style="color:green;">
+		
+Cascading order:
+	External style sheet,
+	Internal style sheet,
+	Inline style
+	
+Selective styling:
+	Decendent, Direct child, Unversal, Adjascent Sibling, General sibling.
+	
+Psudo classes:
+		A CSS pseudoc-class is a keyword added to selector that specifies a special state of the element to be selected. Example:
+		div:hover{background:gold;}
+		Allows to apply style to the element based on content of the document tree, as well as in relation to external factors like history of the navigator.
+		Classes:
+		link, visited, active, hover
+Psudo elements:
+	Just like psudo-classes psudo-elements are added to the selectors but instead of describing a special state, these allow you to style special parts of the document.
+	"::" used to distinguish from psudo classes
+	p::first-line{
+		font-variant:small-caps;
+		font-weight:bold;
+	}
+	eg. :before, :after, ::first-letter
+		
+		
+
+
