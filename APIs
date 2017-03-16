@@ -1,1 +1,2 @@
 
+finalize() method is used to recover system resources rather than memory. Mostly used to clean uo non java resource.
