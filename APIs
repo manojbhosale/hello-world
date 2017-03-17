@@ -1,2 +1,23 @@
 
 finalize() method is used to recover system resources rather than memory. Mostly used to clean uo non java resource.
+
+
+console handler -> SimpleFormatter
+file handler -> XML formatter
+
+ALL 
+TRACE
+DEBUG
+INFO
+WARN
+ERROR
+FATAL
+
+Core Objects
+Support Objects
+
+Logger, Layout, Appender
+
+LogManager looks for lg4j.properties file in CLASSPATH
+
+%m, %M, %c, %C, %p, %d{}
