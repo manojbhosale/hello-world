@@ -1,0 +1,11 @@
+	\w-> A word character: [a-zA-Z_0-9].
+  
+  [abc]+ (a or b or c, one or more times) or (abc)+ (the group "abc", one or more times).
+  
+  Enter your regex: .*foo  // greedy quantifier
+  Enter your regex: .*?foo  // reluctant quantifier
+  Enter your regex: .*+foo // possessive quantifier
+  
+  public String group (int group): Returns the input subsequence captured by the given group during the previous match operation.
+  
+  public static String quote(String s) Returns a literal pattern String for the specified String. This method produces a String that can be used to create a Pattern that would match String s as if it were a literal pattern. Metacharacters or escape sequences in the input sequence will be given no special meaning.
