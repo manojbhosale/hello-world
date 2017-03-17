@@ -23,6 +23,10 @@ LogManager looks for lg4j.properties file in CLASSPATH
 %m, %M, %c, %C, %p, %d{}
 
 
+Reflections
+  .class <- Its neither.
+It's a built-in language feature (a class literal) that looks like a public static final field.
+
 XML parsers
   SAX Parser 
     Create SAXParserFactory
@@ -34,7 +38,15 @@ XML parsers
 
 
 Marshalling(Creatging XML from  object)
+  Add annotations to the Class to be Marshalled 
+    @XMLRootElement
+    @XMLAttribute
+    @XMLElement
+    
   Create output stream
   Create JAXBContext instance with a class object to be marshalled
   Create Marshaller object from the JAXBContext
   Call marshal() marshaller with objects to be converted
+  
+  Marshalling <- Object to XML
+  Unmarshalling <- XML to object
