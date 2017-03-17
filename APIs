@@ -31,3 +31,10 @@ XML parsers
       startElement()
       endElement()
       characters()
+
+
+Marshalling(Creatging XML from  object)
+  Create output stream
+  Create JAXBContext instance with a class object to be marshalled
+  Create Marshaller object from the JAXBContext
+  Call marshal() marshaller with objects to be converted
