@@ -21,3 +21,13 @@ Logger, Layout, Appender
 LogManager looks for lg4j.properties file in CLASSPATH
 
 %m, %M, %c, %C, %p, %d{}
+
+
+XML parsers
+  SAX Parser 
+    Create SAXParserFactory
+    create SAXParser
+    Implement DefaultHandler
+      startElement()
+      endElement()
+      characters()
