@@ -50,3 +50,10 @@ Marshalling(Creatging XML from  object)
   
   Marshalling <- Object to XML
   Unmarshalling <- XML to object
+  
+  Methods of Pattern class 
+  
+  Pattern.CASE_INSENSITIVE or (?i)
+  Pattern p = Pattern.compile("A(?=(TT))", Pattern.CASE_INSENSITIVE);
+  Pattern p = Pattern.compile("(?i)A(?=(TT))");
+  Pattern.UNIX_LINES or (?d)
