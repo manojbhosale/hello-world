@@ -57,3 +57,5 @@ Marshalling(Creatging XML from  object)
   Pattern p = Pattern.compile("A(?=(TT))", Pattern.CASE_INSENSITIVE);
   Pattern p = Pattern.compile("(?i)A(?=(TT))");
   Pattern.UNIX_LINES or (?d)
+  
+  %Bx, %Bo, and %Bu will produce signed results <- can be used for BigDecimals 
