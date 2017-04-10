@@ -456,5 +456,6 @@ toArray() creates new array and hence free to modify it.This method acts as brid
 
 http://way2java.com/java-versions-2/jdk-1-8-features/ 
 
-
+Can we implement a generic interface as generic?
+You can't do that in Java. You can only implement one concrete realization of the same generic interface. I would do this instead:
 
