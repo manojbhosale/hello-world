@@ -459,3 +459,16 @@ http://way2java.com/java-versions-2/jdk-1-8-features/
 Can we implement a generic interface as generic?
 You can't do that in Java. You can only implement one concrete realization of the same generic interface. I would do this instead:
 
+
+Out of bound byte assignments:
+Byte is signed primitive datatype in java. When we assign something bigger than byte value, It is like a cycle.
+Suppose you entered 300 in byte variable. After first cycle byte variable filed with 0,127 means 128 place // 300-128 = 172
+After second cycle byte variable filed with 0,127 means 128 place // 172-128 = 44
+Now in the third cycle it is 44. I hope this will answer your query.
+
+Implicit casting in case of bytes:
+The difference is that, there is an implicit casting in the ++ operator from int to byte, whereas, you would have to do that explicitly in case you use b = b + 1
+b = b + 1;  // will not compile. Cannot cast from int to byte
+You need an explicit cast: -
+b = (byte) (b + 1);
+Whereas, b++ will work fine. It (++ operator) automatically casts the value b + 1 which is an int to a byte.
