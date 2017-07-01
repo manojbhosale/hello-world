@@ -1,0 +1,170 @@
+
+Core Spring:
+	Dependency injection
+	Aspect oriented programming(AOP)
+	Spring container
+	Bean lifecycle
+	
+	
+Why spring?
+	Dependency injection
+		Goals:
+		Loose coupling
+		Coding to interfaces
+		Makes code easy to understand, easy to test, easy to maintain
+	Takes care of Corss cutting concerns
+	Works with POJOS-classes are kept simple
+	boiler plate reduction throgh aspects and templates-
+	
+Spring creates a container which is created from a configuration file. When application is loaded at that time the beans are loaded and kept in a container. We can keep some beans outside the container but we wil have to manage the life cycle(instantiation, destruction). Container manages on behalf of us. Container acts liek factory for beans
+
+Container :
+	BeanFactory (I)
+	ApplciationContext(I)
+		derived from Beanfactroy
+		Enhances functionality of BeanFactory
+		Usually used instead of beanFactory
+		ApplicationContext(I) is container implementation
+		
+		Setter Injection:
+			Whenever appn is loaded , employee bean is created in container. Then container will call setter methods. For property to be set one must have setter method in class. This feature is SETTER INJECTION. For setter injection "property" tag is needed. Bean is initialised after creation in container(different than construtor injection)
+		Constructor injection:
+			Similar to setter injection but here "constructor-arg" tag is used along with name and value. Here, no need to have setter method, as bean is created alling with passed arguments.
+		Refernce other beans:
+			use "ref" attribute of the constriuctor-arg or property tag instad of value tag.
+		Call back methods:
+			Interfaces - InitializingBean(I) afterPropertiesSet(), DisposableBean(I) distroy()
+			If we dont want to use the interfaces then specify init-method and destroy-method attribues at individual bean level.
+			If all the beans have same attributes then specify in <beans> tag with default-init-method, default-detroy-method attribues. But in this case all the bean definitions/implementations should have these mehods.
+			If both approaches used togther then the interface methods execute firt than their manula counterparts.
+		Bean scope:
+			"scope" attribute of bean tesll sabout the scope of the bean. If not given by default its "singleton" i.e.e only one instance is created and that too at the time of the container creation. But if multiple instances are required  then "prototype" scope is used. in this scope every time the constructor is called new bean is provided. It is not instantiated at the time of container creation but at the tim of constructor call. Other scopes are: request(web request), session(web session), globalSession(portal application). Example of prototype is the ticketing system when we will need different ticket each time.
+		Inner bean and alias:
+			Inner bean is used when we do not want a bean to be used by other classses.It can be achieved by adding the bena to a property which describes the iner bean.
+			Alias is used as alter to id of the beam. <alias alias="xyz"> tag is used for this.
+			
+			Wire == inject
+			
+		Wiring collections:
+			list, set(no duplicates), map(any => any), props(string => string).
+			We can ise list and set interchangably. But need to think of the duplicate elements.</list></set>
+			
+			<list>
+				<ref bean="address1">
+				<ref bean="address2">
+			</list>
+			
+			<bean is="" class=""></bean>
+			
+			<llst> : <value>(list of basic datatypes), <ref>(no primitive types), <bean>, <null>
+			<set> : <value>, <ref>, <bean>, <null>
+			<map>: <entry>
+				<key><value><key-ref><value-ref><bean>
+				
+				<key>
+					<entry key ="" value-ref="">
+					<entry key ="" value-ref="">
+				</key>
+			<prop>:<prop>
+			<props>
+				<prop key ="poona">poona</prop>
+				<prop key ="mumbai">mumbai</prop>
+			</props>
+		
+			Data types of collection elements:
+				by default every elemnt in collection is treated as string
+				datatype can be specified by setting type attribute of <value> tag or value-type attribute of collection tag.
+			Merging collections:
+			
+				<bean id ="child" parent="parent">
+					<property name="same as parent">
+						<props merge="true">
+							<prop key="sales">mail1</prop>
+							<prop key="same as in parent colletion">mail2</prop>  * overwrites parent collection value.
+						</props>
+					</property>
+				</bean>
+				
+			Specifying concrete class for collection
+			Problem: we can not specify the TreeSet or some other specific implementation with the above approach.
+			Soulution: user class SetFactoryBean, similarly use ListFactoryBean
+			<bean class="org......SetFactoryBean">
+				<property name ="targetSetClass">
+					<value> java.util.TreeSet</value>
+				</property>
+				<property name ="sourceSet">
+					<set>
+						<value> 5 </value>
+						<value> 10 </value>
+					</set>
+				</property>	
+			</bean>
+			
+			Solution2: Using util name spaces
+			<util:set set-class = "java.util.TreeSet">
+				<value>5</value>
+				<value>10</value>
+			<util:set>
+			
+			Stabalone collection:
+			if some one wants to shar a collection between two beans then create a bean with SetFactoryBean and set the property as "sourceSet". In the bean to use rever the id of the stand alone collection bean.
+			Same can be achieved with util name spaces
+			
+Autowiring:
+by default its OFF
+byName
+	<bean id="" class="" autowire="byName">
+	Property name in POJO and ID name of a bean should be same for autowiring to happen
+byType
+	<bean id="" class="" autowire="byType">
+	Type of the property in the POJO and the config file bean(one of the) should match
+	Here conflict can ccur if multiple beans with same type are present. below can be used in NA beans
+	<bean id="" class="" autowire-candidate="false">
+constructor:
+	<bean id="" class="" autowire="constructor">
+	here if the constructor is presnt then it will be used to initialize the member variabe. Other initializations will be doone by setterInjections.
+	We can verrite autowire behavior
+	Autowiring can be set at the beans level as default-autowire="byType"
+	
+Autowiring using annotations: Spring 3
+	Gives fine control as if autowiring is sto be done on specific property vs all the properties in a bean
+	@Autowired <- be added above the declaration, any method which uses this member type as parameter
+	<context:annotation-config></context:annotation-config>
+	Autowired by default is autowired byType
+		This lead to 2 situations:1) no matching beans 2) multiple matching beans
+		Situation1:
+		@Autowired(required=false) <- in this case the dependency is not injected and null is assigned as value.
+		
+		Situation 2:
+		1) make member name same as one of the  property name
+		2) Use qualifier
+		@Autowired
+		@Qualifier("address2)
+		private Address address;
+		
+		config file:
+			<bean>
+			<qualifier value = "address2"></qualifier>
+	
+Autodiscovery:
+	Spring itself figures out the all beans in application
+	gets rid of beans from configuration
+	
+	@Autowired
+	private Address address;
+	
+	<context:component-scan base-package="com.psl.bean></context:component-scan> <- scans throght the entire package. aslo gets rid of 	<context:annotation-config></context:annotation-config>
+	
+	Annotate the classes as @Component which we need to identify as beans
+	
+	Some other annotations: @Component,@controller,@Service,@Repository
+	Autodiscovery makes config file as small and compact as possible.
+	
+JSR 250
+	Annotations discussed above are specific to spring.
+	If we want to use standard annotations then go with JSR258 or JSR 330
+	E.g. @Autowired Spring = @Resource 250 = @Inject 330
+	@Resource(name="address2")
+	
+
+	
