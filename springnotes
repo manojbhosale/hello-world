@@ -167,4 +167,83 @@ JSR 250
 	@Resource(name="address2")
 	
 
+Aware Interfaces
+	ApplicationContextAware(I)
+		Class needs to implememnt the interface and method setApplicationContext(). When bean is created, interface is checked. If implemented then the method is called and bean is ready wit proper context. Its needed when the context needs to be used in other parts of the application like MVC application. If one wants to mek context available in certain POJO, then implement the interface.
+	BeanNameAware
+		Wht is the id of the bean which refers the POJO? POJO implements BeanNameAware and setBeanName() method. At the time of bean initialization the method is called and bean name is associated with POJO.
+		
+BeanPostProcessor(I)
+	Used when common logic logic is to be executed  for all the beans in config file.
+	2 methods: Object postProcessAfterInitialization(Object bean, String beanName) throws beanException,postProcessBeforeInitialization(Object bean, String beanName). Should return the bean.
+	Implement the interface. Include a bean with class implementing the interface. Config processor will detect that the BeanPostProcessor() is implemented by the class and hence apply before and after methods for each bean initialization. Child beans are initialized before parent.
+	InitializingBeanInterface can be used when we have specific logic for a bean but if we have common logic then this is the choice.
+	
+BeanFactoryPostProcessor(I)
+	Same philosophy as BeanPostProcessor. Just that its at factory level instead of bean level. One method to implement
+	void postProcessBeanFactory(ConfigurableListableBeanFactory factory)
+	
+Bean life cycle:
+	Initialization and setting the dependencies(till |||);
+	Instantiate -> populate properties -> BeanNameAware's setBeanName() -> BeanFactoryAware's setBeanFactory() -> ApplicationContextAware's  setApplicationContext() ||| preinitialization BeanPostProcessors (global to config/container) -> InitializingBean's afterPropertiesSet() (specific to bean) -> call custom inint-Method() (speific to bean) -> Postinitilization BeanPostProcessors (global to config/container)
+	Bean is ready to use
+	Container is shut down
+	DisposableBeans distroy() -> custom methods destroy() method
+	
+	
+Internationalization:
+
+MessageSource(I)-> getMessage() Method
+	ResourceBundleMessageSource implements MessageSource
+	ApplicationContext implements MessageSource
+
+Step1: 
+<bean id ="messagesource" class = "org...ResourceBundleMesageSource">
+	<property name="basenames">
+		<list>
+			<value> messages </value> # if only one property file. For multiple add multiple values
+		</list>
+	</property>
+</bean>
+
+Step2:
+create properties file.
+key=Parameter:(0) Parameter:(1)
+
+step3:
+context.getMessage("key of the message",parameter to message,"message in case of absense", null);
+
+Approach 2:
+		have MessageSource member in POJO
+		@Autowired #by type automatically. matches with parent of ResourceBundleMesageSource in config bean
+		private MessageSource messageSource;
+		
+		messageSource.getMessage("key of the message",new Object[]{12,35},"message in case of absense", <locale>);
+		
+		
+Multiple Config files:
+	in large project multiple config files are possible oen for connection, one for common, one for moduleA.
+	Include all configs in single config by importing then in <beans> with below <import resource="common/Spring-Common.xml">
+	<import resource="connection/Spring-Connections.xml"> <import resource="moduleA/Spring-ModuleA.xml">
+	here assumption is that all config files are under project classpath
+
+Spring with database access:
+	Expensive to write long code to fire single query.
+	redundant code, maintainance overhead, JDBC is critical to be correct once. Resource intensive. Sinlg exception i.e. SQLException. No way to recover from exception as these are checked exception. 1. Redundant 2. Exceptions are checked.
+	*hibernate,jdbc,toplink,Jdo are called as enterprise resources
+	To overcome above limitations Spring provide JDBC template(if using JDBC). For hibernate, hibernate template.
+	JDBC template takes care of the fixed part(from the JDBC code) like connection, driver loading, closing connections and cleanup. Other variable part needs to be taken care of by developer(execute, return data).
+	Exception: exception are handled by template and are rethrown as unchecked exception.
+	
+Set datasource: JCBC, JNDI , Connection pooling
+ JDBC:	(for smaller applications, for large applications use connection pooling)
+	DriverManagerDataSource
+	SingleConectionDataSource
+
+JdbcDaoSupport:(for hibernate HibernateDaoSupport)
+	Application class will extends the JdbcDaoSupport class.
+	Choice between Template class and DaoSupport class.
+	If a application class is alredy extendng a class then due to javas limitaion of single inheritance at a time, we need to user Template class.
+	
+	mapRow() <- call back method. gets one row at a time from ResultSet
 	
