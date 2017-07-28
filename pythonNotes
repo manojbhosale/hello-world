@@ -1,0 +1,99 @@
+append
+remove
+pop
+
+extend
+sort
+count 
+index
+concatenation operator
+"in " and  "not in" operators
+
+list 
+tuples
+list inside tuple
+tuple insode list 
+
+del tuple
+
+id function to check memory location
+
+assignment copy is called as shallow copy
+
+import copy
+deep.copy()
+
+list = list(tuple)
+tuple = tuple(list)
+
+Attribute error
+Name error
+Type error
+Value error
+
+25 Jul 17
+
+set
+
+set = {}
+list to set
+union of sets (|)
+intersection of sets (&)
+
+Dictionaries
+Implemented with hash tables. Resizable hashtables
+key(any immutable type) and value(any type)
+User:
+	logical association between key and values
+	fast lookup based on custom key is needed
+	when data is being constantly mutated remember dictionaries are mutable.
+	
+dict.copy() <- shallow copy
+dict(key,default=<def value>)
+dict[<key>]
+del dict
+dict.clear
+dict.has_key() <- removed in python 3
+dict.items()
+dict.values()
+dict.keys()
+dict.update(dict2)
+dist.fromkeys(range(<N>))
+list, dictionaries, set are mutable. String and tuples are immutable.
+
+
+Default arguments can only be placed rightmost of the argument list.
+In python funcrtions return None instead of void
+Only list set and dictionaries can be updated in the function body.
+
+
+variable number of arguments:
+	tuple : *variableName
+	dictionary: **variableName
+	These variables should be last in the function declaration otherwise error.
+	
+Scope:
+variable declared inside function are local in scope.
+Global variables can be declared inside function with "global" keyword
+Global variables can be modified outside the function.
+The keyword global is only useful to change or create global variables in a local context, although creating global variables is seldom considered a good solution.
+
+Lambda:
+
+lambda p : p*2
+x = lambda p : p*2 
+x(5)
+
+Lambda creates frame as in actual function
+Used in functional programming
+
+File handling:
+	dir(object) <- lists all the methods or members of the object
+	fileHandle = open("<file name>","modifier")
+	
+
+
+
+
+	
+	
