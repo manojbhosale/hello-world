@@ -1,0 +1,163 @@
+Middleware to access and manipulate the data
+Gave rise to
+SOAP XML introduced weservices
+what kind of SOAP?
+
+REST <- adhere to philosophy of Fielding
+
+Technology unlocks technology
+
+Dosens of hypermedia APIs
+Should serve very common prposes
+
+Apigee puts RV-Resource Verb sepcificaiton
+Pragmatic REST:comonsense approach of APIs
+
+Understandability, control, accomplishment
+Great design is all the work you dont ask the people who use your product to do.
+Use it your self
+
+Facade pattern <- hide the complexity
+
+Richradsons maturity model - not complete but useful as guiding principle
+Swamp of POX
+	Plain old XML
+	Using HTTP as tansport system for remote transactions.
+Resources
+	resource are domain objects
+	Need 2 URLs per resource
+		Collection 
+		/dogs
+		Resource
+		/dogs/1234
+	Singular or plural? plurals are a way to go(just best practice . No right or wrong)
+	Abstract or concreteNaming? Too few go lower. Too large ? Go higher
+	Complex variants/sweep complexity behind "?"
+		Partial response - instead of complete response give whts is asked for.
+		
+HTTP verbs
+	introduce standard ste of verbs so that we can handle similar situation in same way, removing unnecessary variation.
+	POST,PUT,GET,DELETE(CRUD)
+	PUT - create or update
+	With delete we can return 200 OK(return the data), 204 No content
+hypermedia controls
+	Introduce discovery , providing a way to make the protocol self-documenting
+	Application moves from one state to another by examining and choosing from among the alternate state transitions in the current state of representations
+	Relations:Actions that can be taken by the application
+	Links: specific operation to be executed fro given relation.
+	Retrieve the links. Resources are media with various types. Representaion is way of retrieving the media with the help  of links.
+	Links from the resources to possible metadata which gives possible transitions. 
+	To another possible states fo the resource.
+	Web link specifications (RFC 5988). Use one of the default link relations.
+	Netflix used extension relation types.
+	HAL
+	Collection+JSON -> need to build the path
+	Siren -> gives actual path
+	Practical pragmatic verbs are more than resources, verbs and hyperlinks.
+	
+	Use Verbs and not nouns for non-resource-y stuff. Eg. convert currency from EUR to RUP
+	/dogs?q=short%Bhair
+	/search?q=short%2Bhair&scope=dogs,owners
+	count as metadata "_metadata":500	
+	/dogs
+	/dogs/count?color=red
+	codes for code and messages for user
+	How many status codes:
+	Eight is enough(necessary 3)
+			200 201 304 400 401 403 404 500
+	Pagination:
+		Different than hyper media(iterates one object at  a time)
+		limit and offset
+	Response type:
+		what response u like to receive
+		speify the response
+		add fallbacks for backup choices.
+		use JSON or XML based on how comfortable you are
+		Use rest clients
+	Metadata:
+		Return data in standard format
+		Attribute names in camelCase
+	Authentication:
+		OAuth 2.0 - facebook
+		OAuth 1.0a - twitter
+		Permission Service API - payPal
+		OpenId
+		facebook connect
+		Accessing authenticated entity?
+	Versioning and deprecation
+		/v2.0/me <- facebook
+		/2010-04-01/Accounts ,- Twilio
+		recommended
+			/v2/{request_path}
+			but uf multiple teams are working then /path/v2/path is also good(eample salesforce)
+		Only increment version if the backword compatibility is broken.
+		Maintain current version and one version back.
+		6-12 monts for deprecating the older version
+		deprecationperiod varis from musecase to usecase
+	Common design problems:
+		Caching
+			Serverside or Clientside
+			Better on server side
+			ETags: provide ETag with cached object
+			Last modified - from server
+			If modified since - from client
+			Read cache docs: cacshe control headers.
+		Designing around transactionality
+			If possible design around them
+		Authentication/Authorization
+			Authe: verify user credentials
+				Authorization: Granting access to app to do specific things
+			Authentication/authorization vs identity tracking.
+				Tracking is not necessarily specific to user. Just check who is using application. Use: Who is using the API more(for analytics)
+		
+Glory of REST
+
+
+
+******************************
+Private API : Persistents internal HR, payroll api
+Partnere API : PayPal
+Public API: Facebook, Google(allows mashup apps, allows innovation). May need API management. For google its done by google. ApiGee, Microsoft Azure other API management provider.Management involves gathering metadata for API hits and their analytics also.
+
+
+Traditional Approach
+API layer approach
+API first approach: DATA+SERVICES -> API -> LAPTOP/DESKTOP
+
+REST criterias/architectural constraints:
+	Has to be client server: loose coupling of client and server
+		WPS SOAP servrice is tightly coupled
+	Stateless: HTTP is stateless.
+	Caching should be possible
+	Uniform interface: like GET, PUT,...
+	Layered
+	Code on demand
+
+JSON(JavaScript Object Notation)
+	Lightweight
+	Human readable
+	Easy to parse
+	New services use only JSON data
+	No schema and metadata as in XML
+
+The layer at REST works is Application layer but SOAP does not. HTTP works at Transport layer. OF OSI model
+HATEOAS: Hypermedia as an Engine of Application State
+		Is one of the priciples of pure RESTful service. Practical/Pragmatic restful service does not use it.
+		On resurce request one gets hyperlink to the car and not the actual resource. Loosely coupled.
+		
+Collection
+/employee
+
+Instance
+/employee/1234
+
+SOAP example:
+/getAllcustomers
+/getCustomerById(1234)
+
+
+PATCH- Modifies delta. Pu will rewrite whole record
+HEAD OPTION
+
+
+		
