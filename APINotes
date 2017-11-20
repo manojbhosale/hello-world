@@ -1,13 +1,13 @@
 Middleware to access and manipulate the data
 Gave rise to
-SOAP XML introduced weservices
+SOAP XML introduced webervices
 what kind of SOAP?
 
 REST <- adhere to philosophy of Fielding
 
 Technology unlocks technology
 
-Dosens of hypermedia APIs
+Dozens of hypermedia APIs
 Should serve very common prposes
 
 Apigee puts RV-Resource Verb sepcificaiton
@@ -36,15 +36,15 @@ Resources
 		Partial response - instead of complete response give whts is asked for.
 		
 HTTP verbs
-	introduce standard ste of verbs so that we can handle similar situation in same way, removing unnecessary variation.
+	Introduce standard set of verbs so that we can handle similar situation in same way, removing unnecessary variation.
 	POST,PUT,GET,DELETE(CRUD)
 	PUT - create or update
 	With delete we can return 200 OK(return the data), 204 No content
 hypermedia controls
 	Introduce discovery , providing a way to make the protocol self-documenting
 	Application moves from one state to another by examining and choosing from among the alternate state transitions in the current state of representations
-	Relations:Actions that can be taken by the application
-	Links: specific operation to be executed fro given relation.
+	Relations: Actions that can be taken by the application
+	Links: specific operation to be executed for given relation.
 	Retrieve the links. Resources are media with various types. Representaion is way of retrieving the media with the help  of links.
 	Links from the resources to possible metadata which gives possible transitions. 
 	To another possible states fo the resource.
@@ -69,11 +69,11 @@ hypermedia controls
 		Different than hyper media(iterates one object at  a time)
 		limit and offset
 	Response type:
-		what response u like to receive
-		speify the response
-		add fallbacks for backup choices.
-		use JSON or XML based on how comfortable you are
-		Use rest clients
+		What response u like to receive?
+		Specify the response
+		Add fallbacks for backup choices.
+		Use JSON or XML based on how comfortable you are
+		Use REST clients
 	Metadata:
 		Return data in standard format
 		Attribute names in camelCase
@@ -126,19 +126,37 @@ API first approach: DATA+SERVICES -> API -> LAPTOP/DESKTOP
 
 REST criterias/architectural constraints:
 	Has to be client server: loose coupling of client and server
-		WPS SOAP servrice is tightly coupled
-	Stateless: HTTP is stateless.
+		WPS SOAP servrice is tightly coupled. Need to change the proxy object(WCF service .NET) if change in client in case of SOAP.
+		In soap proxy object is created on client side. Need to change the proxy object if client changes.
+	Stateless: 
+		HTTP is stateless.
+		State of the previosucall is shared with mexxt call the its not stateless.
+		No state is saved on server
+		With SOAP we can aget states but REST is default stateless
+		Statelessness gives independent, lossely coupled ness.
 	Caching should be possible
-	Uniform interface: like GET, PUT,...
-	Layered
+		caching is possible with HTTP. cashieng can partially give state reference.
+	Uniform interface: 
+		like GET, PUT, POST, DELETE
+		If the service is used in every other device in same manner/URL.
+		In case of SOPA we need ti create proxy which can be dependent
+	Layered:
+		Architecture like MVC layerd application
+		Seperation of concerns
 	Code on demand
-
+		
+		
 JSON(JavaScript Object Notation)
 	Lightweight
 	Human readable
 	Easy to parse
 	New services use only JSON data
 	No schema and metadata as in XML
+
+REST is resource oriendted and SOPA is business logic oriented
+Identification of resources
+Manipulation of resources through representations e.g. XML, JSON
+Self descriptive messages like GET, POST
 
 The layer at REST works is Application layer but SOAP does not. HTTP works at Transport layer. OF OSI model
 HATEOAS: Hypermedia as an Engine of Application State
@@ -160,4 +178,32 @@ PATCH- Modifies delta. Pu will rewrite whole record
 HEAD OPTION
 
 
-		
+Request content:
+URL: requs line or URL: its mandatory . other can be optional. API key is part of the URL. API key contains credentials of the user. Option for API key is OAuth. 
+Method
+Body
+Header: Heaedr can be part of the response if the request is cross origin. Cross origin resource sharing. Within same domain CORS is not required. If different domains accessing then the CORS is required.
+
+OAuth:
+Giving access to you stuff without sharing identity at all.
+Gives restricted access with token.
+Enables limited access third party application to HTTP service on behalf of resource owner	by orchestrating the an approval interaction between the resource owner and HTTP service or by allowing trid party to obtain access on its own behalf.
+Any HTTp request which has access token can access the wesite.
+OAuth 2.0:
+	Resource Owner
+		User- Facebook user
+	Resource Server
+		Facebook server
+	Authorization server
+		facebook server or any other server. In case of facebook its the same as resource server.
+		Authorization by the authorization server and return of the toke. Now Token is used to authenticate on resource server(Get request) and resource server responds with valida response.
+	User
+
+* REgistration of application with Resource Server/Application like facebook
+* Consumer key and consumer secret: Required for registration of the application with the twitter application.
+
+Authorization 
+	Client credentials
+	Authorization Code Flow
+	Authorization Grant
+	Other ways of providing the OAuth?
