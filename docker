@@ -1,0 +1,174 @@
+Environment in which the product is developed is diffent than the production environment. Like OS, Security policies, SSL certificates. java versions.
+
+Development and testing occurs on containers and these are pushed to production so the issue related to incompatibility do nt arise in production. This makes possible faster release model and multiple tech nology stack.
+
+Avoids problems caused by multiple versions of same platform(python, java versions) on sinlge host. Docker orchestrates the containers. Configurations of containers/launching/ deleting.
+
+Docker uses only host OS kernals. It does ot have its own OS.
+
+Image -> Libraries -> Application Code #What is Container?
+
+Containers are application centric way to deliver high performance , scalable application on infrastructure of your choice.
+
+Its more than app virtualization.
+
+Difference between virtual machine and containers?
+Virtual machines are for longer term.
+Containers are not for long duration. create and distroy easily.
+containers consume less resources.
+
+Virtualization technology:
+	Need to specify hardware like 1 GB RAM, and ome HDD
+	.vhdx image (VHD: virtual harddisk)
+	Takes large space. ~1gb(windows) 400mb(Linux)
+	
+	Cons:
+	Long time to boot up
+	lesser modularity
+	Fewer VMs on single server.
+	Quite heavy
+	Single entity works independently
+	
+Containerized technology:
+	No Guest OS, No Hypervisor as in VM
+	It use images of OS.
+	Small in size. ~100Mb
+	Have minimum from OS to run the application.
+	On linux we can create only Linux containers. I.e. Only container of Host Type can be created.	
+	We can use containers in VM
+	If the containers are destroyed then we need to create new container from image.
+	Running image is called as container
+	On one server 50-60 VM created max
+	VM ware - horizon software - allows to create 150 containers
+	
+	Pros:
+	Multiple containers can commnicate with each other
+	Multiple containers can refer to same image. Container optimization.
+	How about MySQL data access through the container if  are on diferent container.-> create private network and register containers
+	COntainer is future : physical servers(Past) -> Virtualization (Present)
+	Docker is container management service.
+	Build.Ship.Run distributed applications.
+	Amazon EC2 is virtual machines
+	UCP: universal control plane -> UI based management. Comes with enterprise
+	Kinematic: UI based but baseic compared to UCP
+	Mar2016 docker cloud: create containers in docker cloud
+	Mar17: Launched for production.
+	Commnunity edition (CE): Command based 
+	
+	Learning curve:
+		Why container?
+		Docker installation
+		Images and containers
+		Docker file
+		Docker compose
+		Volumes and networks
+		Docker swarms
+		Docker cloud
+		
+	Installation:
+		Requires 64bit OS
+		In windows it wil create Linux VM and everything is done within VM
+		On windows for VM one needs to have HyperVisor. HW should support Hyper-V in turns to install Docker.
+		1:04:03
+		
+		
+		Client -> Docker_Host -> Registry
+		Client :
+			Docker application
+			build/pull/run
+			By default memory resource are shared between containers. Can sepcify memory to specific container
+		DOCKER_HOST:
+			Docker daemon orchestrates containers and images
+			Computer running DockerEngine is the Docker Host
+			In windows the Docker host is the VM . MobyLinuxVM
+			In linux the machine will be docker host
+		Registry:
+			Docker regisrty. Docker Hub. official . All the images of docker. Images can be from one liner code to appliction to OS
+			There can be unofficial repositories too.
+			Server for Docker deamon to fetch the images or services
+			Image: is th readonly layer of OS that never changes.
+			Container:
+			Self contained environment build usinng multiple containers. Containers cane be created from multiple images
+			Docker file:
+				A file containing docker commands to create containerds from images
+				nginx:Latest -> latest version of nginx
+			
+		Image will occupy HDD and containers will use memory
+		Ports are connected to container. Container will be having seperate IP and treated as seperate machine.
+		Decide IP of docker by configuring docekr network Bridge is defaukt network. Can create different network.
+		Docker Hub:
+			hub.docker.com
+			Official repository provided by docker to share the images created by comunity members
+			can have multiple images of same application like mysql. Prefer official images. Use images with higher stars. 
+			>Docker pull mysql:latest
+			>Docker pull mysql:8 #8 is called as tag
+		docker images #list images locally available
+		docker pull nginx
+		docker rmi <imageid> #delete or remove images from docker hub
+		docker inspect <imagename>
+			
+		Pull image from hub -> put it in host -> launch the containers
+		
+		Can maintain two versions of mysql  using containers.
+		To persist the data but container is distroyed. We need to create volume which will be pointed by new container.
+		"commit" is used create image from container
+		
+		repositories will be present in moby folder
+		
+	Why container?
+		start mongodb databse and use it within application
+		to start ansible server
+		start mysql server
+		test application on newer version of framework
+		host LDAP server
+		host wordpress server
+	Running a container:
+		One process per container
+		application container and database container will communicate withe the shared network. Docker network.
+		If one container gets down then other can take over
+		Container are short lived
+		>docker image pull ubuntu
+		>docker container run -it --name ubuntu ubuntu /bin/bash       #-it -> interactive terminal, bin-bash is command
+		> docker container ls # list running containers
+		>docker stop da  ##da initial of the container id
+		> docker container pause da
+		> docker container unpause da
+		> docker container stop da
+		> docker container ls
+		> docker stop da
+		> docker rm fc
+		> docker ps # >docker container ls #are same
+		
+		>docker container run -d -p 8085:80 --name my_webserver nginx # in detached mode i.e. dont enter the container.-p fixed port.-P random port
+		>docker port mywebserver #to see Nginx port
+		>docker attach my_container  #get inside if outside container
+		>docker stats #CPU,Memory ,Network usage
+		>docker inspect container_name # PID is of mobyLinux as every container is running as a process
+		>docker top <PID>
+		
+		##Docker class room
+		
+		docker compose # runs config yml file. can share the yml file to share the setup
+				
+		Image is about the layers. Starts from base image and creates image for each image chaneg inthe form of application isntall. repository update
+		
+		>docke container rm -f <ids>
+		
+		DockerFile # is for creating single custom image
+		yml  #compose file is used to crate ultiple containers
+		
+		>docker image build -t <acc name>/myImageName . # current directory of the image so "."
+		
+		Updating host file does not work as container is not build on latest files. Can be overcome.
+		Pusing to the repository:
+			>docker login
+			>docker push myImageName
+		
+		#linux command
+		cat /etc/issue
+		
+		
+		
+			
+
+
