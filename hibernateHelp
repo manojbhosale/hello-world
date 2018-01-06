@@ -1,0 +1,218 @@
+@basic <- not useful unless used with its properties
+static or transient or @Transient -> to ignore the field 
+@Temporal
+@Lob
+
+
+Building a session factory is an expensive process. so the sesion factory object must be shared amongst the classes and across the layers if required.
+
+@GeneratedValue <- hibernate shoukd generate the value and I am not gonna pass it. It has property as (strategy = GenerationType.AUTO) .
+
+
+What if member variable is array, or object?
+	approach 1:
+		Seperate columns
+			for value objects. These are the objects which do not have any meaning on their own.
+			@Embeddable
+			@Embedded
+			
+@EmbededID
+@AttributeOverrides
+@AttributeOverride
+
+Composite key must implement serializable
+
+
+how to handle collection of objects?
+we have to declare the collection with Set and not HashSet
+@ElementCollection
+@JoinTable(name="USER_ADDRESS")
+@JoinTable(name="USER_ADDRESS",joinColumns=@JoinColumn(name="USER_ID"))
+
+@CollectionId <- Its not part of JPA(Java persistance API). JPA is standard API provided by java. This belongs to hibernate API. For all above annotations, the specifications are from JPA but implementor is hibernate. This means if we change the hibernate to some other implementor then other annotation will work but this will not work because this is not part of JPA.
+
+Hibernate Uses lazy initialization strategy. 
+In lazy initialization only first level member variables of class are initialized and lists are initialized only on accesss.
+Eager initialization: we can configure hibernate to use eager initialization.
+
+Hibernate uses proxy pattern to achieve lazy initialization.
+	The first level member variables are returned as it is.
+	Proxy class extends the UserDetails class(Custom class). Proxy class has all the methods of the parent class. When a getList() method is called then it gets list and gives call to the getList() of parent. So for caller the getList() of parent is called.
+	
+steps:
+	create a class
+	create another entity
+	Make one member of another
+	add mapping to xml file
+	Add OneToOne annotation -> if not specified then column type related error is thrown
+	@JoinColumn to change the column name 
+	
+@OneToMany -> user set
+@ManyToOne -> add user to vehicle
+
+OneToOne
+Tables: 
+User <= vehicle ID as foreign key
+Vehicle 
+
+
+
+OneToMany
+User
+Vehicle
+User_Vehicle => mapping userID with VehicleID
+Actual:
+	Hibernate: insert into UserDetails (age, name, userId) values (?, ?, ?)
+	Hibernate: insert into Vehicle (color, type, VEHICLE_ID) values (?, ?, ?)
+	Hibernate: insert into Vehicle (color, type, VEHICLE_ID) values (?, ?, ?)
+	Hibernate: insert into USER_VEHICLE (USER_ID, VEHICLE_ID) values (?, ?)
+	Hibernate: insert into USER_VEHICLE (USER_ID, VEHICLE_ID) values (?, ?)
+
+ManyToOne:
+User
+Vehicle => has foreign key to userID
+User_Vehicle => mapping userID with VehicleID
+Actual:
+	Hibernate: insert into UserDetails (age, name, userId) values (?, ?, ?)
+	Hibernate: insert into Vehicle (color, type, user_userId, VEHICLE_ID) values (?, ?, ?, ?)
+	Hibernate: insert into Vehicle (color, type, user_userId, VEHICLE_ID) values (?, ?, ?, ?)
+	Hibernate: insert into USER_VEHICLE (USER_ID, VEHICLE_ID) values (?, ?)
+	Hibernate: insert into USER_VEHICLE (USER_ID, VEHICLE_ID) values (?, ?)
+	
+To remove the redundacny of the USER_VEHICLE table use mappedbBy="user" in user class on the one to many declaration
+
+
+@NotFound(action=NotFoundAction.IGNORE) <= for ignoring the event in case when there is no data for this member. COmes handy when supporting old systems which can have missing data. Its part of Hibernate API and not the JPA.
+
+Hibernate Collections:
+	Bag symantic - List/ArrayList
+	Bag symantic with an ID- List/ArrayList
+	List Symantic - List/ArrayList
+	Set symantic - Set
+	Map symantic - Map
+	*Order does not matter for the bag symantic but matters for List
+	
+Cascade 
+	In classical case of OneToMany mapping, we need to save the entities in the collections explicitly. Otherwise the transient tape error is thrown.
+	To make it automatic we need to use @OneToMany(cascade=CascadeType.PERSIST)
+	session.persist() <= similar to save but little.
+	REMOVE is for deletion
+	ALL is for applying all cascades at a time.
+	
+Implementing inheritance:
+	Composition can be handled easily but databases do not have easy way to integrate the inheritance.
+	Example; TwoWheeler and FourWheeler extends the Vehicle class.
+	We can mark the new two child classes as separate entities but then hibernate applies one table strategy to all the objects i.e. it stores all objects in single table.
+	Hibernate has implelmented single table strategy for inheritance by default. One common table for all objects
+	DTYPE: tells about the class of object. Called as discriminator
+	
+	# Single table strategy
+	@Entity
+	@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+	@DiscreminatorColumn(
+		name="VEHICLE_TYPE",
+		discreminatorType=DescriminatorType.STRING
+	)
+	For individual entities
+	@DiscriminatorValue("Car")
+	@DiscriminatorValue("Bike")
+	
+	Single table strategy leads to complicated queries and useful for simple inheritances only(may be one level).
+	
+	# Table per class strategy
+	Dont need discriminator  column as we have table for each object
+	Parent class members are inherited and have separate column in child table. SO the ID  is also inherited and each child has its own id column
+ 	@GeneratedValue annotation will also be inherited by child classes so childs will also have the ID.
+	Table is in normalized form unlike that of single table strategy, which has most of the column null i.e. missing information
+	
+	# implementing strategy with joined strategy
+	use join to extract data
+	propeties inherited from parent class will stay in parent table. Only Id will go to child classes
+	"SELECT * FROM vehicle join twowheeler on vehicle.vehicleid = twowheeler.vehicleid;"
+
+CRUD operations
+
+	Session save() // It is used for both creating and updating. In both cases require Entity object.
+	Session delete() // It also requires entity object to delete
+	Session get() // it requires entity class and primary key to access the record. It uses lazy initialization for the collection types to improve performance. First level members are already loaded
+	*These methods can not be called once the session is closed.
+	
+Persistent and transient objects:
+	Detached object is referred to an object after calling session.close();
+	After calling session.save() the object becomes tracked and before this its in transient state.
+	Once the object is tracked only last update/delete transaction is used making it more efficient.
+	new() Transient -> session.save() -> Persistent ->  session.close() -> Detached
+	get() persistent -> session.close() -> detched
+	transient sesion.delete() <- Persistent -> session.close() Detached
+	
+	#to avoid update of the unchanged object (because of different sessions) add this annotation to the entity in addition to the @Entity annotation
+	org.hibernate.annotations.Entity(SelectBeforeUpdate=true)
+	
+
+HQL:
+To get data in bulk we write HQL queries.
+HQL is similar to SQL queries
+In case of HQL we think of objects instead of tables in database.
+	Populate User table
+	Start transaction
+	Query q = session.createQuery("from User where userId > 5") // no select *. Here object name // Query is from Hibernate// userId is member name and not the column name. Can it be?
+	q.list()
+	List users = q.list()
+	
+Parameter binding and SQL injection:
+	To avoid SQL injection attack use parameter binding instead of appending the parameters:
+		Place holders:
+			?
+			:<parameter name>
+		Then use setter methods
+Named queries:
+	Written at entity level
+	@NamedQuery(name="UserDetails.byId", query="from UserDetails Where userId = ?") // here use Class name and 
+	@NamedNativeQuery(name="UserDetails.byName", query="select * from user_details where username= ?", resultClass="UserDetails.class")// we can use native SQL queries. use tables names and table columns. Also can be used to run stored procedure. If result class is set then returns the result class objects
+	
+Criteria API:
+	Restrictions can be chained. This results in AND condition between restrictions.
+	Restrictions.or(Restriction1, Restriction2)
+	
+Projections:
+	used to implement aggregation functions.
+	Criteria.setProjection(Projections.property("userId")) // pulls only userId property 
+	Projections.max("userId")
+	Projections.min("userId")
+	Projections.count("userId")
+	addOrder(Order.asc("userId")
+	
+	u can control type of data returned, columns
+	
+QueryBy example:
+	if we have too many properties and conditions
+	Example ignores 2 things: If property is primary key or null value then its not considered
+	User u = new User()
+	u.setUser(4); // not used as it primary key
+	u.setUserName("User_7");
+	
+	Example example = Example.create(exampleUser) //Example.create(exampleUser).excludeProperty("userName") // to tell hibernate to ignore particular property value.
+	
+	Criteria crit = sesion.createCriteria(User.class)
+					.add(example)
+	
+	u.setUserName("User 1%")
+	Example ex = Example.create(u).enableLike(); // to make use of pattern 
+	
+	
+Hibernate Cache:
+	caching in hibernate is configurable
+	First level Cache- session
+	Second level 
+		Across different sessions in an application
+		Across different application:	U can have cache accross different application if they are using hibernate
+		Across cluster 
+	Query cache: enable in config xml. Required only for using query. setCachable() not only caches results but u=it also tells to look into the cache for results. caching query need to be used carefully as it might result in large unnecessary data to be cached.
+		query.setCachable(true)
+	Can we write when cache is rad only?
+	
+	
+Concurrancy strategy
+top down, borron=m up
+locking strategy
+hibernate associations
