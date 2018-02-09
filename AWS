@@ -1,0 +1,301 @@
+SaaS <- are you consuming a software
+PaaS <- If using a software to build a Software
+IaaS <- Software for hosting
+FaaS <- Function as a service. Serverless architecture
+DaaS <- desktop
+EaaS <- everythong as a service
+
+private cloud is always on premises
+
+2 different ways to log in to acc
+	root user <- with email 
+	AIM user <- req. user id
+
+Instance:
+	need to decide the configuration of the machine. RAM, HDD, OS
+	
+IP:
+Private
+public <- no static
+elastic <- static 
+
+snapshots <- backups 
+
+
+load balancers <- clsuter of EC2 instances. Instance == machine == VM on amazon
+configure loadbalancer for round robbin processing. Also can be decided based on CPU utilization.
+
+Security groups: Most imp thing of security area
+	Similar to firewalls
+	For SSH need to open 22 port
+	All the ports are by default blocked.  Need to open manually
+	If we want to host apache server then we need to  open the port with the help of security group.
+	To allow access to the machine with Port
+	
+Before launching intance: decide the location first
+
+Location 
+OS
+Disk Space <- Elastic Block Storage(EBS)
+CPU
+Memory
+NIC/Network Adapter
+Public  IP
+Security group
+
+.pem to .ppk file with help of puttyGen
+Change key comments -> ec2-user (for Amazon-Linux)
+
+sudo yum update
+
+https://13.127.123.32:3000/
+
+on stopping compute time will stop.
+
+
+EC2
+VM
+CloudCompute
+
+
+zones ~ data centre
+AMI <- Amazon machine images ~ templates
+
+VPC is private network on public cloud
+
+
+ ARN: Amazon resource name. Every resource on amazon has the unique name.
+ 
+ 
+ npm install
+ npm start
+
+AWS identity and Access management:
+ Groups
+ Users
+ Roles
+ Polocies and permissions
+ 
+ Roles are assigned to instance and not to the user. Like read only, write access to an S3 instance.
+ 
+ Role has policies which inturns have the permissions
+ Only one role can be attached to one EC2 instance. But one role can have multiple policies and permissions. One app <- One instance <- one role
+ 
+ 
+ Need to install aws CLI for using it with installer.
+ 
+ >aws configure  # enter the access id from the downloaded CSV. User can have 2 access keys at a time. Need to delete previous to create additional key.
+ # selct the region like "oregon" or "us-west-2"
+ > aws ec2 describe-instances
+ 
+ Searching of the instance needs to be done in corresponding region otherwise cant find it.
+ 
+ check 10:49 
+ 
+ configutre is one time activity
+ 
+ credentials are stored in CLI installation AWS folder.
+ can edit the cofig file from the aws folder to change the output to json
+ 
+ Policy Gen: No need of account on AWS
+	ACTION :
+	EFFECT : Allow and Deny 
+	RESOURCE :
+	
+	Create policy
+	Go to policy and create and attach policy to role
+	
+Clodwatch:
+	Allocate budget like max 5 servers
+	Based on the load the autoscaling should happen
+	Alarm -> Action -> Create
+	First create an alarm on a metric(given by AWS): we can suggest metric to aws and they mey put it in next release.
+	
+* release cycle for amazon is a minute
+
+
+VPC:
+	one VPC free per region
+	a VPC will have multiple subnets 
+ACL: access control list
+NAT: network address translation
+CIDR : ?
+
+
+1. Create VPC with public subnets
+2. Create public subnet in same VPC
+3. Attach theinternet gateway to the route table of same VPC
+
+4. Create new EC2 instance within same VPC
+5. Configure the application withon EC2 instance
+6. create "custom AMI" of that EC2 instance
+
+* unused IP addresses are chanrged
+
+sudo yum update -y
+
+Create Image will create AMI
+
+AWS prectiotioner <- cbeginner certification
+
+Routing applicance which maintains a consistent DNS entry and balance requests to multiple instances
+Maintain same port for loadbalancer and the instance port.
+HTTP 80 and HTTPS 443 (free certificate by amazon)
+
+3 types of load balancers:
+Application(HTTP/HTTPS) <- applies to the Application layer of OSI model
+Network(TCP) <- capable of millions of network requests per second
+Classic
+
+Load balancer can be internet facing or internal.
+If HTTPS then neeed to attach the certificate. Create certificate with certificate manager and attach a certificate.
+
+EC2 secrity group is different and LB security group is different.
+
+Steps:
+Load balancing
+launch COnfig
+Autoscaling
+
+
+Hit the load balancer DNS name URL
+
+Load balancer is component which helps to redirect the traffic to healthy EC2 instances.
+Subnet is part of VPC. Like within Persistent network we have VLANs(for IBM, Microsoft, Agilent)
+
+VPC
+INstance
+AMI
+Load balancer
+	Target group
+Autoscaling group
+	Launch configuration
+	Autoscaling
+	
+	Autoscaling group >> Scaling policy
+	
+	
+Healthy <- means app is running on the instance and its running as expected.
+
+Check autoscaling :
+	apache bench mark <- for simulating the traffic from widowsn comandline 
+	>ab.exe -n 1000 -c 50 <http address of load balancer>
+	Check the #instances in autoscaling group.
+	
+S3: Object storage
+	First create bucket 
+	Then create Folders and file in the bucket
+	*Bucket name must be unique in region( accross the )
+	s3.regionname.amazon.com/bucketname/foldername/filename
+	 Access:
+		CLI
+		SDK
+		Console
+	5gb free storage per month
+	EFS <- file storage. Mounted on machine and faster compared to S3
+	Glacier <- cold storage/archive (with very less read and write). Very cheap for storage.
+	Storage Gateway <- ?
+	S3 is global i.e. no region specific
+	Encryption will be done online by default but if for storage data needs to be encrypted then use teh option
+	
+	Cross origuin resource sharing(CORS)
+	
+	
+We can upload a file up to 5 TB, but at a time only chunk of 1 gb can be sent in upload action.
+
+Load balancer contains route table
+route table contains information about the IP conncted by LB
+One should always use load balancer URL. And not the individual instance URl.
+
+Within EC2: Compute
+	Elastic IP
+	Load Balancer
+	Autoscaling group
+VPC: Network
+	Subnet
+	Route table
+	
+S3: Storage
+	Buckets 
+	Objects
+	Permission
+	
+IAM: Management
+	Roles
+	Groups
+	Policy
+	Permision
+
+Cloudwatch: Monitoring/Management
+	Alarm 
+	Metrics
+	SNS
+
+9Feb18	
+Databases:
+	RDS Relational Database Service, 6 differennt databases: Farmost the best database service by any cloud provider.
+		Amazon aurora is version of MySQl by amazon
+	Max backup for 7-35 days
+	Backup limit is not there but if backup goes above 3Gb the S3 will get charged. It will create new bucket automatically.
+	
+	Get the end point and change it in the applicaton config to point to the AWS database
+	*aws.amazon.com/free
+	DynamoDB NoSQL
+		Use query instead of scan due to speed
+		scan 
+		query
+		put
+
+Deploy application on elastic beanstalk:
+	Its PaaS
+	Managed service
+	Tool to deploy the application on EC2
+	Supports multipple platforms: Java, python, , node
+	.zip application and upload (only). rest of the things will be taken care of by EBS.
+	Zip should have all the application foders as it is.
+	Its free service, but resources created under this ervice will be charged
+	Project Flipkart: Below applications within its
+		customer flipkart.com : in node
+		supplier cms.suppliers.flipkart.com : in java
+		Accounts: cms.accounts.flipkar.com : in .net
+	* need docker file
+	If we have totally docker based then ECS(Only for docker). If need to manage load balancer and other settings the EBS
+	Appliction -> enviromnet
+
+Cloud formation:
+	deploy infrastructure on click of button
+		- AMI, EC2, subnet, security group, RDS, DynamoDB
+	.json file / .yaml file (form template writing)
+ 	run these templates to form infrastructure
+	
+	to create the templates need 
+		cloud formation designer
+		sample templates
+	To replicate existing infrastructure to new accounts with the help of current template.
+	Can have puppet or chef infrastruture on cloud
+	Free like elastci beak stalk
+	EBS creation creates a template	
+	Stack -> Template
+	
+Route53: Register a domain / DNS
+	Route the aws URl to the registered domain
+	can use outside domain in aws
+	Not free
+	
+AWS Lambda:
+	Function as a service
+	do not worry about the underlying infrastructure your code us running  on
+	Serverless development. Does not mean that no need of server. but dont need to manage/worry about it.
+	write / upload "function" on lambda
+	Triggers:
+		S3
+		DynamoDB
+		SNS
+		HTTP API
+	Max timeout for lambda is 5 mins
+		
+AWS API gateway
+		Can connect to the lambda
+		Some one access API then lambda will get triggered
+		
+https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_ec2_region.html
