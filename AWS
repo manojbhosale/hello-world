@@ -1,26 +1,178 @@
-SaaS <- are you consuming a software
-PaaS <- If using a software to build a Software
-IaaS <- Software for hosting
+AWS Accounts
+AWS SDK
+AWS CLI
+Atom IDE
+NodeJS
+MySQL
+
+Cloud Overview:
+	Cloud = Internet
+
+	
+		
+Compute:
+Build and run an application and VM on cloud infrastructure.
+	Application requires:
+		CPU, RAM/Memory, Network
+Storage
+	Objest storing, NoSQL databases, RDBMSes
+Network and CDN
+	Distributed network of servers and their data centre to provide, fast and reliable and secure content
+
+BIG data, IOT , Machine learning
+Every data centre has compute, storage and network.
+Knowledgecenter is running on virtual machien and not on data centre.
+Training VMs are on Persistents data center. Not accessible outside persistent without VPN.
+SaaS
+	Office 365 is SaaS for persistent from Microsoft
+IaaS
+	Data center along with VMs	
+	
+Private cloud:
+	With companies own data centre
+	Difference between data centre and on demand cloud:
+		Free bird is our own private cloud.
+		Cloud is layer on data centre whihc helps to configute things.
+Public cloud:
+	AWS, Alibaba, IBM Bluemix. Infrastructure is from the provider.
+
+Cloud 1.0 
+	Virtual machine(IaaS)
+	Service provided by cloud platform(AWS) IaaS
+	Don't want to manage on premises infrastructure
+	Uptime requires is 99.9999 %
+	Hosting application - everything need to be done by self
+	Images will be managed by AWS and VMs will be managed by us.
+	Managed Service:
+		Host application without worrying about underlying infrastruture.
+		Databases: on cloud DBs are managed services. RDS is managed service.
+			If we create Vm and install mySql then is becomes just a service but not managed service.
+		App service on Azure is managed seervice. If we have java application to be converted to RESTful application. Then we need not VM instead use app service(on Azure) equivalent. AS app service is managed service.
+		
+Cloud 2.0
+	Application and databases(SaaS, PaaS)
+cloud 3.0
+	Automation
+	Configuration
+	Managed services
+	Serveless
+	Microservices and containers
+	API management
+	
+cloud 3.0+
+	IOT
+	BlockChain
+	Open standards - cross platform (AWS <=> Azure) VM migration. Like number portability.
+	Customer friendly - interms of costing and free usage
+	AI
+	MoreManaged services.
+	
+Vertical Scaling:
+	Machine learning and AI/deep learning requires a lot of compute power.
+	More conpute power means more RAM and procesing power. Increasing this means vertical scaling.
+	
+Horizontal Scaling:
+	For user based web applications we need to manage the traffic by increasing the number of serving instances. This involves increasing and decreasing the instances as per the load.
+	Like goolge load balancers will redirect  requrest from india to the india(.in) website.
+
+Benefits:
+	Salce up and scale down quick.ly
+	pas as you go
+	zero upfront infrastructure
+	Work from anywhere
+	Global data centers
+	Increase speed and agility
+	Automatic software updates: VM softwares need to be updated by owner and not responsibility of AWS.
+	Disaster recovery
+	Eco-consiousness.
+	
+Common use:
+	traffic bursting
+	backup and disaster recovery
+	big data and data manipulations
+	Machine learning, AI and IOT
+	Web hosting
+	testing and development
+	demos and POC
+	
+deployment models:
+		Private cloud - outsource or own, lease or buy, seperate or virtual data center
+		Comunity cloud - Private cloud for set of users with specific demands. Several stake holders,
+		Public cloud - Mega scalable infrastructure, available to all. Comes with SLA. Cloud provider can not access ur VM.
+		hybrid Cloud - combination of two clouds, Usually private for sensitive data and strategic applications. Some thing will be public and somethings will be private on the cloud. Public cloud + private cloud
+
+SaaS <- are you consuming a software. just use and no modification or customization. Gmail and other google applications
+PaaS <- If using a software to build a Software. Customization of woftware. Slaesforce, Windows Azure app srvice, SAP anywhere, Heroku, Google app engine, Elastic beanstalk. These are the applications built on the cloud to build /test/ deploy application to end users.
+IaaS <- Software for hosting. Provide compute/storage and network as service. Google cloud platform(GCP), Azure, AWS, SalesForce, IBM cloud, EMC2, Right scale.
 FaaS <- Function as a service. Serverless architecture
 DaaS <- desktop
-EaaS <- everythong as a service
+XaaS <- everythong as a service
 
 private cloud is always on premises
 
-2 different ways to log in to acc
-	root user <- with email 
-	AIM user <- req. user id
+Challenges and concerrns:
+	Trust in cloud provider
+	Internet rquired
+	Interoperability and portability
+	Security and privacy
+	Cost assessment
+	Data governance: geo-political reasons. Land of law for data.
 
+AWS -> Amazon Web Services
+	Product of amazon started in 2006 with EC2, S3, SQS etc.
+
+	
+AWS Accounts:
+	Account created with AWS becomes the "root account" 
+	root account <- manoj.bhosale31@gmail.com. 
+	Every root account has account alias or account ID. By default alias is email id. 
+	Once log in with root we can create multiple other user associated with root account. Also called as IAM user.
+	So 2 ways to login :
+		Root acc./Alias
+		IAM user
+	
+	2 different ways to log in to acc
+		root user <- with email 
+		AIM user <- req. account id/alias
+
+		E.g.
+		Persistent Alias
+		admin@persistent.com root user
+		matin user
+		sudhir user
+	Charges only for uptime if the machine i s down then no charges.
+	
+	Region has Zones. Zones have data centers. minimum zones is 2. Zones are called as availability zones. If on e gets down then other is not affected.
+		
 Instance:
 	need to decide the configuration of the machine. RAM, HDD, OS
+Before launching intance: decide the location first
+To launch Vm we need:
+	Location 
+	OS
+	Disk Space <- Elastic Block Storage(EBS)
+	CPU
+	Memory
+	NIC/Network Adapter
+	Public  IP
+	Security group
 	
 IP:
-Private
-public <- no static
-elastic <- static 
+Private <- not accessible outside the network
+public <- no static with public access
+elastic <- static with public accesss.
 
 snapshots <- backups 
 
+by default we get 1  VPC in each region.
+
+Tagging is for seeing in resource groups.
+
+0.0.0.0/0 <- means any one can connect to this instance from anywhere or network.
+
+SSH port  is 22;
+
+Key pair is applicable for only linux machine and not for windows. For windows we get administrator password.
 
 load balancers <- clsuter of EC2 instances. Instance == machine == VM on amazon
 configure loadbalancer for round robbin processing. Also can be decided based on CPU utilization.
@@ -32,25 +184,40 @@ Security groups: Most imp thing of security area
 	If we want to host apache server then we need to  open the port with the help of security group.
 	To allow access to the machine with Port
 	
-Before launching intance: decide the location first
 
-Location 
-OS
-Disk Space <- Elastic Block Storage(EBS)
-CPU
-Memory
-NIC/Network Adapter
-Public  IP
-Security group
-
+Dedicated Hosts: in agreement with AWS	
+On demand AWS instances: 
+Spot instances:
+dedicated hosts:
+	
 .pem to .ppk file with help of puttyGen
 Change key comments -> ec2-user (for Amazon-Linux)
+for Ubuntu : ubuntu
+for centos 7: centos
 
 sudo yum update
 
 https://13.127.123.32:3000/
 
 on stopping compute time will stop.
+
+################
+ 1  ls
+    2  dir
+    3  sudo yum update
+    4  curl --location https://rpm.nodesource.com/setup_6.x|sudo bash -
+    5  sudo yum install -y nodejs
+    6  sudo yum install git -y
+    7  git clone https://github.com/ryanmurakami/pizza-luvrs.git
+    8  ls
+    9  history
+ git clone https://github.com/ryanmurakami/pizza-luvrs.git
+ cd pizza-luvrs/
+ npm install
+npm start
+
+
+################
 
 
 EC2
@@ -105,7 +272,7 @@ AWS identity and Access management:
 	Create policy
 	Go to policy and create and attach policy to role
 	
-Clodwatch:
+Cloudwatch:
 	Allocate budget like max 5 servers
 	Based on the load the autoscaling should happen
 	Alarm -> Action -> Create
