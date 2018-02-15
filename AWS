@@ -220,6 +220,8 @@ npm start
 ################
 
 
+
+
 EC2
 VM
 CloudCompute
@@ -237,23 +239,47 @@ VPC is private network on public cloud
  npm install
  npm start
 
-AWS identity and Access management:
+ 
+Ways to access AWS:
+	Acces keys : Services calling services
+	paasswords
+	MFA(Multi factor authentication)
+	SSH keys
+	 
+ 
+AWS identity and Access management: IAM
  Groups
  Users
  Roles
  Polocies and permissions
+
+ Group of developers/users will have plicies assigned (AmazonEC2FullAccess)
+ Roles have policies and will be attached to the instance/AWS service.
  
+ Policies attached to EC2 instance:
+	Role: S3ReadOnly_Role
+	Policy : S3ReadOnly_Policy
+			AmazonS3ReadOnlyAccess
+	Means this EC2 instance applications will have readonly access to EC2
+
  Roles are assigned to instance and not to the user. Like read only, write access to an S3 instance.
  
  Role has policies which inturns have the permissions
  Only one role can be attached to one EC2 instance. But one role can have multiple policies and permissions. One app <- One instance <- one role
+ Policies can be copied from one instance to another.
  
+ Always better to create a new group and add user to this group. Assign roles to the group
  
  Need to install aws CLI for using it with installer.
  
- >aws configure  # enter the access id from the downloaded CSV. User can have 2 access keys at a time. Need to delete previous to create additional key.
- # selct the region like "oregon" or "us-west-2"
- > aws ec2 describe-instances
+ >aws configure  # enter the access id from the downloaded CSV. User can have 2 access keys at a time. Need to delete previous to create additional key. For configuring the aws CLI for particular user/access key. Enter secret access key. Default region name like ap-south-1, default output format: json(or table, raw).If we need to check insaces from all regions then iterate through all regions through script. No Alias name required for CLI.
+ 
+ Now it wont ask for credentials again.
+ 
+ # selct the region like "oregon" or "us-west-2". Console is region specific. 
+ > aws ec2 describe-instances  # describes the instances created and other meta information.
+ 
+ 
  
  Searching of the instance needs to be done in corresponding region otherwise cant find it.
  
@@ -265,25 +291,54 @@ AWS identity and Access management:
  can edit the cofig file from the aws folder to change the output to json
  
  Policy Gen: No need of account on AWS
-	ACTION :
+	ACTION : Operation user can perfrom on that service
 	EFFECT : Allow and Deny 
-	RESOURCE :
+	RESOURCE : Specific resources user can perfrom action on.
 	
 	Create policy
 	Go to policy and create and attach policy to role
 	
 Cloudwatch:
+	Watch below :
+		CPU usage
+		S3 bucket
+		RDS throughput
+		Estimated billing charges
+	Actions:
+	send notifications
+	trigger autoscaling function
+	Trigger EC2 action
+
+	To set a metric one need to have service in first place. Like EC2, S3
+	
+	Metric does not work instantly. It waits for set period of time.
+	
+	
 	Allocate budget like max 5 servers
 	Based on the load the autoscaling should happen
-	Alarm -> Action -> Create
+	Alarm(by EC2) -> Action(by Cloudwatch to autoscale) -> Create(create new EC2)
 	First create an alarm on a metric(given by AWS): we can suggest metric to aws and they mey put it in next release.
 	
 * release cycle for amazon is a minute
 
 
 VPC:
+	Its a private network on public cloud.
+	Max 5 VPC in 1 region. Ask support to increase the limit.
 	one VPC free per region
 	a VPC will have multiple subnets 
+	VPC is attached to region(Mumbai) and subnet attached to a zone(2 sone).
+	1 CIDR value for VPC:
+		10.0.0.0/16   65535 (4 reserved)
+	1 per subnet :
+		10.0.0.0/24		255 values (5 reserved for internal purposes.)
+		10.0.1.0/24     255 values
+	Prefer VPC wizard as it creates something default.
+	
+	Need to attach internet gateway with route table of same VPC.
+	
+	Use applications in public subnet, and maintain database in private subnet.
+	
 ACL: access control list
 NAT: network address translation
 CIDR : ?
@@ -291,11 +346,19 @@ CIDR : ?
 
 1. Create VPC with public subnets
 2. Create public subnet in same VPC
-3. Attach theinternet gateway to the route table of same VPC
+3. Attach the internet gateway to the route table of same VPC. WIzard create internet gateway whihc is availabel by default. 1route table is attached with one VPC.
+	Route table:
+		Lists resources/machines in the VPC.
+		And gives access to gateway to the resources. Private subnets(and routetables) do not face internet gateway.
+	
 
 4. Create new EC2 instance within same VPC
-5. Configure the application withon EC2 instance
-6. create "custom AMI" of that EC2 instance
+5. Configure the application within EC2 instance
+6. create "custom AMI" of that EC2 instance and use this for the launching isnstances on autoscaling.
+
+No need to register targets as we are going to use launch configuration.
+
+if metric is deleted then the state is insufficirnt
 
 * unused IP addresses are chanrged
 
@@ -330,19 +393,33 @@ Hit the load balancer DNS name URL
 Load balancer is component which helps to redirect the traffic to healthy EC2 instances.
 Subnet is part of VPC. Like within Persistent network we have VLANs(for IBM, Microsoft, Agilent)
 
-VPC
-INstance
-AMI
-Load balancer
-	Target group
-Autoscaling group
-	Launch configuration
-	Autoscaling
+Need to select existing secutity group in launch configuration.
+
+Autoscaling group creates new instances according to the set min nstances in autoscaling group.
+
+VPC/subnet network
+INstance dummy
+AMI	template
+Load balancer	redirects traffic
+	Target group	collection of instaces
+Autoscaling group	
+	Launch configuration configuration required to launch the instance
+	Autoscaling	scaling policies.
 	
 	Autoscaling group >> Scaling policy
+	Set 300 as time after creating the scale high
 	
 	
 Healthy <- means app is running on the instance and its running as expected.
+
+
+####
+#!/bin/bash
+cd /home/ec2-user/pizza-luvrs
+npm start
+####
+WE can get clone at the launch which will be contineous integration and contuneous deployment.
+
 
 Check autoscaling :
 	apache bench mark <- for simulating the traffic from widowsn comandline 
@@ -367,8 +444,17 @@ S3: Object storage
 	
 	Cross origuin resource sharing(CORS)
 	
+On on emachine we can have multiple configuration.
+For large sizwe files use multipart upload.
+On needs to have access to the bucket in AWS to upload. Give permission to the grupoup in whihc user falls.
 	
 We can upload a file up to 5 TB, but at a time only chunk of 1 gb can be sent in upload action.
+
+Assignment:
+VPC, load balancer, Autoscaling
+S3 - create bucket, give access , us ebucket in digital library application.
+upload file on S3(Demo code)
+
 
 Load balancer contains route table
 route table contains information about the IP conncted by LB
@@ -464,5 +550,7 @@ AWS Lambda:
 AWS API gateway
 		Can connect to the lambda
 		Some one access API then lambda will get triggered
-		
+	
+Restrict IAM to specific region:	
 https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_ec2_region.html
+
