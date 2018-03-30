@@ -1,0 +1,78 @@
+EDA in python:
+https://youtu.be/W5WE9Db2RLU
+Python ML reference:
+https://www.analyticsvidhya.com/blog/2016/01/complete-tutorial-learn-data-science-python-scratch-2/
+
+Linear regression
+
+
+Decision tree and random forest:
+http://dataaspirant.com/2017/05/22/random-forest-algorithm-machine-learing/
+https://www.ismll.uni-hildesheim.de/lehre/ml-07w/skript/ml-2up-04-decisiontrees.pdf
+https://towardsdatascience.com/the-random-forest-algorithm-d457d499ffcd
+https://dataaspirant.com/2017/01/30/how-decision-tree-algorithm-works/
+
+
+Case study:
+https://www.analyticsvidhya.com/blog/2014/06/introduction-random-forest-simplified/
+
+
+SVM Code:
+https://www.analyticsvidhya.com/blog/2017/09/understaing-support-vector-machine-example-code/
+https://machinelearningmastery.com/support-vector-machines-for-machine-learning/
+https://medium.com/machine-learning-101/chapter-2-svm-support-vector-machine-theory-f0812effc72
+
+
+Naive Bayes:
+https://medium.com/machine-learning-101/chapter-1-supervised-learning-and-naive-bayes-classification-part-1-theory-8b9e361897d5
+
+Feature engineering:
+https://elitedatascience.com/feature-engineering-best-practices
+https://docs.microsoft.com/en-us/azure/machine-learning/team-data-science-process/create-features - Discard
+
+PCA-dimentionality reduction:
+https://www.geeksforgeeks.org/dimensionality-reduction/
+https://www.analyticsvidhya.com/blog/2015/07/dimension-reduction-methods/
+https://www.kdnuggets.com/2015/05/7-methods-data-dimensionality-reduction.html
+https://www.kaggle.com/arthurtok/interactive-intro-to-dimensionality-reduction
+
+
+Ensemble Learning:
+https://www.kaggle.com/arthurtok/introduction-to-ensembling-stacking-in-python/notebook
+https://blog.statsbot.co/ensemble-learning-d1dcd548e936
+https://pdfs.semanticscholar.org/7c68/7e966568ef5a922e39974b6fb6e119f7b658.pdf -Comparison of ensembles
+https://www.listendata.com/2015/03/ensemble-learning-boosting-and-bagging.html
+https://cse.iitk.ac.in/users/piyush/courses/ml_autumn16/771A_lec21_slides.pdfs
+https://stats.stackexchange.com/questions/18891/bagging-boosting-and-stacking-in-machine-learning
+
+
+Codeslash
+https://knowledgecenter.persistent.co.in/viewcourse/ML
+https://codeslash.persistent.co.in/mindspark_challenge_index
+
+
+Overall flow of the Analytics pipeline
+
+How to start the hadoop cluster?
+https://stackoverflow.com/questions/17569423/what-is-best-way-to-start-and-stop-hadoop-ecosystem-with-command-line
+https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html
+
+
+Datasets:
+	For DNN
+	https://www.kaggle.com/c/whale-categorization-playground/data
+
+	For cleaning
+	https://www.kaggle.com/c/donorschoose-application-screening/data
+	https://www.kaggle.com/skleinfeld/getting-started-with-the-donorschoose-data-set <- tensorflow classification
+
+	For regression:
+	https://www.kaggle.com/c/house-prices-advanced-regression-techniques/data
+
+	TimeSeries:
+	https://www.kaggle.com/c/competitive-data-science-predict-future-sales/data
+
+	
+	Misc:
+	https://github.com/nficano/pytube
+	https://pytubes.readthedocs.io/en/latest/
