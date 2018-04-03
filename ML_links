@@ -76,3 +76,17 @@ Datasets:
 	Misc:
 	https://github.com/nficano/pytube
 	https://pytubes.readthedocs.io/en/latest/
+	
+Hypothesis testing:
+https://www.kaggle.com/bharath25/hypothesis-testing-and-predictive-analysis?scriptVersionId=876226	
+
+Dimentionality Reduction:
+Multi collinearity
+Just be careful that random forests have a tendency to bias towards variables that have more no. of distinct values i.e. favor numeric variables over binary/categorical values.
+You can use Pearson (continuous variables) or Polychoric (discrete variables) correlation matrix to identify the variables with high correlation and select one of them using VIF (Variance Inflation Factor). Variables having higher value ( VIF > 5 ) can be dropped.
+The principal components are sensitive to the scale of measurement, now to fix this issue we should always standardize variables before applying PCA. Applying PCA to your data set loses its meaning. If interpretability of the results is important for your analysis, PCA is not the right technique for your project.
+
+LDA : Supervised Algorithm
+PCA: unsupervised algorithm
+T-SNE: Unsupervised algorithm
+
