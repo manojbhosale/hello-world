@@ -90,3 +90,32 @@ LDA : Supervised Algorithm
 PCA: unsupervised algorithm
 T-SNE: Unsupervised algorithm
 
+Algorithms Knows:
+Regression:
+Preceptron
+Linear regression
+Ridge regression
+LASSO regression
+Random Forest
+SVM
+
+Classification:
+RandomForest
+SVM
+KNN
+Extratrees
+Decisiontrees
+AdaBoost
+
+Clsutering:
+K means
+Hierarchial
+
+
+Dimentionality Reduction:
+Chi squared test
+PCA
+LDA- liner discriminant analyis
+SVD
+Forward feature extraction
+Backward feature elimination
