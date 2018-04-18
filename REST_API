@@ -1,0 +1,240 @@
+JAX-RS - REST
+	1.x
+	2.x - API
+	Implementations. Annotations from JAX-RS will be availabe in all implementaions. Just like JPA and Hibernate. There is no reason to use any extension from the implementations unless giving importatn improvements
+		Jersey 
+		Apache CXF
+		RESTEasy
+	TiendaService
+		getUserDetails(String useraName)	
+		getProductDetails(productCode)
+		getOrderDetailsForUser()
+		getAllOrderForUser()
+		getWishListForUser()
+		
+		POST
+		GET
+		UPDATE
+		DELETE
+		HEAD
+		TRACE
+		
+		CREATE
+		READ/RETRIEVE
+		UPDATE
+		DELETE
+		
+	?param=value <- query parameter
+	/param/ <- path parameter
+	
+URl formed:
+/projectname/PathName
+	
+		2:45  Missed 
+		3: 52 missed : making URL with relation ship
+		4:19 Response customization
+		
+		day3:
+		2:34
+		3:18
+		3:29
+		4.2
+	Deployment Option:
+		Create application class: Tell Jersy run time for resource classes
+		Create Web XML
+
+			
+	Beans
+	Services :code for accesing the resultts
+	Resources : Call to a service
+	Utils: ustils used in services
+	
+	JAX-B : java API for XMl binding. Need to annotate JAVA classes with @XML to return those in response
+	
+	Accept is standat HTTP header:
+	 Accept : application/json or application/xml <- for getting xml of json response
+	 
+	 Xml transient if we want to skip some properties to get reported
+	 
+	 @consumes
+	 
+	 URL should show the replationnship clearly
+	 user/name/order/id
+	 
+	 Fnd out the reationships between resources
+	 design URls which express the realtion ships
+	 Create root resource and sub resource classes. Sub resource is resource class which processes somepart of request which can not be processed by root resource class.
+	 Create su-resource-locator for creating and mapping sub resource
+	 
+	 ResourceContext
+	 @context // dependency injection to inject object of Resource context in resource class. Its done by jersy runtime
+	 ResourceContext context
+	
+JAX-WS - SOAP
+
+HATEOS = Hypermedia as the engine of application state
+Used to navigate in the REST API
+We return the URLs of the resources in response for client to t=navigate
+Imporatant as the client not necesary be a browser it can be an android app or some other app.
+
+Relations in REST api are differnt than those in HTML page.
+Make a new class Link with XMlRootElemt(name="link"). Will create XML with attribuetes in class. Use @XmlAttribute
+ 
+
+
+Same URL can do differetn operations like get and post
+For POST request content-type must be set. And contnt should match the mime type
+Important Annotations
+@FormParam <- form parameters are passed with body of request. So choose HTTP method with body. POST, PUT, DELETE. Not with GET
+@HeaderParams <- to find our value  of header params like "Accept". If header not present the it could be null or empty String
+@DefaultValue() <- if missing header then this default value will get used
+@CookieParam("some-cookie-name") <- to extract value of a cookie
+
+JEE server is required for what?
+
+Best practice for HTTP create methods
+Location header : URL of new resource
+
+We can return the object in response too.Response.ok(object).build()
+Ideally response should be used to return.
+
+How to make exception meaningful?
+Exception mapper: To map the exception to valid response instead of HTMl and stack trace
+ExceptionMapper<TiendaException> should be used to created mapper class.
+
+Use helper classes from JAX-RS. Like class converts JSON or XML in ot java bean object. These are called as componenet classes
+
+* @ApplicationPath() annotations
+
+Clietn shoud understand the meaning of rel attribute in HATEOS e.g. "collection"
+
+day 4:
+start to -3 PM
+
+
+Clean tomcat work directory to see the effects of new configurations.
+
+Set authorization headet in HTTP 
+Authorization Basic<space><base64 encoded user name and password>
+
+base64 encode.
+<username>:<password>
+
+Unauthorized:
+Wrong credentials
+
+Forbidden:
+Credentials are right but client does not have access to the resource
+
+
+To make basic authentication more effective combine it with HTTPS.
+Use OAuth 
+
+
+How to create documentation?
+
+
+#SecurityContext
+@Context
+SecurityContext
+
+Give more fine grained access control. Role based.
+one resource for Admin and other not no  admin. Throw exception. (may be handled at client side)
+
+
+declarative style of security:
+javax.anotation.security
+these are supported by JAX-RS api but not part of it
+@DeclareRoles({})
+@RolesAllowed({})
+
+Methods @RolseAllowed will override annotations at class level.
+
+Role creation happens at server level.
+
+Need to inherit frm the ResoureConfig class from  instead of Application class
+
+4:20
+
+No Security and HATEOS
+
+GET POST and PUT - Simple REST API. with Hard coded Data
+
+
+With PATCH parital object can be changed
+But with PUT complete object should be chnaged.
+
+XSD : Xml  schema definition, TO share the java bean classes to a client written in non java language. Client can use XSD to regenate the classes in its own format. Like PHP and C#
+
+schemagen is tool to create xsd files in JDK bin folder. Need to have JDK instead of JRE
+
+How to create the xsd with eclipse.
+
+Host xsd on server whihc can be downloaded by client. 
+Generate XSD and use those in clients.
+
+xjc : xml to java compiler
+
+
+Authentication:
+	Ensure the client accessing API is valid client
+	Basic
+	Digest
+Authorization:
+	Client sends authentication details along with request. If a client authenticates with server. Now check if the user is authorized for certain resource. If no then access is denied.
+	
+tomcat-user.xml <- edit to create user and role
+<role rolename="admin"/>
+<role rolename="general-user"/>
+
+<user username="mocba" password="thimpu"  role = "admin"/>
+<user username="pagoda" password="thimpu"  role = "admin"/>
+
+
+
+Create a realm:
+in Server.xml
+realm is data structure which stores all users and roles on a server.
+various types of realms. Use MemoryRealm stores everything in database
+We ca use JDBC realm too. In this case user and roles will be stored to database table. In this case nothing need to be given in tomcat-usrs.xml
+
+Now create a web.xml or deployent descriptor for resources
+<security-constraint>
+	<web-rsource-collection>
+	<web-rsource-name>
+	<url-pattern>
+	<web-rsource-collection/>
+	
+	<auth-constraint>
+		<role-name>
+		<role-name>
+	<auth-constraint/>
+
+	
+
+<security-constraint/>
+
+<login-config>
+<auth-method>
+<realm-name>
+</login-config>
+
+
+Sumary:
+container/server level (may be 10 roles)
+Application 1 level config (4 roles apply to these)
+	resource 1 2 roles access
+	resource 2 1 role access
+Application 2 level config (3 roles apply to these)
+	resource 1 1 role access
+	resource 2 2 role access
+	
+Remove project from tomcatClean omcat work directory. To make the effect of config files. undeoloy and redeploy to take the config take effect	
+
+Authorization header Basic <base 64 authentication>
+
+use base64encode.org to convert username and password to base 64
+<username>:<password>
+
+Tutorial for Basic authentication.
+	
