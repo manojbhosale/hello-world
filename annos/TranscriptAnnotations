@@ -1,0 +1,23 @@
+package com.anno.utils;
+
+public class TranscriptAnnotations {
+
+		private String biotype;
+		private String geneSymbol;
+		private String impact;
+		private String exon;
+		private String consequenceTerm;
+		
+		public TranscriptAnnotations(String biotype, String geneSymbol, String impact, String exon,
+				String consequenceTerm) {
+			super();
+			this.biotype = biotype;
+			this.geneSymbol = geneSymbol;
+			this.impact = impact;
+			this.exon = exon;
+			this.consequenceTerm = consequenceTerm;
+		}
+		
+
+
+}
