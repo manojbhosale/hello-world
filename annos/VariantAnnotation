@@ -1,0 +1,28 @@
+package com.anno.utils;
+
+import java.util.Map;
+
+public class VariantAnnotation {
+
+	private String hgvsGenomic;
+	private String rsId;
+	private String cosmicId;
+	private String maf;
+	private String severeConsequence;
+	private Map<String,TranscriptAnnotations> transcripts;
+	
+	public VariantAnnotation(String hgvsGenomic, String rsId, String cosmicId, String maf, String severeConsequence,
+			Map<String, TranscriptAnnotations> transcripts) {
+		super();
+		this.hgvsGenomic = hgvsGenomic;
+		this.rsId = rsId;
+		this.cosmicId = cosmicId;
+		this.maf = maf;
+		this.severeConsequence = severeConsequence;
+		this.transcripts = transcripts;
+	}
+	
+	
+	
+	
+}
