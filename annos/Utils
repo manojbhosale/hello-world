@@ -1,0 +1,362 @@
+package com.anno.utils;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.TreeMap;
+
+import org.apache.http.HttpConnection;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+
+import com.anno.model.Variant;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+
+import htsjdk.samtools.util.CloseableIterator;
+import htsjdk.variant.variantcontext.VariantContext;
+import htsjdk.variant.vcf.VCFFileReader;
+import htsjdk.variant.vcf.VCFHeader;
+
+public class VariantUtils {
+
+
+
+	public static String getHgvsGenomic(VariantContext variant) {
+
+		Variant var = new Variant(variant.getContig(), Long.valueOf(variant.getStart()), variant.getReference().getBaseString(), variant.getAlleles().get(1).getDisplayString());
+
+		return getHgvsFromVcf(var);
+	}
+
+	public static String getHgvsFromVcf(Variant var) {
+		String chromosome = var.getContig().replaceAll("chr","");
+		return chromosome+":g."+var.getPos()+var.getRef()+">"+var.getAlt();
+
+	}
+
+	public static void doPost(StringBuffer body) throws IOException {
+		//Create Ensembl Url
+		Properties ensProp = new Properties();
+		InputStream input = VariantUtils.class.getClassLoader().getResourceAsStream("url.properties");
+		ensProp.load(input);
+		String urlPrefix = ensProp.getProperty("ensembl_grch37_url");
+		String urlParams= ensProp.getProperty("ensembl_params");
+		Integer size = Integer.parseInt(ensProp.getProperty("ensembl_hgvs_chunk_size"));
+		String url = urlPrefix+"?"+urlParams;
+		System.out.println(url);
+
+		//create mongo Json
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode rootNode = mapper.createObjectNode();
+		JsonNode childNode1 = mapper.createObjectNode();
+		//JsonNode childNode2 = mapper.createObjectNode();
+		ArrayNode varNode = mapper.createArrayNode();
+		((ObjectNode) childNode1).put("file", "test.vcf");
+		((ObjectNode) childNode1).set("variantDetails", varNode);
+		((ObjectNode) rootNode).set("vcf", childNode1);
+		//((ObjectNode) rootNode).set("vcf", childNode1);
+
+		
+		
+		//create request
+		//StringBuffer body = new StringBuffer(); 
+		//body = body.append("{ \"hgvs_notations\" :[\"7:g.2976767G>A\",\"7:g.55214348C>T\"]}");
+
+		int timeout = 60;//seconds
+
+		RequestConfig config = RequestConfig.custom()
+				.setConnectTimeout(timeout * 1000)
+				.setConnectionRequestTimeout(timeout * 1000)
+				.setSocketTimeout(timeout * 1000).build();
+
+		CloseableHttpClient client = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
+
+		HttpPost postRequest = new HttpPost(url);
+		postRequest.addHeader("Accept", "application/json");
+		postRequest.addHeader("Content-Type", "application/json");	
+		postRequest.setEntity(new StringEntity(body.toString()));
+
+
+		//execute a query and get response
+		CloseableHttpResponse response = client.execute(postRequest);
+
+		//get result
+		System.out.println(response.getStatusLine());
+		BufferedReader rd = new BufferedReader(
+				new InputStreamReader(response.getEntity().getContent()));
+
+		//get output and print
+		String line = "";
+		StringBuffer result = new StringBuffer();
+		while ((line = rd.readLine()) != null) {
+			result.append(line);
+		}
+		//System.out.println(result);
+
+		JsonReader jsonReader = new JsonReader(new StringReader(result.toString()));
+		System.out.println(result);
+		JsonElement jp = new JsonParser().parse(result.toString());
+
+		int numVars = jp.getAsJsonArray().size();
+
+		for(int i = 0; i < numVars; i++) {
+			JsonElement variant = jp.getAsJsonArray().get(i);
+			//System.out.println(ele.getAsJsonObject().get("input").toString());
+			String inputVriant = variant.getAsJsonObject().get("input").toString();
+			String cosmicId = "";
+			try {
+				cosmicId = variant.getAsJsonObject().get("colocated_variants").getAsJsonArray().get(0).getAsJsonObject().get("id").getAsString();
+			}catch(NullPointerException e) {
+				//no cosmic ID
+			}
+			//get frequencies
+			Map<String,String> freqMap = new TreeMap<>();
+			String[] freqArr = new String[] {"ea","aa","afr","eur"};
+			String alt = inputVriant.split(">")[1].replaceAll("\"", "");
+			//System.out.println("ALT "+alt);
+			StringBuffer sigs = new StringBuffer();
+			String rsId="", maf="";
+			try {
+				if(variant.getAsJsonObject().get("colocated_variants").getAsJsonArray().size() > 1) {
+
+					rsId = variant.getAsJsonObject().get("colocated_variants").getAsJsonArray().get(1).getAsJsonObject().get("id").getAsString();
+					maf = variant.getAsJsonObject().get("colocated_variants").getAsJsonArray().get(1).getAsJsonObject().get("minor_allele_freq").getAsString();
+					for(String str : freqArr) {
+						freqMap.put(str, variant.getAsJsonObject().get("colocated_variants").getAsJsonArray().get(1).getAsJsonObject().get("frequencies").getAsJsonObject().get(alt).getAsJsonObject().get(str).getAsString());
+					}
+					//get clinical significances
+
+
+					Iterator<JsonElement> clinSigElements =  variant.getAsJsonObject().get("colocated_variants").getAsJsonArray().get(1).getAsJsonObject().get("clin_sig").getAsJsonArray().iterator();
+
+					while(clinSigElements.hasNext()) {
+						sigs.append(clinSigElements.next().getAsString()+",");
+					}
+
+
+				}
+			}
+			catch(NullPointerException e) {
+				//neglect clinical significance;
+			}
+
+
+			//get transcripts and consequences
+			List<Map<String,String>> transcriptDetails = new ArrayList<>();
+			String[] transcriptElements = new String[] {"gene_symbol","transcript_id","exon","intron","biotype","consequence_terms","impact"}; 
+			Iterator<JsonElement> trEles= variant.getAsJsonObject().get("transcript_consequences").getAsJsonArray().iterator();
+
+			while(trEles.hasNext()) {
+				Map<String, String> oneTrs = new HashMap<>();
+				JsonElement element = trEles.next();
+				for(String ele: transcriptElements) {
+					if("consequence_terms".equals(ele)) {
+
+						Iterator<JsonElement> conseqElement =  element.getAsJsonObject().get(ele).getAsJsonArray().iterator();
+						StringBuffer buf = new StringBuffer();
+						while(conseqElement.hasNext()) {
+							buf.append(conseqElement.next()+" ");
+						}
+						oneTrs.put("consequence_terms", buf.toString());
+						//System.out.println("Manoj");
+						continue;
+					}
+
+					//System.out.println(ele+" "+element.getAsJsonObject().get(ele).getAsString());
+					try {
+						oneTrs.put(ele, element.getAsJsonObject().get(ele).getAsString());
+						
+					}catch(NullPointerException e) {
+						//to handle missing exons and introns
+					}
+				}
+				transcriptDetails.add(oneTrs);
+			}
+
+
+			//get severe consequence
+
+			String mostSevereConsequence = variant.getAsJsonObject().get("most_severe_consequence").getAsString();
+			String alleleString = variant.getAsJsonObject().get("allele_string").getAsString();
+			System.out.println(inputVriant+" "+cosmicId+" "+rsId+" "+maf+" "+mostSevereConsequence+" "+alleleString+" "+freqMap+" "+sigs+" "+transcriptDetails);
+			//System.out.println();
+			
+			VariantAnnotation anno = new VariantAnnotation(hgvsGenomic, rsId, cosmicId, maf, severeConsequence, transcripts);
+			varNode.addPOJO()
+			
+		}
+
+	}
+
+	public static void main(String[] args) throws IOException {
+
+		File file = new File("C:\\Users\\pc\\Desktop\\AnnotaterData\\VCFs\\OnlySnpIndel.vcf");
+
+		VCFFileReader reader = new VCFFileReader(file,false);
+
+		List<String> varList = getVariantRepresentations(reader);
+		//get list of variants
+		//varList.forEach(System.out::println);
+		int chunkCheck = 0;
+		int size = varList.size();
+		//int size = 10;
+		StringBuffer body = new StringBuffer();
+		body = body.append("{\"hgvs_notations\":[\"");
+
+		String joined = String.join("\",\"", varList);
+		body.append(joined).append("\"]}");
+		/*for(String variant: varList) {
+			if(chunkCheck < size) {
+				if(chunkCheck == 0) {
+
+				}
+				chunkCheck++;
+				body.append("\""+variant+"\",");
+				continue;
+			}else {
+				body.append("\""+variant+"\"]}");
+			}	
+		}*/
+		//body.append("\"]}");
+		//System.out.println(body);
+		//For debug
+		//body = new StringBuffer("{\"hgvs_notations\":[\"7:g.55249188G>A\"]}");
+
+		doPost(body);
+		/*		
+		Properties ensProp = new Properties();
+		InputStream input = VariantUtils.class.getClassLoader().getResourceAsStream("url.properties");
+		ensProp.load(input);
+		String urlPrefix = ensProp.getProperty("ensembl_grch37_url");
+		String urlParams= ensProp.getProperty("ensembl_params");
+		Integer size = Integer.parseInt(ensProp.getProperty("ensembl_hgvs_chunk_size"));
+
+		String url = urlPrefix+"?"+urlParams;
+		System.out.println(url);
+		VCFFileReader vcfReader = new VCFFileReader(new File("C:\\Users\\pc\\Desktop\\AnnotaterData\\VCFs\\OnlySnpIndel.vcf"),false);
+
+		VCFHeader hearder = vcfReader.getFileHeader();
+		int chunkCheck = 0;
+		StringBuffer body = new StringBuffer(); 
+		body = body.append("{ \"hgvs_notations\" :[\"7:g.2976767G>A\",\"7:g.55214348C>T\"]}");
+		CloseableHttpClient client = HttpClientBuilder.create().build();
+
+		//Create post request
+		HttpPost postRequest = new HttpPost(url);
+		postRequest.addHeader("Accept", "application/json");
+		postRequest.addHeader("Content-Type", "application/json");	
+		postRequest.setEntity(new StringEntity(body.toString()));
+
+		CloseableHttpResponse response = client.execute(postRequest);
+
+		System.out.println(response.getStatusLine());
+		BufferedReader rd = new BufferedReader(
+				new InputStreamReader(response.getEntity().getContent()));
+		String line = "";
+		StringBuffer result = new StringBuffer();
+		while ((line = rd.readLine()) != null) {
+			//System.out.println(line);
+			result.append(line);
+		}
+		System.out.println(result);
+
+		JsonReader jsonReader = new JsonReader(new StringReader(result.toString()));
+
+		while(jsonReader.hasNext()) {
+			JsonToken nextToken = jsonReader.peek();
+			System.out.println(nextToken);
+
+	        if(JsonToken.BEGIN_OBJECT.equals(nextToken)){
+	            jsonReader.beginObject();
+	        } else if(JsonToken.NAME.equals(nextToken)){
+	            String name  =  jsonReader.nextName();
+	            System.out.println(name);
+	        } else if(JsonToken.STRING.equals(nextToken)){
+	            String value =  jsonReader.nextString();
+	            System.out.println(value);
+	        } else if(JsonToken.NUMBER.equals(nextToken)){
+	            long value =  jsonReader.nextLong();
+	            System.out.println(value);
+	        }else if(JsonToken.BEGIN_ARRAY.equals(nextToken)) {
+	        	jsonReader.beginArray();
+	        }
+		}
+
+		jsonReader.close();
+		response.close();	
+
+		 */		
+		/*for(VariantContext variant : vcfReader) {
+
+			if(chunkCheck < size) {
+				if(chunkCheck == 0) {
+					body = body.append("{ \"hgvs_notations\" :[");
+				}
+				chunkCheck++;
+				body.append("\""+getHgvsGenomic(variant)+"\",");
+				continue;
+			}else {
+				body.append("\""+getHgvsGenomic(variant)+"\"]}");
+			}
+
+			chunkCheck=0;
+			//create client
+			CloseableHttpClient client = HttpClientBuilder.create().build();
+			//Create post request
+			HttpPost postRequest = new HttpPost(url);
+			postRequest.addHeader("Accept", "application/json");
+			postRequest.addHeader("Content-Type", "application/json");	
+			//postRequest.addHeader("Content-length", Integer.toString(body.toString().getBytes().length));
+			postRequest.setEntity(new StringEntity(body.toString()));
+
+			CloseableHttpResponse response = client.execute(postRequest);
+
+			System.out.println(response.getStatusLine());
+			response.close();	
+			body = new StringBuffer();
+			//http://grch37.rest.ensembl.org/vep/human/hgvs/17:g.41196408G%3EA?dbNSFP=LRT_pred;numbers=1;refseq=1;uniprot=1;variant_class=1;xref_refseq=1
+			//String variantUrl
+			//no multi allele handliong
+			//first allele is refernce allele hence 1st index
+		}
+		 */		
+	}
+
+	public static List<String> getVariantRepresentations(VCFFileReader reader){
+		List<String> varList = new ArrayList<String>();
+
+		for(VariantContext variant : reader) {
+			varList.add(getHgvsGenomic(variant));		
+		}
+
+		return varList;
+	}
+
+
+
+}
