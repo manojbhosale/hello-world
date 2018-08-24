@@ -1,0 +1,61 @@
+package com.anno.dbutils;
+
+import org.bson.Document;
+
+import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+public class ConnectToDb { 
+
+	public static void main( String args[] ) {  
+
+		// Creating a Mongo client 
+		MongoClient mongo = new MongoClient( "localhost" , 27017 ); 
+
+		// Creating Credentials 
+		MongoCredential credential; 
+		credential = MongoCredential.createCredential("sampleUser", "myDb", 
+				"password".toCharArray()); 
+		System.out.println("Connected to the database successfully");  
+
+		// Accessing the database 
+		MongoDatabase database = mongo.getDatabase("variants");
+		
+		//create collection
+		//database.createCollection("testCollection");
+			
+		MongoCollection<Document> collection = database.getCollection("variants");
+		
+		
+		/*Insert to a collection
+		 * Document doc = new Document("title","VariantDB").append("id", "100").append("description", "database") 
+			      .append("likes", 100) 
+			      .append("url", "http://www.tutorialspoint.com/mongodb/") 
+			      .append("by", "tutorials point");  
+		
+		collection.insertOne(doc);
+		System.out.println("Document Inserted successfully !!");
+		*/
+		
+		//reading the docs from collection
+//		FindIterable<Document> iterDoc = collection.find();
+//		
+//		int i = 1;
+//		
+//		//getting the iterator
+//		Iterator it = iterDoc.iterator();
+//		
+//		while(it.hasNext()) {
+//			System.out.println(it.next());
+//		}
+		
+		for(String name : database.listCollectionNames()) {
+			System.out.println(name);
+		}
+	     
+		
+		
+	} 
+}
