@@ -1,4 +1,4 @@
-package com.anno.utils;
+package com.manoj.annos;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,33 +14,25 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
-import org.apache.http.HttpConnection;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 
-import com.anno.model.Variant;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 
-import htsjdk.samtools.util.CloseableIterator;
 import htsjdk.variant.variantcontext.VariantContext;
 import htsjdk.variant.vcf.VCFFileReader;
-import htsjdk.variant.vcf.VCFHeader;
 
 public class VariantUtils {
 
@@ -48,7 +40,7 @@ public class VariantUtils {
 
 	public static String getHgvsGenomic(VariantContext variant) {
 
-		Variant var = new Variant(variant.getContig(), Long.valueOf(variant.getStart()), variant.getReference().getBaseString(), variant.getAlleles().get(1).getDisplayString());
+		Variant var = new Variant(variant.getContig(), variant.getStart(), variant.getReference().getBaseString(), variant.getAlleles().get(1).getDisplayString());
 
 		return getHgvsFromVcf(var);
 	}
@@ -68,7 +60,7 @@ public class VariantUtils {
 		String urlParams= ensProp.getProperty("ensembl_params");
 		Integer size = Integer.parseInt(ensProp.getProperty("ensembl_hgvs_chunk_size"));
 		String url = urlPrefix+"?"+urlParams;
-		System.out.println(url);
+		//System.out.println(url);
 
 		//create mongo Json
 		ObjectMapper mapper = new ObjectMapper();
@@ -106,7 +98,7 @@ public class VariantUtils {
 		CloseableHttpResponse response = client.execute(postRequest);
 
 		//get result
-		System.out.println(response.getStatusLine());
+		//System.out.println(response.getStatusLine());
 		BufferedReader rd = new BufferedReader(
 				new InputStreamReader(response.getEntity().getContent()));
 
@@ -119,7 +111,7 @@ public class VariantUtils {
 		//System.out.println(result);
 
 		JsonReader jsonReader = new JsonReader(new StringReader(result.toString()));
-		System.out.println(result);
+		//System.out.println(result);
 		JsonElement jp = new JsonParser().parse(result.toString());
 
 		int numVars = jp.getAsJsonArray().size();
@@ -170,7 +162,7 @@ public class VariantUtils {
 			List<Map<String,String>> transcriptDetails = new ArrayList<>();
 			String[] transcriptElements = new String[] {"gene_symbol","transcript_id","exon","intron","biotype","consequence_terms","impact"}; 
 			Iterator<JsonElement> trEles= variant.getAsJsonObject().get("transcript_consequences").getAsJsonArray().iterator();
-
+			//Map<String,Mmap> transcripts = new HashMap<>();
 			while(trEles.hasNext()) {
 				Map<String, String> oneTrs = new HashMap<>();
 				JsonElement element = trEles.next();
@@ -203,19 +195,24 @@ public class VariantUtils {
 
 			String mostSevereConsequence = variant.getAsJsonObject().get("most_severe_consequence").getAsString();
 			String alleleString = variant.getAsJsonObject().get("allele_string").getAsString();
-			System.out.println(inputVriant+" "+cosmicId+" "+rsId+" "+maf+" "+mostSevereConsequence+" "+alleleString+" "+freqMap+" "+sigs+" "+transcriptDetails);
+			//System.out.println(inputVriant+" "+cosmicId+" "+rsId+" "+maf+" "+mostSevereConsequence+" "+alleleString+" "+freqMap+" "+sigs+" "+transcriptDetails);
 			//System.out.println();
-			
-			VariantAnnotation anno = new VariantAnnotation(hgvsGenomic, rsId, cosmicId, maf, severeConsequence, transcripts);
-			varNode.addPOJO()
+			//TranscriptAnnotations ta = new TranscriptAnnotations(biotype, geneSymbol, impact, exon, consequenceTerm)
+			VariantAnnotation anno = new VariantAnnotation(inputVriant, rsId, cosmicId, maf, mostSevereConsequence, transcriptDetails);
+			varNode.addPOJO(anno);
 			
 		}
+		
+		//ObjectMapper mapper = new ObjectMapper();
+		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode)); 
+		
 
 	}
 
 	public static void main(String[] args) throws IOException {
 
-		File file = new File("C:\\Users\\pc\\Desktop\\AnnotaterData\\VCFs\\OnlySnpIndel.vcf");
+		File file = new File("C:\\Users\\manojkumar_bhosale\\Desktop\\CompareVars\\testPL1.vcf");
 
 		VCFFileReader reader = new VCFFileReader(file,false);
 
@@ -246,7 +243,7 @@ public class VariantUtils {
 		//System.out.println(body);
 		//For debug
 		//body = new StringBuffer("{\"hgvs_notations\":[\"7:g.55249188G>A\"]}");
-
+		System.out.println(body);
 		doPost(body);
 		/*		
 		Properties ensProp = new Properties();
@@ -351,7 +348,9 @@ public class VariantUtils {
 		List<String> varList = new ArrayList<String>();
 
 		for(VariantContext variant : reader) {
-			varList.add(getHgvsGenomic(variant));		
+			varList.add(getHgvsGenomic(variant));
+			//System.out.println(variant.getAlleles().get(1)); 
+			
 		}
 
 		return varList;
