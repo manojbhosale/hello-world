@@ -11,6 +11,12 @@ index
 concatenation operator
 "in " and  "not in" operators
 
+String functions
+len(string)
+string.split("")
+string[1]
+"x" in string
+
 list 
 tuples
 list inside tuple
