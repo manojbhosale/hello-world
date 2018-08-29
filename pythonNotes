@@ -1,10 +1,12 @@
-append
-remove
-pop
+b.append([10,11,12]) #adds a list to another as an element
+a.remove(2) #removes first matching value
+b.pop(3) #remoevs last element by default or at specified index and returns the value, pop() to remove it by index if you need the returned value
+del a[1] #removes specific index does not return
+del lst[1:] #removes list of indexes as list slicing
 
-extend
-sort
-count 
+b.extend([10,11,12]) #combines one list to another
+b.sort(reverse=True)
+b.count(3)
 index
 concatenation operator
 "in " and  "not in" operators
