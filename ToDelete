@@ -1,0 +1,73 @@
+server = "https://grch37.rest.ensembl.org"
+ext = "/vep/human/hgvs"
+headers={ "Content-Type" : "application/json", "Accept" : "application/json"}
+
+batch = 0
+
+size = 10
+data={}
+smallList = []
+resImpacts=[]
+finalResult =[]
+
+for x in hgvsList:
+    smallList.append(x)
+    batch += 1
+   
+    
+    if size == batch:
+        batch = 0
+        data['hgvs_notations'] = smallList
+        jsondata = json.dumps(data)
+        #print(jsondata)
+        
+        #print(server+ext)
+        r = requests.post(server+ext,jsondata, headers=headers )
+        if r.ok:
+            resJson = json.loads(r.content.decode('utf8'))
+            #print(resJson)
+            for single in resJson:
+                resImpacts.append(single["most_severe_consequence"])
+            print(smallList,resImpacts)
+            finalResult.extend(zip(smallList,resImpacts))
+        smallList=[]  
+if batch > 0:
+    data['hgvs_notations'] = smallList
+    jsondata = json.dumps(data)
+    #print(jsondata)
+    r = requests.post(server+ext,jsondata, headers=headers)
+    if r.ok:
+        resJson = json.loads(r.content.decode('utf8'))
+        for single in resJson:
+                resImpacts.append(single["most_severe_consequence"])
+        #print(resImpacts)
+        finalResult.extend(zip(smallList,resImpacts))
+        #print(resJson)
+for a in finalResult:
+    print(a)
+
+	
+######################
+def getHgvs(vcfRecord):
+    cols = vcfRecord.split("\t")
+    chrm = cols[0].replace("chr","").strip()
+    pos = cols[1].strip()
+    ref = cols[3].strip()
+    alt = cols[4].strip()
+    return chrm+":g."+pos+ref+">"+alt
+  
+##########################
+
+file = open("C:\\Users\\manojkumar_bhosale\\Desktop\\CompareVars\\testPL1.vcf","r")
+
+hgvsList = []
+
+for line in file:
+    if(line.startswith("#")):
+        continue
+    hgvsList.append(getHgvs(line))
+    #print(line)
+
+for x in hgvsList:
+    print(x)
+    
