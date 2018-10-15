@@ -1,0 +1,39 @@
+package com.anc.method;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+public class MethodDriver {
+	
+	public static void main(String[] args) {
+		
+		Method m = new Method();
+		
+		//get gson object 
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String fileData = "";
+		try {
+			fileData = new String(Files.readAllBytes(Paths.get("C:\\Users\\manojkumar_bhosale\\Desktop\\AnCAutomation\\mutliMethod.txt")));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//read method object from the json file
+		Method[] meth1 = gson.fromJson(fileData, Method[].class);
+		
+		System.out.println(meth1);
+		
+		
+		//convert object to json 
+		String methJson = gson.toJson(meth1);
+		System.out.println(methJson); 
+		
+		
+	}
+
+}
