@@ -1,0 +1,45 @@
+package com.anc.method;
+
+import java.util.Map;
+
+public class Method {
+	
+	private String name;
+	private String kit;
+	private String type;
+	private Map<String, String> params;
+	
+	public String getName() {
+		return name;
+	}
+	public Map<String, String> getParams() {
+		return params;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getKit() {
+		return kit;
+	}
+	public void setKit(String kit) {
+		this.kit = kit;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "Method [name=" + name + ", kit=" + kit + ", type=" + type + ", params=" + params + "]";
+	}
+	
+	
+
+	
+	
+
+}
