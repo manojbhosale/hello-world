@@ -1,0 +1,20 @@
+[
+{
+"name":"Default HaloPlex Method",
+"kit":"HaloPlex",
+"type":"SingleSample",
+"params":{
+		"Minimum allele frequency":"0.1",
+		"Track":"testTrack1"
+		}	
+},
+{
+"name":"Default SureSelect Method",
+"kit":"SureSelect",
+"type":"SingleSample",
+"params":{
+		"Minimum allele frequency":"0.01",
+		"Track":"testTrack1"
+		}	
+}
+]
