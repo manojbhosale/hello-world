@@ -98,7 +98,44 @@ Used in functional programming
 File handling:
 	dir(object) <- lists all the methods or members of the object
 	fileHandle = open("<file name>","modifier")
-	
+	File handling:
+	dir(object) <- lists all the methods or members of the object
+	fileHandle = open("<file name>","modifier")
+	input: read(), readLines(), readLine()
+	output: write(), writeLines()
+	tell()
+	seek()
+	str = raw_input("enter stiring:") //raw_input() and input(). later tries to interpret input from user and former takes all as string.raw_input() is renamed to input() in python 3
+	revstr = str[::-1]
+
+List compreshensions and map function:
+However, there are cases when you cannot use map() and have to use a list comprehension instead, or vice versa. When you can use both, then it is often preferable to use a list comprehension, because this is more efficient and easier to read, most of the time.
+
+
+Package:
+Can contain classes with functions and member variables.
+
+Import:
+With import statement, definition of the variables in current script will be overriden.
+
+from someFile import ClassName
+from someFile import memberName
+from someFile import methodName
+
+
+python check for the packages in th e paths stored in path variable.
+import sys
+sys.path()
+sys.path.appen('<path to include>')
+
+Mammals class is precompiled when imported for first time
+
+jupyter magics:
+%quickref
+%cd
+%time
+%%perl
+
 
 
 
