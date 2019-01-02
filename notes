@@ -11,6 +11,7 @@ Extensions - Loads jar files from JDK extensions directory - usually lib/ext dir
 System - Loads classes from system classpath.
 
 Assert statements should not cause side effects. Line 22 changes the value of z if the assert statement is false.
+assert <expression1>: <expression2> // expression1 must return boolean value and expression2 must return some value and can not be void
 
 Legally, however, AssertionError is a subclass of Throwable, so it can be caught. But just don't do it! If you're going to try to recover from something, it should be an exception. To discourage you from trying to substitute an assertion for an exception, the AssertionError doesn't provide access to the object that generated it. All you get is the String message.
 
