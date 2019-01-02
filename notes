@@ -115,7 +115,7 @@ To persist state of an object e.g. svae it in file, share over the network.
  
  In inheritance:
  
-	 A class CAN NOT BE deserialized if it implements serializable but the super class does not implements serializable; Otherwise super class must have a no-argument constructor accessible to the sub class; this constructor will be used to initialize sub classes sub object;
+	 A class CAN NOT BE deserialized if it implements serializable but the super class does not implements serializable; Otherwise super class must have a no-argument constructor accessible to the sub class; this constructor will be used to initialize sub classes object;
 	 
 	 A class CAN BE serialized if it does not implement serializable but its super class does implements serializable;
  
@@ -185,7 +185,7 @@ NvigableSet extends SortedSet
  
  
  HashSet <- adds keys randomly
- LinkedHashSet <- preserves the insertion orcer
+ LinkedHashSet <- preserves the insertion order
  TreeSet <- Adds values in sorted order
  
 Multithreading:
@@ -244,7 +244,7 @@ JDBC <- java database connectivity
 	
 	Standard steps of JDBC use:
 	
-	Load the driver 
+	Load the driver // not required from Java 1.x? 
 	Establish connection withd database
 	Execute the queries
 	Handle exception
@@ -260,7 +260,7 @@ JDBC <- java database connectivity
 	Since JDBC 4.0 however there is a new way to register drivers: the jar of a JDBC drivers needs to include a file /META-INF/services/java.sql.Driver which contains the name(s) of the java.sql.Driver implementations in that jar. When you create a connection using the DriverManager, it will use java.util.ServiceLoader to enumerate all /META-INF/services/java.sql.Driver files in the classpath and load all drivers so they get registered.
 	The reasons drivers are loaded this way(with ForName()), is that it allows you to decouple an application from the driver (and database) it uses. This means that you can write, compile and even distribute an application without any drivers, you only need to use the interfaces provided in the java.sql (and javax.sql) packages which is part of Java without needing to access the implementation directly.(Source: http://stackoverflow.com/questions/20078586/why-we-use-class-forname-oracle-jdbc-driver-oracledriver-while-connecting-to)
 	
-	What is the need of foName method?
+	What is the need of forName method?
 	
 	ResultSet(I) 
 		cursor points to the beginning of the result.
@@ -285,7 +285,7 @@ Inner classes:
 		only inner class can be static
 		Inner class needs to be static in order to be extended by other class.
 		Outer class can be public, abstract or final
-		Local iner classes:
+		Local inner classes:
 			class inside the method or local to a method.
 			only default, abstract and final is permitted for local inner class.
 			
@@ -330,7 +330,7 @@ These methods can be overridden by extending interface.
 Default methods enable you to add new functionality to existing interfaces and ensure binary compatibility with code written for older versions of those interfaces.
 
 When you extend an interface that contains a default method, you can do the following:
-•	Not mention the default method at all, which lets your extended interface inherit the default method.
+•	Do not mention the default method at all, which lets your extended interface inherit the default method.
 •	Redeclare the default method, which makes it abstract.
 •	Redefine the default method, which overrides it.
 
