@@ -4,6 +4,8 @@ Arrays.copyOf(int[] original, int newLength)
 this and super cannot be used in static context.
 compile time and run time polymorphisms/dynamic method dispatch
 If there is any private, final or static method in a class, there is static binding.
+Overriding - Dynamic binding
+Overloading - Static binding
 
 Q1. What are various types of Class loaders used by JVM ?
 Bootstrap - Loads JDK internal classes, java.* packages.
@@ -17,19 +19,15 @@ Legally, however, AssertionError is a subclass of Throwable, so it can be caught
 
 Basically the prefix and postfix unary operators have a higher order of evaluation than the relational operators. So on line 4 the variable i is incremented and the variable j is decremented before the greater than comparison is made. 
 
-what is the size of the object after assigning the null value
-
-
-Overriding - Dynamic binding
-Overloading - Static binding
+what is the size of the object after assigning the null value?
+What is null?
+Ans: In practice, the programmer can ignore the null type and just pretend that null is merely a special literal that can be of any reference type.
 
 Distributed - Ionvolves RMI, Socket programming
 
 Java sandbox - provides very restrictive environment in which untrusted(downloaded/remote) code runs. These types of code(mostly applets) are not allowes to access vital resources like system files.(Ref: http://docs.oracle.com/javase/7/docs/technotes/guides/security/spec/security-spec.doc1.html)
 
 Not all statements in try block are guranteed to be executed. If I want guranteed execution then I need to include those in finally block.
-
-
 
 Exceptions can be handled but errors can not be handled.
 Exceptions always occur at run time.
@@ -41,15 +39,17 @@ Custom exception:
 	Custom exceptions should normally be checked exceptions and force to handle the exception.
 	The calling code should normally handle the exception is best practice as developer can handle group multiple exceptions in single try block.
 Chained exceptions: These were added in java 1.4
-Assertions: Introduced in java 1.5; Invariant -> In computer science, an invariant is a condition that can be relied upon to be true during execution of a program, or during some portion of it. It is a logical assertion that is held to always be true during a certain phase of execution. For example, a loop invariant is a condition that is true at the beginning and end of every execution of a loop.; More about use of assertion in precondition, postcondition and class invariants.
+Assertions: Introduced in java 1.5; 
+Invariant -> In computer science, an invariant is a condition that can be relied upon to be true during execution of a program, or during some portion of it. It is a logical assertion that is held to always be true during a certain phase of execution. For example, a loop invariant is a condition that is true at the beginning and end of every execution of a loop.; More about use of assertion in precondition, postcondition and class invariants.
 Multiple exceptions can be handled by one catch block;since JDK 1.7
 
 
 Assertion throws AssertionError
 
-Does the methods have to be static to achieve static binding/compiletime polymorphism ?
+Does the methods have to be static to achieve static binding/early binding/compiletime polymorphism ?
+Ans: No, It can be final or private. Static binding is better performance wise (no extra overhead is required). Compiler knows that all such methods cannot be overridden and will always be accessed by object of local class. Hence compiler doesn’t have any difficulty to determine object of class (local class for sure). That’s the reason binding for such methods is static.
 
-Architecture neutral and protable difference?
+Architecture neutral and portable difference?
 Basically they're saying that in addition to running on multiple environments (because of being interpreted within the JVM), it also runs the same regardless of environment. The former is what makes it portable, the latter is what makes it architecture-neutral. For example, the size of an int does not vary based on platform; it's established by the JVM.
 
 
