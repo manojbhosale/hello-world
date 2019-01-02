@@ -65,7 +65,7 @@ Byte Streams:
 InputStream(AC), OutputStream(AC) <- just know how to read and write and not specific to any input. Were part of java 1.1. Operate on 8 bit(1 byte data)
 FileInputStream(C), FileOutputStream(C) <- specific to read and write file.
 DataInputStream(C), DataOutputStream(C) <- For reading and writing the primitive types. Here conversion of primitives to bytes and bytes to primitives is taken care of by this class. If we use FileInputStream then it will be developers responsibility to write business logic for converison. File writing will be taken care of by FileOutputStream.
-ObjectInputStream(c), ObjectOutputStream(c) <- takes care of converting objects to bytes and bytes and objects
+ObjectInputStream(C), ObjectOutputStream(c) <- takes care of converting objects to bytes and bytes and objects
 
 we can not interconnect byte and character streams, because the byte and character streams differ in the functionalities provided.
 
