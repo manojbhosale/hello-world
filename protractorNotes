@@ -1,0 +1,3 @@
+Protractor uses JavaScript as language, NodeJS as programming environment and Jasmine as its test-runner-framework. Having some basic skills with these technologies will help
+
+Protractor uses WebDriverJS which is based on Selenium. So Protractor is not instead of Selenium, but it is an extra layer on top of Selenium to make testing AngularJS applications easier. Researching the WebDriverJS specification will also help. It simplifies the async nature of JavaScript and this will be probably be your greatest challenge when migrating from Java.
