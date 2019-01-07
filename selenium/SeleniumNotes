@@ -1,0 +1,90 @@
+Design Patterns:
+	Page Object Model
+		It enables you to create object repository with UI elements. Elements are separated from tests logic. 
+		helps to reduce the number of duplicated code
+		helps with test maintenance
+		The main idea behind page object is to place the code relating to the functionality of subpages in separate classes. 
+		if a button on the page does not gets you to different subpage, this method should return this. Moreover, if a button is a link to another page, the method should return page object class of this subpage. 
+		
+	Page Factory
+		The main idea behind this pattern is to support page object classes, and to allow better page selectors management. 
+		private WebElement email;
+		That’s all! Page Factory search page source code for element with id=”email” by default and assigns it to declared webelement.	
+		Important thing to notice is that every time we call a method on web element, page factory search for our element all over again through page sources. If page isn’t AJAX-based, we can use page factory cache to search an element only with page factory initialization, and then retrieve it from cache:
+			@FindBy(id = “email”)
+			@CacheLookup
+			private WebElement userEmailLoginInput;
+	Strategy Design pattern in unit testing:
+		One interface suppose ValidateUser.
+		Other concrete classes implementing the ValidateUser like, AdminUser,
+			
+	Design patterns every test automation engineer should know:
+		https://automationrhapsody.com/complete-guide-how-to-use-design-patterns-in-automation/
+	
+Locators:
+	
+	The most efficient way (and preferred way) to locate an element on a web page is to use unique IDs. When there is no ID to use, the next preferred choices are NAME and CSS locators. 
+	
+	The only problem with using NAME and CSS locators is that sometimes a page may contain multiple elements with the same name. Why is this a problem? It’s a problem because Selenium is designed to find the first matching element on the page. 
+	 The XPATH locator should only be used as the last resort to find an element on web pages. The key is to have a clear locator strategy with developers. 
+	 To find the second or third element on the page, many need to use one of the other types of locators: Link Text, Partial Link Text, Tag Name, Class Name, Attributes, Datasets, and XPATH. The XPATH locator should only be used as the last resort to find an element on web pages.
+	 
+	Locator strategy:
+		Its the way of interacting with page elements with various locators e.g. Id, Name, Link, DOM, XPath, and CSS.
+	CSS selectors:
+		Its cross browser performant, simpler and easy to maintain.
+		.intro	Selects all elements with class="intro"
+		#firstname	Selects the element with id="firstname"
+		
+	Three Important Points for Scaling Test Automation
+		It starts by developing automated tests to be small and modular (independent), which allows for faster feedback
+		Continuous Integration (eliminate the human factor from the equation)
+		Ability to run hundreds of tests in parallel (check out my blog post to learn about ‘The Benefits of Parallel Testing’.)
+	
+Waits in Selenium:
+	Explicit:
+		It waits for certain condition to occur before proceeding.
+		WebDriverWait calls the expected condition after every 500 milli secs until it returns true.
+		We can use explicit wait if the element takes long time to load or we need to check status of the element like checked or unchecked.
+		So instead of waiting and then finding elemenet with implicit waits, its better wait with condition and time out. This will giev better performance as it will not always wait for the fixed period of time.
+			
+		
+	
+		WebDriver driver = new FirefoxDriver()
+		driver.get("<URL>")
+		WebElement ele = (new WebDriverWait(driver,10)).until(ExpectedConditions.presenceOfElementLcoated(By.id(",ID_TEXT")))
+		
+	Implicit:
+		Normally these waits should not be used as these poll the DOM for certain period of time when trying to find element or until some element becoms available. It can be coded as below.		
+			diver.manage().timeouts().implicitlyWait(10, TimeUnits.SECONDS)
+			driver.get("<URL>")
+			WebDriver ele = driver.findElement(By.id("id_text"))
+		
+	
+		
+	
+	Fluent:
+		It can be used to test the presence of an element that may appear after every x seconds/minutes.
+		It lets you specify the max time of wait and the frequency at which the conditions needs to be checked.
+		Ignore specific types of exceptions such as NoSuchElementExceptions while searching for the elements on the page.
+		WebDriverWait is subclass of fluent wait . Fluent wait has more options to configure.
+		
+		
+		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+			.withTimeout(10, SECONDS)
+			.pollingEvery(5, SECONDS)
+			.ignoring(NoSuchEleemntException.class)
+		
+		WebElement fooo = wait.until(new Function<WebDriver, WebElement>(){
+			public WebElement apply(WebDriver driver){
+				return driver.findElement(By.id("foo"));
+			}
+		});
+		
+		
+For project:
+	Deploy using jenkins, grid, docker.
+	Java Collections.
+	Locators.
+	
+	
