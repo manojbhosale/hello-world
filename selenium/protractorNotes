@@ -1,0 +1,64 @@
+protractor default browser is google chrome
+add extension to enable the suggesions/auto complete feature of VS code. Ctrl + Shift + P. install new extensions.
+
+ES6 module vs common js module
+
+Steps for protractor:
+Install nodejs
+Install protractor
+	>npm install -g protractor #this installs webdrier manager and protractor commands
+	>webdriver-manager update #webdriver manager needs to be up and running to run selenium 
+	>webdriver-manager start --no-sandbox #start the webdriverwithout sand box to avoid failure
+create a folder for project
+open the folder from VS code
+Now run >npm init
+define pacakge.josn with required dependencies as protractor and jasmine with versions
+Now run >npm install # this will download dependencies and create package.json and other files
+Create conf.js as below with adderss of selenium hub and specs file
+exports.config = {
+    seleniumAddress:'http://localhost:4444/wd/hub/',
+    specs:['spec.js']
+}
+
+create spec.js as defined in conf.js with below content
+	describe('enterNameFeature',function(){
+
+	it('should enter name as Tom',function(){
+	    browser.get("https://angularjs.org/");
+	    element(by.model('yourName')).sendKeys("Tom");
+
+	    var text = element(by.xpath('/html/body/div[2]/div[1]/div[2]/div[2]/div/h1'));
+	    expect(text.getText()).toEqual("Hello Tom!")
+
+	});
+
+	});
+	
+##here "browser" is global variable created by protractor which gives selenium webdriver instance
+by.XXX # this is used along with "element" function to select elements by xpath, css, model. just like selenium selectors
+expect is used to check the conditions like string equality 
+
+>protractor conf.js # this command is used to run the protractor project. Commandline output shows the failures and pass test cases count.
+
+basic framework of a test case/spec. There can be multiple describe() for multiple specs.
+
+describe("<title of the spec>",function(){
+	it("should have title", function(){
+		browser.get('<app url>'); //here the browser is loaded
+		var ele = element(by.model('<model name>')).sendKeys('Abc'); //find element
+		expect(ele.getText()).toEqual('<expected text>');
+		browser.driver.sleep(3000); //sleep or wait for 3 seconds
+	});
+});
+
+#to run test cases on multiple browsers add below to the conf.js
+
+    multiCapabilities:[{
+        browserName:'firefox'
+    },{
+        browserName:'chrome'
+    }]
+
+# we can specify the elements at the describe() function global level and use those in the  it() function directly. Just like objectFactory for selenium.
+#by. model, xpath, id, css, className
+
