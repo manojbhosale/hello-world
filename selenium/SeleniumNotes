@@ -86,5 +86,30 @@ For project:
 	Deploy using jenkins, grid, docker.
 	Java Collections.
 	Locators.
+
+Selenium Sessions:
+	A new sessionID is created for a new instance of WebDriver.
+	One session will bind with one particular browser.
+	Using attribute thread and parallel, you run your scripts in parallel.
+	You can use attribute dependency to set the order to test execution	
+
+TestNG:
+	 @Test(dependsOnMethods={"testAdd", "testDivide"}, alwaysRun=true) # this can be used to assign dependency of method on each other, to maintani the sequence of run
+	 Setting alwaysRun attribute on a test method to true forces the execution of this test even if the tests it depends on were failed.
+	 dependsOnMethods attribute on a test method [test1 e.g.] specifies all the test methods [test2, test3,..] this test method depends on. It means test1 will start execution only after all the tests it depends on executed successfully. If any of the tests specified via dependsOnMethods attribute failed, then test1 will be skipped.
+	 
+ 	@Test(groups = "tests", dependsOnGroups = "pre-tests")
 	
+	If there is no order defined thet testNG will execute test based on naturalOrder of method names.
+	Way to checngethe order is to change the
+		1. Method priorities
+		2. "dependsOnMethods" attribute
+		3. "dependsOnGroups" attribute
+		
+Java Collections:
+
+
+Arquillian graphene:
+It enables JQuery selectors as a location strategy which is familiar to web development community
+Can use Page objects and page fragments
 	
