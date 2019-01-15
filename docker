@@ -169,7 +169,53 @@ Containerized technology:
 		
 		
 		
-			
+DOCKER SETUP STEPS:
+Install Docker on windows
+Create ubuntu VM using hyperv and boot2docker image.(Enable hyperV on windows first)
+In the  boot2docker VM docker deamon is already present.
+Create dockerfile for selenium hub and chrome and firefox. Or create these indivudually and connect the browser VMs with hub and register as nodes.
+Get the URL like below and use it in code/config file.
+http://10.77.201.58:4444/wd/hub  #here 10.77.201.58 is the host VM address and 4444 is the port on which hub is deployed.
+
+
+
+DEPLOYMENT IDEA:
+Checkin to Git/bitbucket
+Add bitbucket path to bamboo/jenkins
+Trigger build per IR
+This build will have pre-build dependency to get the Selenium Hub Up and running
+the testcases will execute on the browsers as per specificaiton from connad line or the config file.
+
+If different browsers needs to be tested then docker hosts for that type of browser can be up and running with some script and docker file. Then the tests will run on that host with that browser parameter to Jar.
+Test results will get mailed to team.
+
+
+After testing is done the containers will be down.
+
+Docker engine:
+	Its a client server application made up of docker deamon and REST API cli client
+
+Docker machine: 
+	Provision docker hosts on remote/local systems. 
+	Supports major virtualization hypervisors.
+	One can use docker machine to install docker engine on multiple remote systems.
+	
+Docker swarm:
+	multiple docker engines is docker swarm
+	Docker swarm is native clustering for docker.
+	Docker swarm is the tool that clusters Docker hosts and schedules containers
+	It turns pool of docker containers into singel virtual docker host.
+	
+	
+	
+Docker compose:
+	Docker compose is different than the Dockerfile used to crete images
+
+Kubernetes:
+	If you want to manage docker containers accroess vast fleet of servers and infrastruture, then you use Docker orchestration tools like Kubernetes.
+	Docker can not manage containers accros multiple nodes.
+	Its a cluster manager for docker
+	Kubernetes is a solution for overseeing and managing multiple containers at scale rather than just working with Docker on a manually-configured host.			
 
 
 		
