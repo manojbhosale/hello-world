@@ -1,0 +1,85 @@
+SET refLocation=F:\Agilent\Agilent_SureCall_3.5.1.46\Server\CommonStorage\GenomeReferences\hg19\hg19\hg19.fasta
+SET java7path="C:\Program Files\Java\jdk1.7.0_13\bin\java"
+SET java8path="C:\Program Files\Java\jdk1.8.0_66\bin\java"
+set picard="picard-2.8.2.jar"
+set gatk="GenomeAnalysisTK.jar"
+set maxHeapMemory="-Xmx20g"
+
+
+REM java %maxHeapMemory% -jar %picard% MarkDuplicates I=L004_I003_chr22_child.sorted.bam O=L004_I003_chr22_child.sorted.mdup.bam M=childMetrics.txt
+
+goto comment
+...skip this...
+
+::multiline comment
+
+REM Sort by coordinate
+%java8path% %maxHeapMemory% -jar %picard% SortSam I=MCSC032417DNA_22_S_L00_R_001.bam O=L004_I003_chr22_child.sorted.bam SO=coordinate
+%java8path% %maxHeapMemory% -jar %picard% SortSam I=MCSC032417DNA_23_S_L00_R_001.bam O=L004_I004_chr22_father.sorted.bam SO=coordinate
+%java8path% %maxHeapMemory% -jar %picard% SortSam I=MCSC032417DNA_24_S_L00_R_001.bam O=L004_I005_chr22_mother.sorted.bam SO=coordinate
+
+
+REM MArk duplicates
+%java8path% %maxHeapMemory% -jar  %picard% MarkDuplicates I=L004_I003_chr22_child.sorted.bam O=L004_I003_chr22_child.sorted.mdup.bam M=childMetrics.txt
+%java8path% %maxHeapMemory% -jar  %picard% MarkDuplicates I=L004_I004_chr22_father.sorted.bam O=L004_I004_chr22_father.sorted.mdup.bam M=fatherMetrics.txt
+%java8path% %maxHeapMemory% -jar  %picard% MarkDuplicates I=L004_I005_chr22_mother.sorted.bam O=L004_I005_chr22_mother.sorted.mdup.bam M=motherMetrics.txt
+
+REM Index
+%java8path% %maxHeapMemory% -jar  %picard% BuildBamIndex I=L004_I003_chr22_child.sorted.mdup.bam
+%java8path% %maxHeapMemory% -jar  %picard% BuildBamIndex I=L004_I004_chr22_father.sorted.mdup.bam
+%java8path% %maxHeapMemory% -jar  %picard% BuildBamIndex I=L004_I005_chr22_mother.sorted.mdup.bam
+
+
+
+REM realignment target creation(needs indexed BAM file)
+%java7path% %maxHeapMemory% -jar %gatk% -T RealignerTargetCreator -R %refLocation% -I L004_I003_chr22_child.sorted.mdup.bam -o child_realignment_targets.list
+%java7path% %maxHeapMemory% -jar %gatk% -T RealignerTargetCreator -R %refLocation% -I L004_I004_chr22_father.sorted.mdup.bam -o father_realignment_targets.list
+%java7path% %maxHeapMemory% -jar %gatk% -T RealignerTargetCreator -R %refLocation% -I L004_I005_chr22_mother.sorted.mdup.bam -o mother_realignment_targets.list
+
+REM realignment
+%java7path% %maxHeapMemory% -jar %gatk% -T IndelRealigner -R %refLocation% -I L004_I003_chr22_child.sorted.mdup.bam -targetIntervals child_realignment_targets.list -o L004_I003_chr22_child.sorted.mdup.realigned.bam 
+%java7path% %maxHeapMemory% -jar %gatk% -T IndelRealigner -R %refLocation% -I L004_I004_chr22_father.sorted.mdup.bam -targetIntervals father_realignment_targets.list -o L004_I004_chr22_father.sorted.mdup.realigned.bam 
+%java7path% %maxHeapMemory% -jar %gatk% -T IndelRealigner -R %refLocation% -I L004_I005_chr22_mother.sorted.mdup.bam -targetIntervals mother_realignment_targets.list -o L004_I005_chr22_mother.sorted.mdup.realigned.bam 
+
+
+
+REM mate fixing
+%java8path% %maxHeapMemory% -jar %picard% FixMateInformation INPUT=L004_I003_chr22_child.sorted.mdup.realigned.bam OUTPUT=L004_I003_chr22_child.sorted.mdup.realigned.fixed.bam  SO=coordinate VALIDATION_STRINGENCY=LENIENT CREATE_INDEX=true
+%java8path% %maxHeapMemory% -jar %picard% FixMateInformation INPUT=L004_I004_chr22_father.sorted.mdup.realigned.bam OUTPUT=L004_I004_chr22_father.sorted.mdup.realigned.fixed.bam  SO=coordinate VALIDATION_STRINGENCY=LENIENT CREATE_INDEX=true
+%java8path% %maxHeapMemory% -jar %picard% FixMateInformation INPUT=L004_I005_chr22_mother.sorted.mdup.realigned.bam OUTPUT=L004_I005_chr22_mother.sorted.mdup.realigned.fixed.bam  SO=coordinate VALIDATION_STRINGENCY=LENIENT CREATE_INDEX=true
+
+
+
+
+REM BQSR
+REM  Step1: 
+%java7path% %maxHeapMemory% -jar %gatk% -T BaseRecalibrator -R %refLocation% -I L004_I003_chr22_child.sorted.mdup.realigned.fixed.bam -knownSites clinvar_20170516.vcf.gz -o child_recal_data.table 
+%java7path% %maxHeapMemory% -jar %gatk% -T BaseRecalibrator -R %refLocation% -I L004_I005_chr22_mother.sorted.mdup.realigned.fixed.bam -knownSites clinvar_20170516.vcf.gz -o mother_recal_data.table 
+%java7path% %maxHeapMemory% -jar %gatk% -T BaseRecalibrator -R %refLocation% -I L004_I004_chr22_father.sorted.mdup.realigned.fixed.bam -knownSites clinvar_20170516.vcf.gz -o father_recal_data.table 
+
+
+REM step2:
+%java7path% %maxHeapMemory% -jar %gatk% -T BaseRecalibrator -R %refLocation% -I L004_I003_chr22_child.sorted.mdup.realigned.fixed.bam -knownSites clinvar_20170516.vcf.gz -BQSR child_recal_data.table -o child_post_recal_data.table 
+%java7path% %maxHeapMemory% -jar %gatk% -T BaseRecalibrator -R %refLocation% -I L004_I005_chr22_mother.sorted.mdup.realigned.fixed.bam -knownSites clinvar_20170516.vcf.gz -BQSR mother_recal_data.table -o mother_post_recal_data.table 
+%java7path% %maxHeapMemory% -jar %gatk% -T BaseRecalibrator -R %refLocation% -I L004_I004_chr22_father.sorted.mdup.realigned.fixed.bam -knownSites clinvar_20170516.vcf.gz -BQSR father_recal_data.table -o father_post_recal_data.table 
+
+
+REM  Generate plots(Did not work)
+
+REM %java7path% -jar %gatk% -T AnalyzeCovariates -R %refLocation% -before child_recal_data.table  -after child_post_recal_data.table -plots recalibration_plots.pdf
+
+REM  Print reads
+%java7path% %maxHeapMemory% -jar %gatk% -T PrintReads -R %refLocation% -I L004_I003_chr22_child.sorted.mdup.realigned.fixed.bam -BQSR child_recal_data.table -o child_recal_reads.bam 
+
+%java7path% %maxHeapMemory% -jar %gatk% -T PrintReads -R %refLocation% -I L004_I005_chr22_mother.sorted.mdup.realigned.fixed.bam -BQSR mother_recal_data.table -o mother_recal_reads.bam 
+
+%java7path% %maxHeapMemory% -jar %gatk% -T PrintReads -R %refLocation% -I L004_I004_chr22_father.sorted.mdup.realigned.fixed.bam -BQSR father_recal_data.table -o father_recal_reads.bam 
+:comment
+
+REM Variant calling
+%java7path% %maxHeapMemory% -jar %gatk% -T HaplotypeCaller -L V6_GIAB_intersect.bed -ERC GVCF -R %refLocation% -I mother_recal_reads.bam --genotyping_mode DISCOVERY -stand_emit_conf 10 -stand_call_conf 30 -variant_index_type LINEAR -variant_index_parameter 128000 -o mother_raw_variants.vcf 
+
+%java7path% %maxHeapMemory% -jar %gatk% -T HaplotypeCaller -L V6_GIAB_intersect.bed -ERC GVCF -R %refLocation% -I child_recal_reads.bam --genotyping_mode DISCOVERY -stand_emit_conf 10 -stand_call_conf 30 -variant_index_type LINEAR -variant_index_parameter 128000 -o child_raw_variants.vcf 
+
+%java7path% %maxHeapMemory% -jar %gatk% -T HaplotypeCaller -L V6_GIAB_intersect.bed -ERC GVCF -R %refLocation% -I father_recal_reads.bam --genotyping_mode DISCOVERY -stand_emit_conf 10 -stand_call_conf 30 -variant_index_type LINEAR -variant_index_parameter 128000 -o father_raw_variants.vcf 
+
