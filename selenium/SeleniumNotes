@@ -113,3 +113,5 @@ Arquillian graphene:
 It enables JQuery selectors as a location strategy which is familiar to web development community
 Can use Page objects and page fragments
 	
+Xpath Reference:
+https://www.w3schools.com/xml/xpath_examples.asp
