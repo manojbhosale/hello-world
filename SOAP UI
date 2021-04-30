@@ -1,0 +1,10 @@
+An XML based protocol for communicating between 2 different systems
+Platform and language independent
+SOAP requests and responses are transported via HTTP
+
+Message format:
+  (Mandatory) Envelope <- Defines beginning and end of the message
+  (Optional) Header <- Used in processing the massge. Used either in intermediary point or at the ultimate end point.
+  (Mandatory) Body <- Actual message of the XML
+  (Optional) Fault  <- This element provides theinformation abotu the errors that ocured while proessing the message
+  
