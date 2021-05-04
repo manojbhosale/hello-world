@@ -22,7 +22,7 @@ Its preferred for mobile and web apps as it makes apps work faster and smoother
 WSDL(Web Services Description Language):
 Its XML based language which will be used to describe the services offered by web service
 WSDL describes the types of operations offered by the particular web service in the XML format.
-Its also describes how the services can be called i.e. what innput values we have to provide and waht will be the format of the response it is going to generate for each kind of service.
+Its also describes how the services can be called i.e. what innput values we have to provide and what will be the format of the response it is going to generate for each kind of service.
 
 
 
@@ -38,3 +38,50 @@ Message format:
   (Mandatory) Body <- Actual message of the XML
   (Optional) Fault  <- This element provides theinformation abotu the errors that ocured while proessing the message
   
+ SOAP UI 
+  Used for functional, regression, complience and load test on different web API
+  Supports all standard protocols and technologoes to test all kind of APIs
+  Interface is simple enogh for both technical and non technical users.
+  
+  Functional testing:
+     Allows to write functional API tests
+     Supports multiple environments- Easy to switch between Dev, QA and Prod
+     Allows advanced scripting
+     
+   Security testing:
+    Has capability to perform complete set f vulnerability scan
+    Prevents SQL injection to secure the database
+    Scans for stackoverflows caused by documents huge in size
+    Scans for cross site scripting, which occurs when service parameters are exposed in messages
+    Performs fuzzing scan and boundry scan to avoid erratic behavior of the services
+   
+   Load testing:
+    Distributes load tests across any number of LoadUI  Agents
+    Simulates high volume and real world load testing with ease
+    Allows advanced custom reporting to capture performane parameters
+    Allows end-to-end system performance monitring
+   
+   Supported Protocols and technologies:
+    SOAP- Simple object access protocol
+    WSDL - Web service definition language
+    REST - Representational state transfer
+    HTTP - Hypertext transmission protocol
+    HTTPS - Hypertext transmission protocol secured
+    AMF - Action message format
+    JDBC - Java database connectivity
+    JMS - Java messaging service
+   
+   SOAP integration with other automation tools:
+    Maven
+    HUDSON
+    JUnit
+    Apache-Ant
+   
+   SOAP UI vs Selenium
+    SOAP UI is used for WebAPI or WebService testing while Selenium is for UI testing.
+    SOAP UI can test data sent/received between web server and web browser
+    SOAP UI can perform functional, load , security testing. But selenium can only perform functional testing and performance testing to some extent. Multi tenancy and multi user testing can not be donw with selenium
+    SOAP is not browser capabilities dependent but Selenium is
+    
+   
+    
