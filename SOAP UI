@@ -1,3 +1,33 @@
+Web service?
+web service is the mechanism or the medium of communication through which two machines/applications will exchange the data irrespectve of their underlying architecture and the technology.
+Web service testing is a type of software testing that validates webservices. Purpoe is to check the functionality, reliability, performance and security of an API.
+Web service can be implemented in different ways but there are 2 popular approaches.
+SOAP(Simple object access protocol)
+REST(Representational state transfer protocol)
+
+SOAP:
+It uses XML format to send and reveive the requests and hence data is platform independent data
+SOAP messages are exchanged between the provider application and receiver application within SOAP envelops
+SOAP uses the simple HTTP protocol so its messages aren ot blocked by the firewalls
+
+REST:
+This architecture generally runs over HTTP
+REST is alternative to SOAP
+Instead of XML REST uses simple URL in some cases
+Unlike SOAP, REST uses HTML build in haders to carry-metainformation
+All API request parameters and method parameters can be sent via POST or GET variables
+RESt supports both XML and JSON format for webservices API testing 
+Its preferred for mobile and web apps as it makes apps work faster and smoother
+
+WSDL(Web Services Description Language):
+Its XML based language which will be used to describe the services offered by web service
+WSDL describes the types of operations offered by the particular web service in the XML format.
+Its also describes how the services can be called i.e. what innput values we have to provide and waht will be the format of the response it is going to generate for each kind of service.
+
+
+
+
+
 An XML based protocol for communicating between 2 different systems
 Platform and language independent
 SOAP requests and responses are transported via HTTP
