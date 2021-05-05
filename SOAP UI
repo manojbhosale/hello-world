@@ -83,5 +83,25 @@ Message format:
     SOAP UI can perform functional, load , security testing. But selenium can only perform functional testing and performance testing to some extent. Multi tenancy and multi user testing can not be donw with selenium
     SOAP is not browser capabilities dependent but Selenium is
     
+  SOAP UI organization
+   Workspace -> Project -> Test Suite -> Test cases -> Test steps
+  
+  Assertion:
+   Its an act of asserting or stating something. It can be interpreted as checkpoint or validation point.
+   In order to validate a response we need assertions.
    
+   
+   Types of assertions:
+   Property content
+   Compliance Status Standard
+   Script
+   SLA
+   JMS
+   Security
+   
+   When to use inbuilt assertions?
+    When the response is short and which can be validated using one of those inbuilt assertions
+    When the response sent by server is static in nature
+    When its inevitable to use timeout assertions and security assertions
+    Holds good for the scenariow where test need not be repeated 
     
