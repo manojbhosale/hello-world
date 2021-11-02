@@ -10,4 +10,17 @@ Balance sheet: One time snapshot of company's assets and liabilities.
 Income statement: Indicates business's profitability during a certain period
 Cashflow statement: Acts as checkbook that reconciles other 2 statements . It records company's cash transactions during given period. It shows whether all the revenues booked on the income statement have been collected. 
 Net Cash flow: Net increase or decrease in cash and cash equivalents.
-  
+Enterprise value(EV): (Market Capital + Total Debt - Cash and Cash Equivalents). Its a therotical takeover price if company were to be bought.
+Working Capital: Current assets - Current liabilities. If conpany has substantial positive net NWC  then it should have the potential to invest and grow. If current assets do not exceed the current liabilities then it may have trouble paying back creditors.
+Earning per share(EPS): (Profit / #outstanding shares of its common stock). The higher a companies EPS the more profitable its considered to be.
+
+Financial Ratios:
+EV/EBITDA :
+  It may be more useful when comparing the firms with different degrees of financial leverage.
+  Its useful for valuing capital intensive business with high level of depreciation and amortization.
+P/E(Market value per share/EPS):
+  Also called as price multiple or earnings multiple.
+  It measures current share price relative to the EPS(Earning per share).
+  P/E can be backword looking(trailing) or forward(Projected)
+  High P/E means company is overvalued or investors are expecting high groth rates in future.
+  If company is trading at P/E multiple of 20X, the interpretation is that investor is ready to pay $20 for $1 of current earnings
