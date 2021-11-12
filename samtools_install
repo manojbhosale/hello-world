@@ -1,0 +1,9 @@
+Donload and unzip samtools bz2 file
+tar -xvf
+
+yum install gcc zlib-devel ncurses-devel ncurses xz-devel bzip2-devel curl-devel
+make
+
+nano ~/.bashrc
+export PATH="path/to/samtools/executable:$PATH"
+
