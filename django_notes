@@ -1,0 +1,2 @@
+What is a framework?
+Third pary libray, with utiity functionality, solves problems, handles sessions, authentication, parsing requests and sending back responses so that we can focus on core business logic.
