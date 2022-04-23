@@ -1,0 +1,35 @@
+Null hypothesis & Alternative hypothesis
+- These are always mutually exclusive
+- For Chi-square distribution it takes following form
+	H0 = The data are consistent with specified distribition
+	H1=  The data are not consistent with specified distribition
+
+Significance level
+- The probability of commitinhg type I error is called as Significance level
+- Tyep I error occurs when researcher rejects the Null hypothesis when it is true.
+- any value between 0 to 1 can be used
+
+Test Method
+- Chi-suare goodness of fit test
+
+Degrees of freedom
+- Its is the number of independent observations minus number of population parameters  those must be eextimated from sample data.
+
+P-value
+- It is the probability of observing the a sample statistic as extreme as test statistic
+
+Test stastics
+- A random variable
+
+State hypothesis
+Formulate analysis plan
+Analyze data
+Interpret results
+- Reject null hypothesis if p-value is less than the significance level
+
+
+When to use Chi-square goodness of fit test?
+
+1. Sampling method is simple random sampling 
+2. variable under study is categorical
+3. Expected value of the number of sample observations in each level of the variables is atleast 5
