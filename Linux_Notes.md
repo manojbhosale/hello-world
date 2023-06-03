@@ -184,3 +184,30 @@ File permission sequence
     "cron" to schedule a command to run at a specific time regularly
     "crontab" used to manipulate the the cron daemon. "crontab -l" minute, hours, day of the month, moth, day of the week
      
+  # Command modification
+       * Metacharacters
+            ?, *, []
+            $ls *bam
+       * Standard IO descriptors
+             stdin - 0
+             stdout - 2
+             stderr - 3
+       * Command redirection
+             > redirect to file
+             >> appends
+             < takes input from file
+             | pass output of one command to another
+             tee Pass output to another command and at the same time write to a file
+             1>, 2>
+             &> Pass stdout and stderr to same file
+       * /dev/null
+               null device used for discarding all data written to it and reports the write operation is succeeded
+               Useful for  disposing of unwanted outout streams of a process or convinient input file for input stream
+       * pipes
+               Allows oneway flow of information
+               Used to pass ouput of one command as input for other commands
+       * Shell script
+               Its a text file with a sequence of commands
+               Built in variables are 1-9, $0 script name, $1 first argument to script, $2 second and so on
+               A lot of vaiables are automatically defined once the shell is started
+               Arithmatic in shell script  echo $((3+10))
