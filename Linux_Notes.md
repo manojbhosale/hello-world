@@ -44,4 +44,24 @@ Ctrl + D <- logoff or terminate the session
 
 man, info, whatis, apropos <- commands for help. whatis serches the database of oneline description for commands 
 
+3 types of unix accounts:
+root acc <- can  do absoulutely anything on the system
+system acc <- req. for system specific components e.g. mail acc, sshd acc
+user acc <- limited access to the critical system files and directories
 
+/etc/passwd <-name and user ids are stored
+homedir and shell are assigned to each user
+users can not read write and execute each other files without permissions
+users, w, who <- lists currently logged in users with
+/etc/group <- gids are stored 
+/etc/shadow <- holds all encrypted passwords
+
+There are three main user administration files
+- /etc/passwd – identifies the authorized accounts for the system
+- /etc/shadow – holds the encrypted password of the corresponding account. Was not present on earlier Unix systems
+- /etc/group – Contains information on group accounts
+
+su <-  need to login to another account without logging out of the system. Running just "su" will take to the root account
+sudo <- used to run command as another user or super user
+
+## Files ad directories
