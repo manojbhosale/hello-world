@@ -17,3 +17,31 @@ BIOS -> Level 1 bootloader [Master Boot Record (MBR)] -> Level 2 boot loader[ LI
 
 
 pstree <- process tree starting from init process
+
+Run levels: 
+0 = Halt
+1 = single user(for maintainance)
+2 = Multisuer mode without multiuser networking
+3 = Full multiuser mode with networking
+4 = User definalble, but duplicate of 3
+5 = Full multi-user mode (with X based login screen)
+6 = reboot
+
+Command-line is not resource intensive as UI
+
+cat /proc/version <- To get kernel version
+halt <- brings down the system immediately
+init 0 <- poweroff system using predefined scripts to cleanup system prior to shutdown
+inti 6 <- Reboot system (Not available on all linux versions)
+poweroff <- shuts down the system by powering off 
+reboot <- reboots the system
+shoutdown <- shutdown the system 
+
+Unix IS CASE SENSITIVE 
+
+Ctrl + c <-Terminat ecurrent command 
+Ctrl + D <- logoff or terminate the session
+
+man, info, whatis, apropos <- commands for help. whatis serches the database of oneline description for commands 
+
+
