@@ -141,3 +141,35 @@ File permission sequence
   set nu <- show line numbers
  TO apply vi settings across the session edit vimrc( /etc/vim/vimrc then /home/username/.vimrc)
            
+ # Shell
+            Shell is the program that acts as the interface between user and the system
+            Most shells are derived from original bourne shell
+            Types of shell:
+              sh (Bourne) <- Original
+              csh, tsh, zsh <- C shell and derivatives
+              ksh, pdksh <- Korn shell and its public domain version
+              bash <- Bourne Again Shell. Similar to Ksh. Most popular
+                      Offers comand history, command completion , arithmatic function
+                      Long list of built in commands
+                      Allows configuration of environment
+             PATH variable
+                      Its set at system level in /etc/profile
+             PATH=$PAHT:new value
+             Elements of shell configuration
+                      Run control(.rc) files:
+                        Executed when shell is booted up
+                        Global configuration(/etc/profile) -> user acc level configuration files(~/.bash_profile or ~/.bash_login or ~/.profile)
+                        ~/.bashrc <- file is read when new subshell starts
+                        ~/.bash_louout <- file is read when everytime the login shell exits
+                        $source .bash_profile <- to apply the changes in file
+              Shell variable
+                       To export shell variable to sub shells use "export VARIABLE"
+               Prompt strings:
+                              <img width="214" alt="image" src="https://github.com/manojbhosale/hello-world/assets/8487293/73a77f63-1e93-4dac-9907-28da2da9e840">
+              Alias:
+                "ll" is alias for "ls -l"
+                $alias ll="ls -l"
+              History:
+                $echo $HSITFILE -> /home/ionadmin/.bash_history
+  # Processes and jobs
+                        
