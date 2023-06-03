@@ -172,4 +172,15 @@ File permission sequence
               History:
                 $echo $HSITFILE -> /home/ionadmin/.bash_history
   # Processes and jobs
-                        
+    Process is running instance of an application
+    Daemon process are not controllable by user
+    Processes started by user are controllable by user
+    /proc <- this is dynamically generated file system (/proc/cpuinfo)
+    "&" causes commadn to run in background and makes prompt usable for other commands
+    "jobs" to check running josbin background
+    "fg" to bring the jobs to foreground
+    "bg" to put the command to background
+    "at" to schedule a command to run at a specific time once. Other commands "atq" "atrm"
+    "cron" to schedule a command to run at a specific time regularly
+    "crontab" used to manipulate the the cron daemon. "crontab -l" minute, hours, day of the month, moth, day of the week
+     
