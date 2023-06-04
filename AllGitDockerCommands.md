@@ -1,18 +1,26 @@
 # Git commands
 
+3 stages in git
+  1. Working directory
+  2. Staging area (aka index)
+  3. Repository (.git directory)
+
+.gitignore is added to the base project directory(parallel to .git directory). Need to commit it to repository.
+
 git add .
 git commit
 git commit -am "<message>" #for already commited files only
-git status
-git log
+git rm <- To remove the file tracking  for changes
+git status <- displays state of working directory and staging area
+git log <- options like "--oneline", "--grep=<pattern>", "git log <file>"
 git push
 git configure --global user.name="mannoj" #set username at global level to track checkin
 git configure --global user.email="mannoj@gmail.com" #set username at global level to track checkin
 git checkout <branchname>
 git pull origin 
 git branch -f master C6 # move master branch to the C6 commit as parent
-git reset
-git revert
+git reset <- Its a permanent Undo. Dangerous than "revert". Resets staging area to most recent commit but leaves working directory unchanged.
+git revert <- Undoes a commited snapshot. Its a safe way to undo changes. DOesnot change the project history.
 git cherry-pick <commits>
 git rebase -i HEAD~4
 git stash
