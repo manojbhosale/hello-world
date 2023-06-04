@@ -48,25 +48,25 @@ Master isdefault branch created
 
 .gitignore is added to the base project directory(parallel to .git directory). Need to commit it to repository.
 
-git add .
-git commit
-git commit -am "<message>" #for already commited files only
-git rm <- To remove the file tracking  for changes
-git status <- displays state of working directory and staging area
-git log <- options like "--oneline", "--grep=<pattern>", "git log <file>"
-git push
-git configure --global user.name="mannoj" #set username at global level to track checkin
-git configure --global user.email="mannoj@gmail.com" #set username at global level to track checkin
-git checkout <branchname>
-git pull origin 
-git branch -f master C6 # move master branch to the C6 commit as parent
-git reset <- Its a permanent Undo. Dangerous than "revert". Resets staging area to most recent commit but leaves working directory unchanged.
-git revert <- Undoes a commited snapshot. Its a safe way to undo changes. DOesnot change the project history.
-git cherry-pick <commits>
-git rebase -i HEAD~4
-git stash
-git stash pop
-git mege --abort
+- ```git add .```
+- ```git commit```
+- ```git commit``` -am "<message>" #for already commited files only
+- ```git rm``` <- To remove the file tracking  for changes
+- ```git status``` <- displays state of working directory and staging area
+- ```git log``` <- options like "--oneline", "--grep=<pattern>", "git log <file>"
+- ```git push```
+- ```git configure``` --global user.name="mannoj" #set username at global level to track checkin
+- ```git configure``` --global user.email="mannoj@gmail.com" #set username at global level to track checkin
+- ```git checkout <branchname>```
+- ```git pull origin ```
+- ```git branch -f master C6``` # move master branch to the C6 commit as parent
+- ```git reset``` <- Its a permanent Undo. Dangerous than "revert". Resets staging area to most recent commit but leaves working directory unchanged.
+- ```git revert``` <- Undoes a commited snapshot. Its a safe way to undo changes. DOesnot change the project history.
+- ```git cherry-pick <commits>```
+- ```git rebase -i HEAD~4```
+- ```git stash```
+- ```git stash pop```
+- ```git mege --abort```
 
 #IF need to discard all local changes and get to the master branch
 git fetch --all
