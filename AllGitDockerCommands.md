@@ -1,9 +1,42 @@
+# Version control
+Mercurial and git are distributed
+Mercurial and git treat all repositories equal
+Every operation in git is local , Everyone has complete history, No central authority.
+Changes can be shared without server
+Git branching is one o fthe most poweful feature of Git
+Master isdefault branch created
+
+
+
 # Git commands
 
 3 stages in git
   1. Working directory
   2. Staging area (aka index)
   3. Repository (.git directory)
+
+**Git Branching**
+  1. git branch <branch name> <- create a branch
+  2. git checkout -b <branch name> <- go to already created branch
+  3. To **merge** a branch with master branch, first check out the master branch and then "git merge <branch name>"
+  4. git branch -d <branch name> <- delete a branch
+  5. If master branch has progressed before merging then it may cause conflicts. Also in this case merging create non linear structure. Solution is "REBASE"
+                                    6. Rebase works in 2 steps. First undo changes on feature branch and then reapply changes on master branch HEAD
+                                    7. git rebase master; git checkout master ; git merge <branch name>
+  8. git branch -m <old branch> <new branch> <- rename a branch
+  git branch -d <branch name> <- delete a branch
+  git checkout -b <branch name> <sha> <- recover a branch
+  
+                                         **Git Tag**
+                                         Branch is liek separate thread but tag is lake a label.
+                                         Use of tag is to mark the release points
+                                         $git tag <- lists tags
+  $git tag v1.0 -m "some message" <- create tag with a message
+  $git tag -a v1.0 <- opens default editor for longer message
+                                         
+                                    
+   
+  
 
 .gitignore is added to the base project directory(parallel to .git directory). Need to commit it to repository.
 
