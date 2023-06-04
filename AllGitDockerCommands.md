@@ -44,7 +44,22 @@ Master isdefault branch created
 - One repository where we all sync up our changes
 - Remote server is just simply a Git repository
 - Github is one example of remote repository
-  
+- ``` git remote add origin <github url>``` <- origin can be replaced with any other word like remote-branch
+- ``` git remote ``` Get names of all remotes
+- ``` git remote -v ``` get names and details of all remotes
+- ``` git clone <github url> ``` <- pulls up the remote repository locally and sets up the connection information
+- After cloning origin/master is new branch is created called as tracking branch
+- ``` git pull origin ``` "Pull" is Fetch + merge in one step. Fetches changes from remote master branch and merges with local master branch.
+- Fetch is between remote repository to local repository. Merge is between local repository to working directory.                                   
+- If remote branch has some more commits compared to last pull then need to perform rebase after pull to get the commits lienar and then push. ``` git rebase master ```
+- We always checkout the branch with which we want to merge.
+- Mergning after rebase will keep the origin/master pointer in old place. Local main pointer will come to the latest commit
+- ``` git push origin``` To publish the changes to remote branch. This moves remote the pointer to latest commit. We are in complete in sync with remote.
+- Git will reject the push if remote has newer changes                                    
+- Always **"PULL THEN PUSH"** 
+- ```git branch -a ``` to view all branches
+- ``` git remote rename <old name origin> <new name>``` <- to rename the remote branch
+` ``` git remote rm <remote branch name>``` <- to remove the remote branch
 
 .gitignore is added to the base project directory(parallel to .git directory). Need to commit it to repository.
 
