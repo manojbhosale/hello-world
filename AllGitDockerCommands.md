@@ -33,7 +33,12 @@ Master isdefault branch created
                                          $git tag <- lists tags
   $git tag v1.0 -m "some message" <- create tag with a message
   $git tag -a v1.0 <- opens default editor for longer message
-                                         
+   
+ **Git stash**
+  Stash is temporary store
+  $git stash <- stores working dir temporarily to stash
+  $git stash list <- show all stash
+  $fit stash apply <- reapply recent shash
                                     
    
   
