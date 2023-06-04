@@ -1,3 +1,5 @@
+# Git commands
+
 git add .
 git commit
 git commit -am "<message>" #for already commited files only
@@ -36,7 +38,7 @@ gir remote -v
 git push origin master
 
 
-#DOCKER
+# DOCKER Commands
 docker pull selenium/hub
 docker images
 docker run -d -p 4444:4444 –name selenium-hub selenium/hub
@@ -47,7 +49,7 @@ docker info
 docker run -it ubuntu bash
 docker stop 96f3e6e1aed3
 
-#selenium grid
+# Selenium grid
 >java -jar selenium-server-standalone-2.41.0.jar -role hub
 
 >java -jar selenium-server-standalone-2.41.0.jar -role node -hub
