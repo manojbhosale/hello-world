@@ -27,20 +27,23 @@ Master isdefault branch created
   git branch -d <branch name> <- delete a branch
   git checkout -b <branch name> <sha> <- recover a branch
   
-                                         **Git Tag**
-                                         Branch is liek separate thread but tag is lake a label.
-                                         Use of tag is to mark the release points
-                                         $git tag <- lists tags
-  $git tag v1.0 -m "some message" <- create tag with a message
-  $git tag -a v1.0 <- opens default editor for longer message
+**Git Tag**
+   - Branch is liek separate thread but tag is lake a label.
+   - Use of tag is to mark the release points
+   - $git tag <- lists tags
+   - $git tag v1.0 -m "some message" <- create tag with a message
+   - $git tag -a v1.0 <- opens default editor for longer message
    
  **Git stash**
-  Stash is temporary store
-  $git stash <- stores working dir temporarily to stash
-  $git stash list <- show all stash
-  $fit stash apply <- reapply recent shash
+  - Stash is temporary store
+  - ```$git stash``` <- stores working dir temporarily to stash
+  - ```$git stash list``` <- show all stash
+  - ```$fit stash apply``` <- reapply recent shash
                                     
-   
+## GitHub   
+- One repository where we all sync up our changes
+- Remote server is just simply a Git repository
+- Github is one example of remote repository
   
 
 .gitignore is added to the base project directory(parallel to .git directory). Need to commit it to repository.
