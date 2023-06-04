@@ -70,8 +70,8 @@ Master isdefault branch created
 - ```git status``` <- displays state of working directory and staging area
 - ```git log``` <- options like "--oneline", "--grep=<pattern>", "git log <file>"
 - ```git push```
-- ```git configure``` --global user.name="mannoj" #set username at global level to track checkin
-- ```git configure``` --global user.email="mannoj@gmail.com" #set username at global level to track checkin
+- ```git config --global user.name="mannoj"``` #set username at global level to track checkin
+- ```git config --global user.email="mannoj@gmail.com"``` #set username at global level to track checkin
 - ```git checkout <branchname>```
 - ```git pull origin ```
 - ```git branch -f master C6``` # move master branch to the C6 commit as parent
