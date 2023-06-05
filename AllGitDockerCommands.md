@@ -41,7 +41,9 @@ Detaching HEAD just means attaching it to a commit instead of a branch.
 ``` git checkout main^2``` <- second parent
 ``` git checkout HEAD~^2~2 <- combining traversal
 ``` git branch -b bugWork main^^2^ ``` <- combining 2 commands
-                                  
+``` git push ``` git push is opposite of git pull. push with no argument depends on push.defaults setting      
+``` git pull --rebase ; git push``` <- used to take changes from remote to local. Merge with local and rebase. Then push to the remote.
+- For locked remote main need to raise PULL REQUEST
 **Git Tag(aka anchor)**
    - Branch is liek separate thread but tag is lake a label.
    - Use of tag is to mark the release points
