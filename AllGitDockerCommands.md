@@ -14,6 +14,10 @@ Normally HEAD points to a branch name.
 Detaching HEAD just means attaching it to a commit instead of a branch.
 ``` git checkout <sha>``` It will move the HEAD to the required commit.
 
+# Common commands
+
+``` git pull --rebase ; git push``` <- rebased our work onto new commits from remote. publish our work on remote.
+
 3 stages in git
   1. Working directory
   2. Staging area (aka index)
@@ -44,6 +48,8 @@ Detaching HEAD just means attaching it to a commit instead of a branch.
 ``` git push ``` git push is opposite of git pull. push with no argument depends on push.defaults setting      
 ``` git pull --rebase ; git push``` <- used to take changes from remote to local. Merge with local and rebase. Then push to the remote.
 - For locked remote main need to raise PULL REQUEST
+- origin/main can not be moved with ``` git branch -f <> <> ```. It will only move with pull or push
+- Git push will only push the branches ending in the "main" commit branch
 **Git Tag(aka anchor)**
    - Branch is liek separate thread but tag is lake a label.
    - Use of tag is to mark the release points
