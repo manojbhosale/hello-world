@@ -34,16 +34,18 @@ Detaching HEAD just means attaching it to a commit instead of a branch.
   ```git reset <commit>``` Reset will move branch BACKWARDS in time to an older commit as if the commits after it were nerver made in first place.
   ``` git revert <commit>``` Git rever works great locally in rewriting the history but does not work for remote branches. In order to reverse changes and share those changes with otehrs use REVERT
  ``` git cherry-pick <commit1> <commit2> <commit3>``` <- A way of saying I would like to copy a series of commits below my current location (HEAD). 
-``` git rebase -i <commit> ``` <-  Interactive rebase with flexibility to select/deselect/edit/combine commits. Its alternative for cherry-pick                             
+``` git rebase -i <commit> ``` <-  Interactive rebase with flexibility to select/deselect/edit/combine commits. Its alternative for cherry-pick
+``` git rebase <base> <target>                                  
 ``` git commit --amend``` to edit the commit                                  
                                   
-**Git Tag**
+**Git Tag(aka anchor)**
    - Branch is liek separate thread but tag is lake a label.
    - Use of tag is to mark the release points
+   - Tags can not be checked out                               
    - $git tag <- lists tags
-   - $git tag v1.0 -m "some message" <- create tag with a message
+   - $git tag v1.0 -m "some message" <commit> <- create tag with a message at specified commit. If commit is not selected then at HEAD
    - $git tag -a v1.0 <- opens default editor for longer message
-   
+   - ``` git describe <ref>``` <- describes where you are relative to the closest anchor or tag. Output of describe is as <tag>_<num commits>_g<ref>.
  **Git stash**
   - Stash is temporary store
   - ```$git stash``` <- stores working dir temporarily to stash
