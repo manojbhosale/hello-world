@@ -36,7 +36,11 @@ Detaching HEAD just means attaching it to a commit instead of a branch.
  ``` git cherry-pick <commit1> <commit2> <commit3>``` <- A way of saying I would like to copy a series of commits below my current location (HEAD). 
 ``` git rebase -i <commit> ``` <-  Interactive rebase with flexibility to select/deselect/edit/combine commits. Its alternative for cherry-pick
 ``` git rebase <base> <target>                                  
-``` git commit --amend``` to edit the commit                                  
+``` git commit --amend``` to edit the commit     
+``` git checkout main^``` <- first parent
+``` git checkout main^2``` <- second parent
+``` git checkout HEAD~^2~2 <- combining traversal
+``` git branch -b bugWork main^^2^ ``` <- combining 2 commands
                                   
 **Git Tag(aka anchor)**
    - Branch is liek separate thread but tag is lake a label.
@@ -71,8 +75,11 @@ Detaching HEAD just means attaching it to a commit instead of a branch.
 - Always **"PULL THEN PUSH"** 
 - ```git branch -a ``` to view all branches
 - ``` git remote rename <old name origin> <new name>``` <- to rename the remote branch
-` ``` git remote rm <remote branch name>``` <- to remove the remote branch
-
+- ``` git remote rm <remote branch name>``` <- to remove the remote branch
+- Remote branches reflect state of remote repository in local repository. Remote branches are on your local repository and not on remote repository. One can not work directly on remote branch instead detached HEAD mode is triggered on checkout
+- Remote repositories have different naming convension <remote name>/<branch name>. origin/main will only update when remote updates. Till then work on detached HEAD mode   
+-```git fetch``` Downloads commits present in remote but missing in local repository  and updates the remote branches point. It does not however change your main branch or change anything about how your file system looks right now
+  
 .gitignore is added to the base project directory(parallel to .git directory). Need to commit it to repository.
 
 - ```git add .```
