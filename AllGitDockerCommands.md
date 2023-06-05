@@ -9,6 +9,10 @@ Master isdefault branch created
 
 
 # Git commands
+"HEAD" is a symbolic name for the currently checked out commit. HEAD always points to the most recent commit which is reflected in the working tree. Most git commands which make changes to the working tree will start by chaning HEAD
+Normally HEAD points to a branch name.
+Detaching HEAD just means attaching it to a commit instead of a branch.
+``` git checkout <sha>``` It will move the HEAD to the required commit.
 
 3 stages in git
   1. Working directory
@@ -26,7 +30,13 @@ Master isdefault branch created
   8. git branch -m <old branch> <new branch> <- rename a branch
   git branch -d <branch name> <- delete a branch
   git checkout -b <branch name> <sha> <- recover a branch
-  
+  ``` git branch -f main HEAD~3``` <- move main to 3 parents before HEAD by force 
+  ```git reset <commit>``` Reset will move branch BACKWARDS in time to an older commit as if the commits after it were nerver made in first place.
+  ``` git revert <commit>``` Git rever works great locally in rewriting the history but does not work for remote branches. In order to reverse changes and share those changes with otehrs use REVERT
+ ``` git cherry-pick <commit1> <commit2> <commit3>``` <- A way of saying I would like to copy a series of commits below my current location (HEAD). 
+``` git rebase -i <commit> ``` <-  Interactive rebase with flexibility to select/deselect/edit/combine commits. Its alternative for cherry-pick                             
+``` git commit --amend``` to edit the commit                                  
+                                  
 **Git Tag**
    - Branch is liek separate thread but tag is lake a label.
    - Use of tag is to mark the release points
@@ -76,7 +86,7 @@ Master isdefault branch created
 - ```git pull origin ```
 - ```git branch -f master C6``` # move master branch to the C6 commit as parent
 - ```git reset``` <- Its a permanent Undo. Dangerous than "revert". Resets staging area to most recent commit but leaves working directory unchanged.
-- ```git revert``` <- Undoes a commited snapshot. Its a safe way to undo changes. DOesnot change the project history.
+- ```git revert``` <- Undoes a commited snapshot. Its a safe way to undo changes. Doesnot change the project history.
 - ```git cherry-pick <commits>```
 - ```git rebase -i HEAD~4```
 - ```git stash```
