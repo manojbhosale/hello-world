@@ -65,14 +65,32 @@ will set the foo branch to track o/main. If foo is currently checked out you can
 - During a clone, git creates a remote branch for every branch on the remote (aka branches like o/main). It then creates a local branch that tracks the currently active branch on the remote, which is main in most cases.
 - Once git clone is complete, you only have one local branch (so you aren't overwhelmed) but you can see all the different branches on the remote (if you happen to be very curious). It's the best of both worlds!
  
-*Git Push*
+ 
+## Git Push
  ``` git push <remote> <place> ```
  ``` git push origin main ``` <- Go to the branch named "main" in my repository, grab all the commits, and go to branch "main" on the remote named "origin". Place whatever commits are missing on that branch and tell me when you are done. Keep in mind that since we told git everything it needs to know (by specifying both arguments), it totally ignores where we are checked out! e.g. ``` git push origin foo``` <- Go to the branch named "foo" grab all commits and got to "foo" branch on the remote named "origin". Place whatever commits are missing on the branch and tell me when you are done.
 ``` git push origin foo^:main``` <- push specific commit 
 ```git push origin main:<newbranch>``` <- create new branch while pushing
 ``` git push origin main:foo ``` ``` git push origin main^:foo ```
-                                          
-**Git Tag(aka anchor)**
+ 
+## Git fetch                                          
+``` git fetch <remote> <place> ``` e.g. ``` git fetch origin foo ```
+Git fetch only downloads the changes but does not merge. It does not update local non remote branches 
+``` git fetch <remote> <source from local>:<destination on remote>``` <- source is place in remote and destination is place on local. If destination does not exist then the fetch will create it just like push command.
+If no args are provided to fetch command then it just downloads all the commits from the remote onto all the remote branches.                                               
+
+## git source parameter
+Pushing nothing to remote branch deletes it. Fetchin nothing makes a new branch
+``` git push origin :side```
+``` git fetch origin :bugFix```                
+
+## Git pull
+``` git pull origin foo ``` is equivalent to ``` git fetch origin foo; git merge o/foo ```                                                   
+``` git pull <remote> <source from remote>:<destination on local>``` 
+``` git pull origin bar:foo ```
+``` git pull origin main:side ```
+  
+## Git tag(aka anchor)**
    - Branch is liek separate thread but tag is lake a label.
    - Use of tag is to mark the release points
    - Tags can not be checked out                               
