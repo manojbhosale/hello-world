@@ -8,6 +8,7 @@ Master isdefault branch created
 
 
 
+
 # Git commands
 "HEAD" is a symbolic name for the currently checked out commit. HEAD always points to the most recent commit which is reflected in the working tree. Most git commands which make changes to the working tree will start by chaning HEAD
 Normally HEAD points to a branch name.
@@ -29,21 +30,22 @@ Detaching HEAD just means attaching it to a commit instead of a branch.
   3. To **merge** a branch with master branch, first check out the master branch and then "git merge <branch name>"
   4. git branch -d <branch name> <- delete a branch
   5. If master branch has progressed before merging then it may cause conflicts. Also in this case merging create non linear structure. Solution is "REBASE"
-                                    6. Rebase works in 2 steps. First undo changes on feature branch and then reapply changes on master branch HEAD
-                                    7. git rebase master; git checkout master ; git merge <branch name>
+  6. Rebase works in 2 steps. First undo changes on feature branch and then reapply changes on master branch HEAD
+  7. git rebase master; git checkout master ; git merge <branch name>
   8. git branch -m <old branch> <new branch> <- rename a branch
-  git branch -d <branch name> <- delete a branch
-  git checkout -b <branch name> <sha> <- recover a branch
-  ``` git branch -f main HEAD~3``` <- move main to 3 parents before HEAD by force 
+  ```git branch -d <branch name>``` <- delete a branch
+  ```git checkout -b <branch name> <sha>``` <- recover a branch
+  ```git branch -f main HEAD~3``` <- move main to 3 parents before HEAD by force 
   ```git reset <commit>``` Reset will move branch BACKWARDS in time to an older commit as if the commits after it were nerver made in first place.
   ``` git revert <commit>``` Git rever works great locally in rewriting the history but does not work for remote branches. In order to reverse changes and share those changes with otehrs use REVERT
- ``` git cherry-pick <commit1> <commit2> <commit3>``` <- A way of saying I would like to copy a series of commits below my current location (HEAD). 
-``` git rebase -i <commit> ``` <-  Interactive rebase with flexibility to select/deselect/edit/combine commits. Its alternative for cherry-pick
-``` git rebase <base> <target>                                  
+``` git cherry-pick <commit1> <commit2> <commit3>``` <- A way of saying I would like to copy a series of commits below my current location (HEAD). 
+``` git rebase -i <commit> ``` <-  Interactive rebase with flexibility to select/deselect/edit/combine commits. Its alternative for cherry-pick.
+                                  
+``` git rebase <base> <target>```                                  
 ``` git commit --amend``` to edit the commit     
 ``` git checkout main^``` <- first parent
 ``` git checkout main^2``` <- second parent
-``` git checkout HEAD~^2~2 <- combining traversal
+``` git checkout HEAD~^2~2``` <- combining traversal
 ``` git branch -b bugWork main^^2^ ``` <- combining 2 commands
 ``` git push ``` git push is opposite of git pull. push with no argument depends on push.defaults setting      
 ``` git pull --rebase ; git push``` <- used to take changes from remote to local. Merge with local and rebase. Then push to the remote.
@@ -62,7 +64,14 @@ will set the foo branch to track o/main. If foo is currently checked out you can
 ```git branch -u o/main```
 - During a clone, git creates a remote branch for every branch on the remote (aka branches like o/main). It then creates a local branch that tracks the currently active branch on the remote, which is main in most cases.
 - Once git clone is complete, you only have one local branch (so you aren't overwhelmed) but you can see all the different branches on the remote (if you happen to be very curious). It's the best of both worlds!
-  
+ 
+*Git Push*
+ ``` git push <remote> <place> ```
+ ``` git push origin main ``` <- Go to the branch named "main" in my repository, grab all the commits, and go to branch "main" on the remote named "origin". Place whatever commits are missing on that branch and tell me when you are done. Keep in mind that since we told git everything it needs to know (by specifying both arguments), it totally ignores where we are checked out! e.g. ``` git push origin foo``` <- Go to the branch named "foo" grab all commits and got to "foo" branch on the remote named "origin". Place whatever commits are missing on the branch and tell me when you are done.
+``` git push origin foo^:main``` <- push specific commit 
+```git push origin main:<newbranch>``` <- create new branch while pushing
+``` git push origin main:foo ``` ``` git push origin main^:foo ```
+                                          
 **Git Tag(aka anchor)**
    - Branch is liek separate thread but tag is lake a label.
    - Use of tag is to mark the release points
