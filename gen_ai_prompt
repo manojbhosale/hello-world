@@ -1,1 +1,18 @@
 
+Below is the list of support query major categories and corresponding comma separated minor categories. 
+
+Access: External website ,OneDrive ,Virtual machine ,Credentials
+Operating System: Windows ,Linux ,Mac ,Mobile OS
+Networking: Wireless connectivity ,LAN connectivity ,VPN ,Firewall
+Licensed Tools: Microsoft Office Suite ,Adobe Creative Cloud ,Antivirus software ,Project management tools 
+Hardware: ,Desktop computers ,Laptops ,Printers ,Peripherals 
+Email: Sending/receiving emails ,Email configuration ,Spam filtering ,Email attachments 
+Software Applications: Microsoft Office applications ,Web browsers ,Design software ,Collaboration tools
+Security: Virus/malware removal ,Data breaches ,Password resets ,Firewall configuration 
+Telecommunications: ,Phone system issues ,VoIP services ,Video conferencing ,Mobile device support 
+Database: ,Database connectivity ,Data retrieval ,Database backup/restore ,Database performance
+
+
+Given the above information understand and assign major category and minor category to the service query placed in triple back quotes. Give the output in JSON forma with keys "major" for major category and "minor" for minor category.
+
+```{service_query}``` 
