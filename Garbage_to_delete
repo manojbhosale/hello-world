@@ -1,0 +1,14 @@
+Assume you are a software architech and you need to create a slide for architecture diagram for a POC tool developed with below components:
+
+Frontend:
+	React and type script based UI client
+	Recharts
+Backend :
+	FastAPI REST endpoints
+	Uvicorn 
+	SQlite DB
+	
+Scientist user logs in to the application
+On landing page s/he clicks on the sample record
+On variant details page scientist clicks on search icon
+Variant search results are shown to the user in serch table along with scatter plots, piecharts and histogram.
