@@ -1,0 +1,44 @@
+	1. Docker build -t <image_tag> .  # docker file needs to be in same directory
+	2. Docker run -it --name <container_name> --privileged -p 8001:8000 -d <image_name>
+		a. -it <- interactive mode
+		b. --privileged <- run command with admin access
+		c. -p <host>:<local>
+		d. -d detached more
+	3. Docker rm <container name>
+	4. Docker rmi <image name>
+
+
+Example docker file for django application
+
+ionadmin@gnxs-em07:~/msb/easy_run/easy_run$ cat dockerfile
+FROM python:3.11
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir --progress-bar off -r requirements.txt
+COPY . .
+EXPOSE 8000
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+#Lauch the container with sqlite db
+ sudo docker run --name easy_run_c1 --privileged -p 8001:8000 -v /ddn/msb/easy_run/easy_run/db.sqlite3:/app/db.sqlite3 -d easy_run
+
+ sudo docker run -it --name easy_run_c1 --privileged -p 8001:8000 -v /ddn/msb/easy_run/easy_run/db.sqlite3:/app/db.sqlite3 easy_run
+
+
+#Remove files from running container:
+ docker exec -u 0 -it <CONTAINER ID> /bin/bash
+
+#install Vi editor on container
+apt-get update
+apt-get install vim
+
+From <https://stackoverflow.com/questions/30853247/how-do-i-edit-a-file-after-i-shell-to-a-docker-container> 
+
+
+#Start stopped/exited docker container
+
+$Sudo docker start
+
+#Add '*' to allowed host field in settings.py
+
+
