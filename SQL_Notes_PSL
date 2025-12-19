@@ -1,0 +1,666 @@
+DBMS:
+The collection of programs that enable the users to access the database and manipulate, retrieve data to the users.
+
+4 types of DBMS
+Hierarchical DBMS <-  parent child relationships, nodes and branches, reg of windows XP , Rare these days
+Network DBMS <- many to many relations
+Relational DBMS (Mostly used) <- Does not support many to many like network but support . Have predefined types in the form of table relationships. E.g. MySQL, Oracle
+Object relational DBMS <- stoes meme data types, can have own data types, object contains data and methods just like OO language objects E.g PostgreSQL
+
+Table - contains related data
+
+Entity relationship Logic:
+
+Entity <- tables/rows/columns
+Relationships
+
+Schema objects
+
+	Table <- base unit of the database to store data formatted with column and rows
+	View <- A virtual table that provides access to a subset of columns or some restricted rows from one or more tables
+	Constraints <- Constrains are rules to restrict invalid entry into table
+	Index <- used to increase speed of data access
+	Sequence <- Generate unique integers
+	Synonym - alias to database objects like tables
+	Materialized view <- has a real table filled by an SQL query  views. The real table is truncated and refilled with a specified time frequency.
+	Functions and procedures <- Functions return something but procedures return nothing.
+		PL/SQL -> SQL + Procedural programming
+	Triggers: Triggers are compiled program units stored in the database and executed with a specific event
+	Packages : Packages are schema objects that compiled and stored in the database.
+	Packages are consist of SQL-PL/SQL codes, variable, cursor's etc. to perform one or more than one operation by using functions and procedures.
+	Database links <- connections between two physical DB servers
+	
+Non-schema objects:
+	Directories, roles, table spaces, users
+	
+Schema = collection of objects for each user in DB
+
+
+What is SQL?
+	Structured query language
+	Language used to interact with DB
+	
+	
+Constraints:
+	
+	Prevents inconsistent or incorrect data. Negative salary, invalid department ID
+	Constrains restrict data entry(insert, updated, delete) and prevent invalid entries
+	Constraint prevent dropping tables
+	Constraint ensure data consistency and data integrity in the DB
+	Constraint increase control of the user over data
+	Can add constraint at the time of creation of the table or at time of altering the table.
+	Can be column level or table level
+	Constraint names are given automatically If not specified
+	Constraint name must ne unique in a schema
+	
+	5 types of constraints:
+		Not Null:
+			Prevents insertion of NULL values
+			NOT NULL constraint can only be created at the column-level
+			NOT NULL constraint are typically used in the column definition of the create table
+			CONSTRAINT key word is used t specify name to the constraint and recommended to use.
+			E.g.
+			Column_name DATA_TYPE CONSTRAINT column_not_null NOT NULL
+			
+		Unique:
+			No duplicate values allowed except null values
+			For composite unique constraint the multiples columns can have null values.
+			Composite unique constraint must result in unique row
+			Composite constraint can contain max 32 columns
+			CONSTRAINT name is optional but recommended to provide one.
+			Composite unique keys can be created only at column level
+			Oracle creates unique index implicitly on unique keys
+			CONSTRAINT word is also optional
+			Inserting null values allowed with columns having unique constraint
+		Primary Key
+			Oracle creates UNIQUE index when creating a primary key
+			It can be a single column(simple PK) or combination(composite PK) of column which identifies the row of the column uniquely
+			A primary key constraint is the combination of a NOT NULL and UNIQE constraint
+			Only one primary key is allowed
+			E.g.
+			Manager_id NUMBER CoNSTRAINT PK_MANAGERS PRIMARY KEY <- column level
+			CONSTRAINT PK_MANAGERS PRIMARY KEY (manager_id, column2) < -table level
+		Foreign Key <- 
+			The relationship is established between the parent tables primary/unique key and a column or a set of columns in the child table.
+			ON DELETE CASCADE, ON DELETE SET NULL
+			A referenced record must exist in parent table before you can insert a related record in child table.
+			It’s a referential integrity constraint
+			It can be column or set of columns user to enforce a relationship between a parent table and child table
+			REFERENCES keyword is used to specify a column and table as foreign key.
+			FOREIGN KEY keyword is used only when column  name is not present before CONSTRANT keyword
+			Foreign key is added to the child table and parent has the original column
+			E.g.
+			Department_id NUMBER CONSTRAINT mgr_dept_id_fk REFERENCES departments(department_id)_, <- column level FK constraint
+			CONSTRAINT mgr_emp_fk FOREIGN_KEY (manager_id) REFERENCES employees(employee_id) <- table level FK constraint
+			
+			Sample column can be primary and foreign key at the same time
+			2 types of foreign keys:
+				Simple <- one to one column
+				composite foreign keys <- more than one columns in parent and child table. These have to be created at table level
+			Entry in parent table must exist before adding to the child table.
+			Same column can have 2 or more constraints
+			
+		Check constraint 
+		
+		Ensures a column or a group of columns meet a specific condition
+	
+	
+	DDL: 
+		Data definition language
+		Create modify and maintain the database objects in the database
+	
+		CREATE<- Creates database objects in DB
+		ALTER <- Modifies the structure of the DB
+		DROP <- Deletes objects from DB
+		TRUNCATE <- Removes all data from the table, including all space allocated for the removed rows. It cannot be rolled back.
+		COMMENT <- Comments to the table and its column
+		RENAME <- renames existing objects
+	
+		DDL statements are always auto commited.
+		
+		Naming Rules and Naming conventions:
+			
+		Create table:
+			Default keyword - default in case of null
+			
+		Alter table:
+			Add new columns
+			Modify data type of one or more existing columns
+			Drop one or more columns
+			Rename a column table
+			
+			ALTER TABLE table_name ADD(
+			column_name <properties>,
+			)
+		
+			ALTER TABLE table_name MODIFY (
+			column_name <properties>,
+			column_name <properties>,
+			) <- Modify one or more existing columns data type, size, default value and nullability
+			
+			ALTER TABLE DROP COLUMN(column_name) <- dropping single column
+			ALTER TABLE DROP (column_names comma separated) <- dropping multiple columns
+		
+		DROP TABLE:
+			Removes existing table with all data to recycle bin
+			PURGE <- remove from bin as well
+			DROP TABLE table_name
+			Only creator of the table or any user with "DROP ANY TABLE" previlege can drop a table
+			All related objects to the table will become invalid or unavailable
+		
+		Truncate table:
+			Deletes all data from table more quickly
+			DELETE statement delete all row by row whereas TRUNCATE deletes all row from a table more quickly
+			TRUNCATE does not allow rollback
+			DELETE allows  rollback
+			
+			TRUNCATE TABLE table_name
+			DELETE FROM table_name
+		
+		Rename:
+		To change the name of existing table or column
+		
+		ALTER TABLE table_name RENAME COLUMN old_name To new_name
+		RENAME old_Table_name TO new_table_name
+		
+		
+	DATA MANIPULATION LANGUAGE(DML):
+	Oracle uses transcation concept. Means series of actions wich has to be completetly processed  or not processed at all.  Transactions consists of group of DML statements
+		INSERT:
+			One or more new rows
+			INSERT INTO table(column names) VALUES (values) <- values must match to the columns
+			We don’t need to specify all columns
+			Unsepcified column values will have NULL or default value.
+			Defining column names is optional. But recommened to have column names 
+			
+			Multi table insert:
+				Multiple rows can be inserted into atable or ultuiple table by using only one SQL statemtn instead of writing insert statement
+				The INSERT ALL statement is used to insert multipl rows in to atable or multiple tables
+				It increase performance and saves time
+				These are generally used in data warehousing
+				
+				INSERT ALL 
+				INTO table_name VALUES()
+				INTO table_name VALUES()
+			
+				
+			
+		UPDATE 
+			Modify existing rows in a table
+			UPDATE table
+			SET column = value [column2 = value] [WHERE condition(s)]
+			Can update rows based on subquery
+		DELETE
+			DELETE [FROM] table <- delete all rows from the table
+			DELETE [FROM] table [WHERE condition] <- deletes only specified rows
+			Can delete rows based on subquery
+		MERGE
+	
+	
+The select statement:
+	Data types:
+	Varchar <- not fixed only max is fixed
+	Char <- fixed length
+	NUMBER(p,s)
+	DATE
+	BLOB - large objects, large unstructured data in gBs or TBs. Videos, music. Upto 128 TB.
+	CLOB <- large blocks of character data
+	BFILE <- external file large objects. Binary data files and its read only
+	
+	Null values:
+		Null is not value but a state for nothing. Its not a blank. Null does not take any space in disk.
+		Null not counted with count function
+	
+	Desc command:
+		Provides  description of the column
+		
+	SQL statements:
+		Not case sensitive
+		Statements can span multiple lines
+		Add semicolon to separate 2 or more queries
+	
+	Select statement:
+		To retrieve data
+		Specify column names whenever possible instead of *. Improves performance.
+		
+	Column alias:
+		Use "as" keyword
+		select id as d from annotation_source.dbsnp_156;
+		Can be used to name the calculation based on multiple column values.
+			select length, bcindex, length * bcindex as new_col from assaydev_grdb.rdx_dnabarcode rd 
+			select length, bcindex, length * bcindex as "My Calculation" from assaydev_grdb.rdx_dnabarcode rd 
+	
+	DISTINCT and UNIQUE operator:
+		UNIUQE is old and same as DISTINCT
+		DISTINCT is part of the std SQL and UNIUQE is supported in Oracle
+		
+		DISTINCT is row based meaning only once it can be used in single select query. If multiple columsna re part of the query then unique combinations of the columns are returned.
+		Its should be used right after select key word and just before the first column.
+		select distinct "sequence" from assaydev_grdb.rdx_dnabarcode rd 
+	
+	Arithmetic operations in SQL:
+		Supports + - / *
+		Also Date arithmatic supported with sysdate
+		
+	WHERE Clause:
+		select * from assaydev_grdb.rdx_experiment re where pgmname != 'default'
+		Comparison operators AND, OR, LIKE, IS NULL
+		Diamond operattos is ame as !=
+		
+	BTWEEN … AND … operator
+		Lower and upper values are included
+		select * from assaydev_grdb.rdx_experiment re where id between 100 and 110
+		
+	
+	IN operator:
+		Restrict to values in specified list
+		Order of values is not important
+		select * from assaydev_grdb.rdx_experiment re where id IN (100,110)
+		
+	LIKE Operator:
+		When we do not know exact values
+		Similar values are returned
+		Used to perform wildcard serached
+		"%" or "_"
+		LIKE without wildcard is same as equal and slower.
+		select * from assaydev_grdb.rdx_experiment re where expname LIKE '%test%';
+		"%" matches zero or more characters
+		Like is case sensitive
+		"_" specifies any one character.
+		select * from assaydev_grdb.rdx_experiment re where expname like '%_\_24%';
+		
+	IS NULL operator:
+		Unassigned, unknown or unavailable
+		Its used to search null values
+		= NULL is not same as IS NULL
+		select * from assaydev_grdb.rdx_experiment re where expname is NULL;
+		select * from assaydev_grdb.rdx_experiment re where expname is NOT NULL;
+		
+	AND, OR , NOT
+		select * from assaydev_grdb.rdx_experiment re where expname is NOT null AND analysisstatus = 'Failed' AND expdir is not null;
+		
+		select * from assaydev_grdb.rdx_experiment re where runtype NOT IN ('sampleToReport', 'bamToReport') AND analysisstatus = 'Completed'
+		
+		By default AND has higher precedence that OR
+		
+	ORDER BY:
+		ORDER BY clause changes the returning rows order by any column or alias or the numeric position of the columns in the select list
+		The ORDER BY caluse can sort the retrieved rows in ascending (ASC) or descending(DESC) order
+		Default order ascending
+		ORDER BY is last clause in query
+		select * from assaydev_grdb.rdx_experiment re order by ID DESC;
+		One can order by calculated value as well
+		select expdir, id * 3 as calc from assaydev_grdb.rdx_experiment re order by calc;
+		
+		select expdir, id * 3 as calc from assaydev_grdb.rdx_experiment re order by 1; <- 1st column in select clause.
+		
+		One can order by multiple columns
+		
+		select * from assaydev_grdb.rdx_experiment re order by ID, expid ;
+		select * from assaydev_grdb.rdx_experiment re order by ID ASC, expid DESC;
+		
+		Null values re displayed at the end in ASC order
+		Aliases and numbric positions can eb used with ASC and DESC operators
+		
+	Functions:
+		Single row functions:
+			Operate on a single row and return only one result per row
+			Can be nested. Evaluarted inside out.
+			Returning data type can be diff than input
+			Can use in SELECT, WHERE or ORDER BY
+		Character functions:
+			UPPER 
+			LOWER
+			INITCAP
+		Character Manipulation fucntions:
+			SUBSTR
+			LENGTH
+			CONCAT or use "||" concat operator which is preferred
+			INSTR <- finds location of the string
+			TRIM | LTRIM | RTRIM
+			REPLACE
+			LPAD | RPAD <- left or right padding
+	
+	Numeric functions:
+		ROUND
+		TRUNC
+		CEIL
+		FLOOR
+		MOD <- modulus
+		
+	Nested functions:
+		Output of one function is input to another.
+		Executed in to out functions
+		Can use any number of nested fucntions
+	
+	DATE data types in oracle:
+		DATE
+		TIMESTAMP
+		TIMESTAMP WITH TIME ZONE
+		TIMESTAMP WITH LOCAL TIME ZONE
+		
+	DATE functions:
+		SYSDATE <- date where the DB is installed
+		CURRENT_DATE <- date and time of the place where the users session is logged in from
+		SESSIONTIMEZONE
+		SYSTIMESTAMP
+		CURRENT_TIMESTAMP <- current user sessions time
+		
+	DATE Manipulation fucntions:
+		ADD_MONTHS()
+		MONTH_BETWEEN()
+		ROUND()
+		TRUNC()
+		EXTRACT()
+		NEXT_DAY()
+		LAST_DAY()
+		
+	Conversion functions:
+		Implicit conversion <- not recommend as it performance is reduced
+		Explicit conversion <- to_char, to_number, to_date
+		CHAR to NUM
+		NUM/DATE to CHAR
+		
+	NVL functions:
+		NVL(expression1, expressio2) <- allows replace null value with meaningful value.
+		NVL2(expression1, expressio2, expression3)
+		NULIF(expression1, expression2)
+		COALESCE(expression1, expression2,…expression n)
+		
+	ORACLE CASE expression:
+		To add condition in SQL statement
+		CASE expression WHEN comparison THEN result_1
+		.
+		.
+		.
+		END
+	
+	
+		DECODE function:
+			Specific to ORACLE
+			Similar to CASE
+			
+	Multiple row functions:
+	GROUP functions:
+		Multiple inputs and single output.
+		Usually used after the SELECT keyword
+		Multiple group functions can be used in a single SELECT statement
+		Group function ignores null value.
+		The DISTINCT and ALL keywords are used with the group function to consider duplicate values.
+		AVG <- exclusive for numbers
+		COUNT
+		MAX
+		MIN
+		SUM <- exclusive for numbers
+		LISTAGG
+		
+	Grouping data:
+		GROUP BY clause
+		SELECT clause can not have any other individual column than what is used with GroupBy clause
+		No need to use all coumns used with group by clause in SELECT stmt
+		Column aliases CANONOT be used with group by clause
+		The ORDER BY clause can not have any other individual columns  than the GROUP BY has
+		We can use the where clause to restrict the resulting data.
+		
+		
+		
+		
+		HAVING clause:
+			WHERE clause filters rows whereas the HAVING clause filters grouped data. Meaning HAVING is used with group by clause
+			
+		
+	Joins:
+		Join allows to retrieve data from 2 or more tables in single query
+		Normalization is storing specific information in table and storing the storing redundant information as keys
+		
+		Types of joins:
+		Natural
+		Inner
+		Outer
+			Left outer
+			Right Outer
+			Full outer
+		Equijoin
+		Non-Equijoin
+		Self join
+		Cross Join
+		
+		We can join 2 or more columns
+		Tables need to have common columns
+		
+		Natural Joins:
+			Implicitly Joins on columns having same name and datatype
+			Rows are matched with each other from two tables that have equal values in the common columns
+			The WHERE clause can be used to restrict data.
+			select * from assaydev_grdb.rdx_experiment natural join assaydev_grdb.mg_gruser; 
+			
+		Inner join:
+			Returns all the rows from both the tables that satisfy the join condition or the expression of the ON/USING clause/NATURAL JOIN.
+			UNMATCHED rows do not appear in the result set
+			ON and USING can NOT be used together
+			"INNER" is optional. JOIN is implicitly inner.
+			"ON" is used when the column names are different. These columns should have same daattypes or the types which can be converted to each other implicitly/
+			USING takes common column names as input. Alias not allwed for columns used in USING Claiuse
+			
+			
+			Restrictin the JOINS with AND/OR or WHERE. 
+			AND clause can bewritten multiple times but where cluause iwritten only once. AND and WHERE are interchangeable
+			
+			
+			Joining Unequal tables (NON-equi joins)
+			If 2 tables do not match with column, we can join these tabls using the BETWEEN operator or the conparison operator(<,>,<=,>=,<>)
+			
+			Employees having salary more than the max salary of sales rep
+			
+			
+			To get employees having same last names from employee table
+			
+			
+			Use cases for non equi joins:
+				Checking duplicates
+				Matching against a range of values
+				Computing running totals
+		
+		OUTER JOINS:
+			Inner join returns only the matched rows
+			The outer joins return the matching rows from the joined tables, plus, unmatched rows from one or both tables.
+				LEFT
+					LEFT OUTER JOIN returns all the matching rows of both tables and the unmatched rows of the left table. For the unmatched rows, the column values of the other table are shown as NULLS.
+					
+					To employees and their departments and also the employees without any department.
+					
+					
+					Same query with ON:
+					
+					
+				
+					Way of matching rows between INNER and OUTER join is same. Which is matching the ID in left table to ID of right table.
+					
+				
+				FULL:
+					Retrieves all of the rows from both tabeles. If a match is found, then it displays the matching rows, if not, it display NULL value.
+					
+					
+					
+				RIGHT :
+					The RIGHT OUTER JOIN returns all the matching rows of both tables and the unmatched rows of the right table and null values of left table for unmatched rowws. For the unmatched rows the column values of the other table are shown as NULLS.
+					Matched rows +Left unmatched rows + Right unmatched rows
+					
+					TO Display the matched rows and unmatched rows of department table and the
+					
+					
+					Matched rows are same between INNER, LEFT, RIGHT joins.
+					LEFT and RIGHT OUTER joins are interchangeable based on the column positions.
+					Outer joins can also be used many times in query.
+					
+			
+					 OUTER keyword in optional 
+				
+				CROSS JOIN: Cartesian join
+					Cross join returns every combination of rows from two tables.
+					Cross joins are very memory intensive expecially with large tables.
+					Data from cross joins is not useful as there is no matching. Its used mostly for performance testing.
+					
+					
+		
+			
+			Entity relationship Models:
+				One to many <-Customer and orders
+				One to one <-  Vehicle and employee
+				Many to many <- student and class . Needs Linking/Bridging/ Juncton/joining/mapping  table for MtoM relationship
+				
+			SET operators:
+			UNION <- don't return duplicates
+			UNION ALL <- returns duplicates
+			INTERSECT <- Common rows
+			MINUS <- Unique from first query
+			
+			Queries with set operators called as compound query
+			All operators have equal precedence
+			Column number must match. Data types must be compatible. But names can be difference.
+			Order by only once in the compound query at the end
+			By default coumpound query is sorted order in asscending order by the first column of the first query
+			Difference between JOIN and SET?
+				JOINS combine columns
+				SET combines rows
+				
+			
+				
+	Subqueries/Nested Queries:
+		A subquery is a SQL SELECT statement that is contained within another SELECT statement
+		E.g. You need to find the employees whose salary is more than Johns salary
+		
+		Inner query is execuedt first anad passed on to outer query.
+		Inner query is written in paranthesis
+		
+		Subqueries can be used with the SELECT WHERE HAVING and FROM clause
+		
+		3 types of sub queries
+		Single row
+			Inner query returns only one row
+			General rule<- returning value from subquery will have same data type(not necessarily same column) as the column you compare it to.
+			
+			These sub queries can be used in SELCT clause
+		Multiple row:
+			Return more than one row from the inner query.
+			Used with multiple row comparison operators(IN, ANY, ALL)
+			Can be used in WHERE HAVING FROM clauses
+			IN <- match any of the elements of the inner query
+			ANY <- returns row if at least one if the values returned from the subquery meets the condition.  Its different than IN operator is used with < > >= <= != <> operators. Same as In operator if used with "="
+			Employees having salary matching to lowest salary of any of the department
+			
+			
+			
+			
+			
+			ALL <- The operator in multiple-row subquery is used to return values which provide the condition with all elements of the inner query.
+			It can be used with comparison operators
+			< ALL means less than minimum
+			ALL means more than maximum
+			Ø 
+		Get employees working from UK
+			
+		
+		
+		Multiple columns
+		
+		SubQueries as table:
+			These are also called the INLINE views
+			INLINE views can be used instead of tables. These are surrounded by parenthesis.
+			Simpe inline view
+			
+			JOIN table with inline view and one inline view with another view. Only the columns present in SELECT statement of inline view are available outside the view
+			
+			
+		SCALAR subqueries:
+			Special type of single row subquery
+			Only one column value is returned
+			
+			
+		
+		Correlated sub queries:
+			When sub query references to the columns from the parent query
+			Find emp earn highest salary in their departments.
+		
+		
+		
+		
+		Performance of multiple column sub query will be better than the correlated subquery.
+		Correlated sub query to get the employees with salary less than the department avg.
+		
+		
+		
+		Multiple column subquery > Join > correlated subquery (Not a general rule)
+		
+		EXISTS operator & Semijoins
+		WE use EXISTS operator to check the existence of rows in subquery and the match the records between the subquery and main query
+		The EXISTS operator is used with the correlated subqueries generally.
+		Find the employee who are also the managers
+		
+		
+		
+		
+		NOT EXISTS opearator:
+		
+		
+		
+		TCL Transcation control language:
+		
+		Commit and rollback are for DML and DCM and DDL are autocommit.
+		
+		
+		
+		
+		
+		
+		
+		
+		DCL statements:
+			Accounts created by default
+				Admin accounts
+				Internal accounts
+				Sample Accounts
+				
+			Schema:
+				A logical container for the objects created by a suer
+				
+			2 types of user
+				Local 
+				Common
+			
+			
+			CREATE USER statement
+			ALTER USER 
+			DROP USER
+			
+			USER ROLES:
+				Management of privileges
+				GRAN ROLE
+				GRANT SELECT 
+				Revoke
+				
+			DATA dictionalry views:
+				Read only set of tables that provide information about the database.
+			
+			Synonyms:
+				Snnonyms is an alieas or an alternative name for an object.
+				
+			DDL Data definition language:
+				Views:
+					View is logical representation of the table/s or predefined query which can be resued
+					CREATE OR REPLACE VIEW
+					Select * from <view name>
+					Drop view
+					By default views are not readd only. Need to write "read only" clause at the end.
+					
+					
+				INDEXES:
+					DB structure to speed up the access the data
+					B-tree
+					CREATE INDEX <index_name> on <table (column name)
+					Index might be used to speedup based on the choice of internal optimizer.
+					Candidate for index <- columns used in WHERE clause, column used to join queries.
+					Selectivity = <no of distinct values> / <total number of rows>
+					Indexing columns which are foreing keys is usually a god idea. This avoiud locks when parent and child tabels might be updated concurrently by different users.
+					Drop index 
+					
