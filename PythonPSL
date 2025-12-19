@@ -1,0 +1,558 @@
+""" <>
+"""
+ 
+ This syntax is called as doc string. It's not a comment but used as comment.
+ 
+ Statically typed language: A language is statically typed if the type of variable is known before running the program e.g Java, Go, C++
+ 
+ In python Values stored in variable have types and not the name or the variable itself. Python is dynamically typed. In dynamically typed language type is associated with run-time values and not with named variables.
+ 
+ type() <- to check the type of the variable.
+ 
+ variable has constant ID < id() <-- address of variable in memory
+ 
+ Statically typed languages are more faster at run time but dynamically typed languages are comparatively faster during dev time and flexible.
+ 
+ Data types in python:
+	Boolean (True , False)
+  Strings
+	Lists : Ordered collection
+	Tuples : Ordered immutable collection
+	Sets: Unordered unique collections
+	Dictionaries: Unordered key value pairs
+	
+Equality operator for some floats won't give correct results. This is due to inbuild binary expansion. Due to this floating points are not stored in same way to the very last digit
+b = 1.237
+c = 1.237
+d = 1.236 + 0.001
+
+print(isclose(c,d)) # Returns True
+print(c == d)  # Returns False
+
+String is an ordered sequence of UTF-8 encoded characters. Includes lang like japanese, chinese. ASCII is subset of Unicode UTF8
+Doc strings retain the newline. Doc string should not be used for comments.
+
+Strings are immutable
+
+
+Out of range slice indices are handled without any error.
+[start: stop: step]
+
+min(), max() type() etc. <- these are python core functions which does not need any import
+
+dir() <- display all methods for that object
+
+help(str.replace) <- to display help about the method. 
+String methods don't modify existing string but return the new string
+
+"in" operator requires string as left operand
+
+bool(a) <- will return the boolean value of a
+
+for and while loop in python
+
+string is an iterable. For loop can be used with iterables. It returns items one at a time.
+
+Range returns object of type range()
+
+range(start, stop, step) <- default step will be 1. Stop is excluded
+
+continue and pass <- pass is null operation. nothing happens but statement is required for syntax and no code is required. To avoid error exception.
+
+
+List methods:
+append vs extend <- append is for single element, extend is for adding another list/iterable
+
+l1 = l1 + l2 <- will create new list
+
+l1 += l2 <- modifies existing list
+
+l1.extend(l2) <- modifies existing list
+
+append, extend, copy, pop(index), clear, 
+remove(element to remove) <- only first match will be removed. Removed value is not returned as its already known.
+Use while loop to remove all occurrences
+
+index(<element>) <- index of the element. value error if element not present
+count() <- count of the element. Zero if not present in list
+Sort:
+	list.sort() <- inplace sort. 
+	sorted() <- returns new sorted list
+	list.sort(reverse=True) <- reverse the list
+Max
+Min
+Sum
+reverse() <- reverse the list in place
+
+membership operator "in"
+
+Tuples:
+Are immutable. Gives
+Empty tuples
+T1=()
+T1=tuple()
+T3 = (1,3.4,"Python")
+T4 =(1) <- type int
+T5 = (1,) <- returns tuple with single element
+
+Tuple([1,2,3,4]) <- list to tuple
+List((1,2,3,4)) <- tuple to list
+
+
+Tuple operations:
+Tuple('abc') <- string to tuple
+T2 = (1,2,3,'a') * 3
+Print(t2) <- (1, 2, 3, 'a', 1, 2, 3, 'a', 1, 2, 3, 'a')
+T2[-1::-1] <- reverse the tuple
+
+Tuple methods:
+T2.index(2) <- index of the element 2. It will throw error if element is not resent in the tuple
+T2.count(1) <- returns of count of 1
+
+Len(), min() max() sum() and sorted() are applicable to tuple
+
+Sorted(t1, reverse=True)
+
+TUPLE OBJECT DO  NOT SUPPORT item assignment
+Tuples are memory efficient than lists
+
+
+Sets:
+Sets do not have fixed order. Every time the order may vary.
+e.g. adhaar numbers, email address, website domain are examples of unique unordered elements
+Sets are mutable
+Frozen sets are immutable
+Set can have elements which are hashable or immutable. So list cannot be part of the sets but tuples and hashes, ints floats and strings can be. Strings are immutable
+
+S3 = {} <- dictionary
+S3 = set() <- set
+
+Common use case is to remove duplicates from other data structures. Set(list), set(string), set(tuple)
+Sets can be iterated.
+
+In operator also works with sets
+Set1 = {1,2,3}
+Set2 = {2,3,1}
+
+Print(set1 == set2) <- returns True
+Print(set1 is set2) <- Returns false
+
+For sets comparison Order does not matter but It will matter for strings and lists.
+
+"is" keyword is used to check if two variable refer to same object. It will return False even if the objects have same value stored if objects are not same.
+
+Set.Add() <-- add elements
+Set.remove() <- key error exception if does not exists
+Set.pop() <- removes and returns any element
+Set.discard() <- removes and do not throw error even if it does not exists
+Set.clear() <- to empty the set
+Set.copy() <- make a deep copy of set. Makes different object. "=" assignment operator creates reference to same object.
+
+
+Intersection:
+Set1.intersection(set2) OR set1 & set2
+
+Difference
+Set1.difference(set2) <- only element exclusive to set1
+Se1 - set2
+For "-" operator both must be sets. For difference() <- argument can be any iterable. 
+
+Symmetric difference:
+Returns the set without the common elements
+Set1.symetric_difference(set2)
+Set1 ^ aet2
+
+Union:
+Combine unique elements from both sets
+Set1.union(set2)
+Se1 | set2
+
+Set1.Isdisjoint(set2) <- True if no element in common
+
+Containment operator:
+"<" <- set on left hand side is contained in set on right side. Set1 < set2
+
+A set cannot contain another set as an element as its mutable.
+
+
+Frozen sets:
+Immutable sets
+These can be used as keys of dictionaries or in another sets
+All methods of sets can be used with frozenset
+Frozen set and a set can be used together for set operations. The resulting set after operation will have the type of the set which is on left side.
+
+Sets have the fastest lookup time
+Sets consume highest memory in RAM
+
+
+Dictionaries:
+Modules, classes, objects and sets are all implemented internally as dictionaries. Similar to java script objects.
+
+Empty dictionary
+D1 = dict()
+D1 = {} 
+
+Keys must be immutable.
+Values can be anything
+
+Len(dict) <- # elements in dictionary keys
+Dict['key'] = 'new value' <- Change value. Same syntax to add new key value pair
+
+Get values
+Dict.get('key', 'alternate text in absence of key')
+Dict.pop('key') <- removes and return the value of key
+Dict.popitem() <- removes returns key:value as tuple
+
+Del dict['key'] <- exception if not present
+
+Dict.copy() <- deep copy
+
+Dic.update({key:value})
+From python 3.6 dict items maintain same order as inserted. This is achieved along with memory and iteration efficiency.
+
+Dict.clear() <- clear dictionary
+
+Keys() and values() methods return View object which will reflect any changes done to the dictionary
+
+(key, value) in dictionary.items() <- check presence of key value pair in dictionary
+
+Dictionary and set comprehensions:
+#dictcomprehensions
+d1={'a':1,'b':2,'c':3}
+d2= {k*2:v*2 for k,v in d1.items()}
+print(d2)
+d2={k*2:v*2 for k,v in d1.items() if v%3 == 0}  #if condition in comprehension
+print(d2)
+
+#zipfunctions
+years=[2017,2018,2019,2021,2022]
+revenue=[1000,2000,3000]
+
+z=zip(years,revenue)
+
+ls=list(z)
+print(ls)
+
+dt=dict(zip(years,revenue))
+print(dt)
+
+Zip function takes two iterables and makes in to the zip iterator of tuples which on list() gives list of tuples and dict() gives dictionary of iterables.
+
+
+Functions:
+	1. Function has to be defined before calling otherwise function not defined error is thrown
+	2. Function not returning explicitly returns implicitly None
+	3. Function returns more than one values in the form of tuple
+	4. Tuple unpacking 
+		a,b,c = func()
+		a, *b = func() <- b will be list
+	5. Non default parameter cannot follow default parameter
+	6. "global" keyword used to make a local variable global
+	7. A variable has to be declared/defined before assignment.
+
+Lambda functions/Lambda expressions/Anonymous functions/Function literals are one and the same.
+	These don’t have name and are single line of logical code.
+	Lambda expression is throw away function and it always returns
+	(lambda a,b,c: a+b+c)(3,4,5)
+	Square = x : x**2
+	Square(3)
+	All rules for args are applicable for lambdas
+	Use lambdas as argument to another function
+	
+File reading
+Open() 
+Binary file is anything that is not a text file and it can be opened by application which understands it
+f.closed <- returns True if the files is closed
+Cursor is the position where the reader is located
+f.tell() <- gives position of the cursor
+f.seek(0) <- start of the file
+f.read() <- reads entire file. Once the read() is executed then the cursor needs to be reset to first position with f.seek(0)
+Should always close the resources otherwise resources are consumed.
+
+With open("cinfig.txt") as file:
+	Content = file.read()
+	Print(content)
+
+File is closed outside of the "with" context
+
+f.read().splitlines() <- returns list of lines. New lines are not included
+f.readlines() <- returns list of lines. Reads newline character
+f.readline() <- reads single line without any newline
+
+List(f) <- returns list of lines with newlines included
+
+Read line by line
+
+With open("file.txt" ) as f:
+	For line in f:
+		Print(line , end="")
+
+Path needs to be given in RAW string to prevent the backslashes being interpreted as special characters. r"<path>"
+
+f.write("text") <- don’t add newline
+
+Open("file.txt", "a") <- append mode. Python creates new file or appends to existing file.
+
+Access more "r+" <- Writes new content at beginning of EXISTING file. Both read and write can be performed.
+"w" mode overwrites if the file exists already
+
+
+Python errors and exception handling:
+Syntax errors (Parsing errors)<- code syntax errors, can be highlighted by IDE <- SyntaxError
+Exception ( Runtime errors ) <- FilenOtFoundError, ZeroDivisionError, Type error, Key error
+
+Try: 
+	A = int(input('Enter a:'))
+	B = int(input("Enter b:")
+	C = a/b
+	Print(c)
+Except:
+	Print("An exception has occurred")
+	
+X = 10
+Print(x**x)
+Print("Some other code.")
+
+Try:
+
+Except:
+
+Else:
+	print("no errors")
+	
+Finally:
+	Print("this is always executed")
+	
+
+
+OOPs:
+Python is multiparadigm programming language Supports procedural and OO Programming.
+OOPs models real world objects and their behavior.
+It’s a programming paradigm based on classes, objects, attributes and methods.
+A class is kind of data type just like a string, integer or list.
+A class is a factory for creating objects.
+In python everything is an object
+"__" is called as dunder in python.
+
+OOP allows code to organize in human way of thinking
+
+Object attributes are variables
+Object methods are functions
+
+Pascal case for class name. Every Word has first letter as capital.
+
+
+Class Robot:
+	
+	Def __init__(self, name, year):
+		Self.name = name
+		Self.year = year
+	
+r1 = Robot('R1', 2023)
+Print(r1.__doc__) <- print class document comments
+Print(r1.__dict__) <- print object attributes with values
+"self" is not valid python keyword and can be replaced with another word but not recommended.
+
+Destructors/Finalizers:
+__del__() <- special function which is automatically called when the lifetime of an object ends.
+Purpose of destructor is to free the resources that the object may have acquired during its lifetime.
+In python destructors aka finalizers are less used because Python has a garbage collector that handles memory management.
+
+Def __del__():
+	Print("desstructor is called!")
+	
+Instance variables:
+These are declared inside the methods.
+
+Instance attributes are unique to each instance of class.
+Object_name.attribute_name <- will access attribute if the attribute exists otherwise it will throw an error.
+Getattr(object_name, attribute_name, optional_default value) <- It will not throw error if attribute do not exist.
+
+Class attributes:
+These are unique to the class and same between the class instances.
+Robot .population <- the way to access class attribute
+
+
+Magic methods:
+Also called special  methods or dunder methods (double underscore methods)
+Methods which are built in and we don’t have to call them directly. The invocation id done by python interpreter behind the scenes.
+Provide simple way to behave objects like built in types
+
+
+Example __str__(), __add__()
+
+Def __str__():
+	My_str = f'My name is  {self.name} and my price is {self.price}'
+	Return my_str
+	
+Def __add__(self, other):
+	Price = self.price + other.price
+	Return price
+	
+
+Modules:
+There isn't special syntax for modules
+Before using module we must import it.
+<Class 'module'>
+Help('module') <- display list of all modules
+Modules are written in python or in "C"
+Module file name is module name
+Python looks for modules in "sys.path" directories
+
+import math
+Import random, math, sys
+Import threading as th
+From math import * <- not recommended as name collisions can occur.
+From math import pi, sin
+From math import pi as p, sin as s
+
+All code in modules is executed on import once.
+We can write code to run the script only when its used and not when its imported.
+
+
+If __name__ == __main__:
+	<code to execute when the file is executed and not when imported>
+	
+
+Python package index (pypi): Repository
+Pip -> pip installs python. Its a tool used to manage 3rd party modules and packages Pypi - The python package index.
+There is a pip version for each python version
+Make sure the version match
+Pip is equivalent to cpan for perl and NPM for node js
+
+Python -m pip install --upgrade pip
+Pip install <package name>
+Pip uninstall <package name>
+Pi p install request==2.9.0
+Pip show requests
+Pip install --upgrade requests
+Pip search django
+Pip freeze > packagelist.txt
+Pip install -r package_lst.txt
+
+Higher order functions:
+Functions as input to another function or functions returning functions.
+These functions are called with just the name and not the "()" syntax.
+
+Def outer():
+	msg='Python'
+
+	Def inner():
+		print(f'{msg}is really cool!') # msg is called as free variable or non-local variable
+	
+	inner()
+
+Here inner function is created only when outer function is called and not when its created. Inner function has access to all variables from enclosing function scope.
+
+Closures:
+Captures values of free variable.
+At least one free variable is required for a closure
+Closure is an inner function with extended scope that contains the free variable.
+One cannot change the value of non local variable in inner function. To do it "nonlocal" keyword must be used. It means variable lies in outer enclosing function.
+Value of non local variable is saved between function calls. Value of local variable is not saved between function calls.
+To get list of non -local variables print(fn.__code__.co__freevars)
+
+
+# A function defined inside another function is called  nested or inner function.
+# Inner functions can access variables of the enclosing scope and become closures.
+
+Decorator function:
+It runs function remove_file as parameter of the decorator function and returns function with same name.
+"@" syntax or "Pie" syntax
+
+user={'username':'js','level':"abc"}
+
+
+Def only_admin(func):
+	Def wrapper_only_admin(*args,**kwargs): #this is a generic decorator which can be used to decorate any other function.
+		If user['level']=='admin':
+			Return func(*args,**kwargs)
+		else:
+			Raise PermissionError('PermissionDenied')
+	
+	Return wrapper_only_admin
+
+@only_admin
+Def remove_file(f=None):
+	Import os.path
+	If os.path.isfile(f):
+		os.remove(f)
+		print(f'File {f} is removed!')
+	else:
+		print("Argument is not a file")
+
+#try:
+#remove_file=only_admin(remove_file)
+#remove_file('a.txt')
+#exceptPermissionErrorase:
+#print(e)
+
+try:
+	remove_file("a.txt")
+Except PermissionError as e:
+	print(e)
+
+
+Data serialization:
+It is the process of converting python objects into a format for storage, transfer and distribution purposes on physical devices
+
+Data structures cannot be written directly to the disk otherwise error is thrown TypeError write() argument must be str not a dict
+
+Data serialization ways pickle and JSON
+Pickle <- only for python, is binary, never unpickle from untrusted, supports large number of datatypes than json
+	Import pickle
+	Pickle.dump(obj, filehandle)
+	Pickle.load(filehandle) <- returns stored object like dict/tuple 
+Json <- preferred way, secure, supports only python data type, used for interchage defacto standard between applications
+Import json
+Json.dump(object, filehandle, indent=3) <- it cannot convert set, need to convert to list to serialize, tuples are serialized to list
+String_object = Json.dumps(object, indent=3)
+
+Json.load() <- deserialize file object to json object. 
+Json.loads() <- to convert json string to json object, it cannot convert set, need to convert to list to serialize, tuples are serialized to list, Use pickle to get the python objects like tuple and sets. Pickle will preserve python datatypes
+
+
+
+
+
+
+• *args receives arguments as a tuple.
+• **kwargs receives arguments as a dictionary.
+ 
+def myFun(*args, **kwargs):
+    print("args: ", args)
+    print("kwargs: ", kwargs)
+ 
+
+From <https://www.geeksforgeeks.org/args-kwargs-python/> 
+
+
+
+From <https://www.geeksforgeeks.org/args-kwargs-python/> 
+
+
+
+Regular_expression:
+https://automatetheboringstuff.com/chapter7/
+
+Working with excel:
+https://automatetheboringstuff.com/chapter12/
+
+PDF:
+https://automatetheboringstuff.com/chapter13/
+
+
+Debugging:
+https://automatetheboringstuff.com/chapter10/
+
+Webscraping:
+https://automatetheboringstuff.com/chapter11/
+
+Multi processing:
+https://docs.python.org/3.7/library/multiprocessing.html
+
+Multithreading:
+https://docs.python.org/3.7/library/threading.html#module-threading
+
+#Install python packages under zscaler
+pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org virtualenv
