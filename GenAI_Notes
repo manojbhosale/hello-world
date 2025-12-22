@@ -1,0 +1,82 @@
+Introduction to GenAI:
+
+
+https://youtu.be/tNBvUvsScAA
+
+AI >> ML >> Deep Learning
+(AMD)
+
+AI: Theory and methods to build the machine that think and act like humans.
+ML: SUb field of AI. Progrma or systems which make predictions based on data without explicit programming.
+	Supervised: Labelled data
+	Unsupervised: Data without tags
+	Reinforced learning:
+	Deep learning : Use ANNs. Used to detect complex patterns. Semisupervised learning as these can use labelled and unlabelled data both. Trained on small amount of labelled data and large unlabelled data
+	
+Generative AI: SUbset of deep learning. Uses ANNs. process labelled and unlabelled data using supervized, unsupervised and semi supervised leaning. LLMs are subset of deep learning
+
+ML models can also be classified as generative(Generates new data points based on learned probability distribution of existing data) and discriminative(Classifier).
+
+How to know if its GenAI: If the output of the models is natural language, audio or image. Its not genAI when output is number, discrete, class, probability.
+
+GPT: Generative PRe training Transformers
+
+Foundation Models: A foundation model in AI is a large-scale, versatile AI model trained on vast, multidimensional datasets (often including text, images, audio, etc.).In summary, foundation models are the flexible, general-purpose bases (or “foundations”) from which highly specialized AI applications and models are developed E.g. Googles BERT, OpenAI GPT series, Stability AI's diffusion series, Anthropic Claude 3, Google Gemini ,Meta LLaMA, Mixtral, Sora, Deepseek
+
+
+RNN -> LSTM > Transformers(encoders and decoders) -> Retentive Network (RetNet)
+
+LLMs constructed with multiple layers of transformers and were trained on extensive dataset from around 2018
+
+Due to large data training can take months or years.
+
+Types of LLMs:
+Instruction tuned: Doc summry, Sentiment analysis. question/answer
+Dialog tuned models:
+
+Single LLM model is capable of sentiment analysis, named entity recognition and topic modelling. No need to train or host separate model
+
+Zero shot : no example in prompt
+One shot: one example  in prompt
+
+Roles:
+System: Define persona
+User:  User queries
+Assistent: helps to maintain smooth conversation flow
+
+Limitation:
+Unsuitable for structured numerical data like excel
+Factual inaccuracies
+Bias depending on training data
+Need to for user verification in code generation.
+
+How to avoid hallucinations:
+Explicit and clear instruction
+Make subtasks
+Ask to Say No when not confidant
+Iterative process 
+
+Advanced models like GPT-4 reduce need for complex chain of thought reasoning
+Models become more capable of independent task handling with advancements
+
+Attention is all you need: Paper by Ashish Vasvani on transformers from Google brains. Its the architectural concept on which GPT models are based on.
+
+Image processing cost is baed on image resolution.
+Azure responsible Ai si about security features inherent in microsoft Azure
+
+Tokens:
+Its individual unit within text. It can be each word or chunks of characters. Number of tokens is proportional to response time.
+
+Image tokens: Low res and high res modes.
+
+Azure front door - Auth security
+Azure active directory - Credentails validation
+
+Example architecture for Enterpriser grade bot:
+1. Bot logic and UX - Bot service
+2. Auth and Authorization - AAD
+3. Bot cognition and intelligence
+4. Data ETL
+5. Logging
+6. Monitoring and reporting
+7. Quality assurance and enhancements
